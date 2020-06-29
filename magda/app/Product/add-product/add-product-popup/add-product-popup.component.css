@@ -1,0 +1,17 @@
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+input {
+  border: 1px solid blue;
+  color: blue;
+  font-size: large;
+}
+
+textarea {
+  border: 1px solid blue;
+  color: blue;
+  font-size: large;
+}
+
+

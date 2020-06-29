@@ -1,0 +1,37 @@
+<div class="container" >
+  <div class="row">
+    <div class="col s8 offset-s2">
+      <div class="card  " style="width:500px; height: 600px ;background-color: lime">
+        <div class="card-header" style="background-color: white">
+        <div class="card-header-tabs">
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+              <!--<a class="nav-link" routerLink='/login' routerLinkActive='active'>Sign In</a>-->
+              <button class="btn btn-outline-warning" routerLink="/login" routerLinkActive="active"
+                      style="margin:0 10px 0 10px">sign In</button>
+            </li>
+            <li class="nav-item">
+              <!--<a class="nav-link" routerLink='/signup' routerLinkActive='active'>Sign Up</a>-->
+              <button class="btn btn-outline-warning" routerLink="/signup" routerLinkActive="active"
+                      >sign Up</button>
+            </li>
+            <li *ngIf="role=='ROLE_ADMIN'" class="nav-item">
+              <a class="nav-link" routerLink='../product' routerLinkActive='active'>Back To Product </a>
+            </li>
+          </ul>
+        </div>
+        </div>
+
+        <div class="card-body">
+        <div class="tab-content">
+
+          <div class="row">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

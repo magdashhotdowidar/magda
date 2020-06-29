@@ -1,0 +1,24 @@
+<a
+  style="cursor: pointer;"
+  (click)="productDetails(product.name)"
+  routerLinkActive="active"
+  class="list-group-item clearfix">
+  <div class="row">
+    <span class="col-md-12">
+        <img
+          [src]="imgPath+product.imageName"
+          alt="{{ product.name }}"
+          class="img-responsive"
+          style="height: 180px;width: 170px">
+      </span>
+  <div class="col-md-12 ">
+    <h3 class="list-group-item-heading" style="color: blue">{{ product.name }}</h3>
+    <h6 class="list-group-item-heading" style="color: lime">{{ product.brand }}</h6>
+    <p class="list-group-item-text" style="font-size: small;color: blue">{{ 'Description - ' + product.description }}</p>
+    <p class="list-group-item-text" style="font-size: small;color:red">{{ 'Price - ' + product.price }}<i class="fa fa-dollar"
+                                                                                                style="font-size: small"></i>
+    </p>
+  </div>
+  </div>
+
+</a>

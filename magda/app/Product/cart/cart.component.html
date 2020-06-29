@@ -1,0 +1,70 @@
+<ngx-loading-bar color="red"></ngx-loading-bar>
+<main class="wow fadeInLeft" style="visibility: visible; animation-name: fadeInLeft;">
+  <section class="main-section">
+
+    <div class="container">
+      <h1 style="text-align: center;color: blue"><strong>{{user}} Cart</strong></h1>
+      <hr style="border-color: blue">
+      <div *ngIf="cartLines.length==0" class="jumbotron">
+        <div class="text-center">
+          <h1 style="color: red;font-style:italic ">THE CART IS  EMPTY</h1>
+        </div>
+      </div>
+      <div *ngIf="cartLines.length>0" class="row">
+        <div class="col-md-12">
+          <div class="panel panel-primary">
+                <div class="panel-body">
+                  <table class="table table-striped table-bordered table-sm" cellspacing="0" width="100% "
+                         style="text-align: center;align-content: center">
+                <thead>
+                <tr style="color:red;font-size: large">
+                  <th class="th-sm">{{'PROJECT.product.edit.product_image'|translate}}</th>
+                  <th>Product Name</th>
+                  <th>The Amount</th>
+                  <th>The Price</th>
+                  <th>Sub Total</th>
+                  <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let cartLine of cartLines ;  let i = index " style="color:blue;font-size: large;width: fit-content">
+                  <td style="width:140px"><img [src]="imgPath+cartLine.imageName" class="embed-responsive" height="50px" width="30px"></td>
+                  <td>{{cartLine.name}}</td>
+                  <td style="align-content: center;width:12px"> <input type="number" class="form-control" id="amount" required minlength="1" min="1"
+                              data-toggle="tooltip" data-placement="right" title="Enter the Amount"
+                              [(ngModel)]="cartLine.amount" style="font-size:small;width: fit-content;text-align: center"
+                               name="amount" #_i ngModel PositiveOnly></td>
+                  <td>{{cartLine.price}}<i style="color:lime" class="fa fa-dollar"></i></td>
+                  <td>{{cartLine.total}}<i style="color:lime" class="fa fa-dollar"></i></td>
+                  <td>
+                    <button  (click)="updateCartLine(cartLine.user,cartLine.name,cartLine)" class="btn btn-success"><i class="fa fa-pencil"></i></button>
+                    <button (click)="deleteCartLine(cartLine.user,cartLine.name)" style="margin: 1px" class="btn btn-info"><i class="fa fa-trash"></i></button>
+                  </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr style="color:red;font-size: large">
+                  <th class="th-sm">{{'PROJECT.product.edit.product_image'|translate}}</th>
+                  <th>Product Name</th>
+                  <th>The Amount</th>
+                  <th>The Price</th>
+                  <th><strong style="color:lime;font-size: small">grand total -  <i style="color:lime" class="fa fa-dollar"></i><span style="color: magenta;font-size: large">{{total}}
+                   </span></strong></th>
+                  <th>Actions</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <div class="push-footer"></div>
+</main>
+
+
+
+
+

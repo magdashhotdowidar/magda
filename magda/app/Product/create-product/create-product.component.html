@@ -1,0 +1,197 @@
+<ngx-loading-bar color="red"></ngx-loading-bar>
+<main class="wow fadeInLeft" style="visibility: visible; animation-name: fadeInLeft;">
+  <section class="main-section">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+
+          <nav *ngIf="role=='ROLE_ADMIN'" aria-label="breadcrumb" style="background-color: white;color: navy">
+            <ol class="breadcrumb" style="background-color: white;color: navy">
+              <li class="breadcrumb-item"><a routerLink="../" routerLinkActive="active"><i class="fa fa-home"
+                                                                                           style="font-size: xx-large"></i></a>
+              </li>
+              <li class="breadcrumb-item"><a routerLink="../add" routerLinkActive="active">PRODUCT MANAGEMENT</a></li>
+              <li class="breadcrumb-item"><a routerLink="../slider" routerLinkActive="active">VIEW PRODUCTS</a></li>
+            </ol>
+          </nav>
+        </div>
+        <hr style="border-color: navy"/>
+        <div class="col-md-12" style="width: 400px;">
+          <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+            <div class="row">
+
+              <div class="input-group mb-3">
+                <div class="form-group mx-sm-3 mb-2">
+                  <label
+                    style="color: blue;background-color:#fbfbfb;font-size: large">{{'PROJECT.product.sell.select_category'|translate}} </label>
+                  <div class="custom-select-box">
+                    <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="right"
+                            title="Select category">
+                      <select style="font-size: large;background-color: yellow;color: red"
+                              class="form-control form-control-sm" (change)="selectdata()"
+                              name="selectedCategory" [(ngModel)]="selectedCategory" ngModel>
+                        <option style="color: blue; font-size: large" [value]="'categories'">{{'CATEGORIES'}}</option>
+                        <option style="color: blue; font-size: large" *ngFor="let category of categories"
+                                [value]="category">
+                          {{ category}}
+                        </option>
+                      </select>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="form-group mx-sm-3 mb-2">
+                  <label
+                    style="color: blue;background-color:#fbfbfb;font-size: large">{{'PROJECT.product.sell.select_product'|translate}} </label>
+                  <div class="custom-select-box">
+                    <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="right"
+                            title="Select Product">
+                      <select style="font-size: large;background-color: yellow;color: red"
+                              class="form-control form-control-sm"
+                              (change)="selectedValue=$event.target.value" name="selectedValue"
+                              [(ngModel)]="selectedValue" ngModel>
+                        <option style="color: blue; font-size: large" [value]="'PRODUCTS'">{{'PRODUCTS'}}</option>
+                        <option style="color: blue; font-size: large" *ngFor="let brand of brands"
+                                [value]="brand.value">
+                          {{ brand.viewValue }}
+                        </option>
+                      </select>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="form-group mx-sm-3 mb-2">
+                  <label for="amount"
+                         style="color: blue;background-color:#fbfbfb;font-size: large"> {{'PROJECT.product.sell.quantity'|translate}} </label>
+                  <div class="form-group mx-sm-3 mb-2">
+                    <div class="input-group mb-3">
+                      <input type="number" class="form-control" id="amount" required minlength="1" min="1"
+                             data-toggle="tooltip" data-placement="right" title="Enter the Amount"
+                             [(ngModel)]="amount" style="font-size: large"
+                              name="amount" #Amount OnlyNumber="true" ngModel>
+                      <div class="input-group-append">
+                        <button type="button" (click)="addProduct()" class="btn btn-success">
+                          <i class="fa fa-eye" aria-hidden="true"></i>{{'PROJECT.product.sell.add'|translate}}
+                        </button>
+                        <button type="button" (click)="checkamount()" STYLE="margin-right:3px" class="btn btn-primary">
+                          <i class="fa fa-eye" aria-hidden="true"></i>{{'PROJECT.product.sell.check'|translate}}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <hr style="border-color: blue">
+            <div class="row">
+
+              <div class="form-group mx-sm-3 mb-2">
+                <label for="user" style="color: blue;background-color:#fbfbfb;font-size: large">THE USER NAME </label>
+                <input type="text" style="font-size: large" class="form-control" id="user" required ngModel
+                       [(ngModel)]="invoice.userName" name="user"/>
+              </div>
+
+              <div class="form-group mx-sm-3 mb-2">
+                <label for="customer" style="color: blue;background-color:#fbfbfb;font-size: large">THE CUSTOMER
+                  NAME </label>
+                <input type="text" style="font-size: large" class="form-control" id="customer" required
+                       [(ngModel)]="invoice.customerName"
+                       name="customer"/>
+              </div>
+
+              <button *ngIf="invoiceProducts.length===0&&role=='ROLE_ADMIN'" type="button" (click)="showpopup=true"
+                      style="background-color: red"
+                      class="btn btn-primary" data-toggle="modal" data-target="#employeePopUp">
+                <i class="fa fa-search" aria-hidden="true" style="color:yellow;font-size:large "></i>
+              </button>
+
+              <div *ngIf="invoiceProducts.length>0" class="form-group mx-sm-3 mb-2">
+                <label for="total" style="color: blue;background-color:#fbfbfb;font-size: large">THE TOTAL</label>
+                <input type="text" style="font-size: large" class="form-control" id="total" required
+                       [(ngModel)]="total"
+                       name="total"/>
+              </div>
+
+              <div class="form-group mx-sm-3 mb-2">
+                <label for="date1"
+                       style="color: blue;background-color:#fbfbfb;font-size: large">{{'PROJECT.product.sell.date'|translate}}</label>
+                <input type="date" name="defaultDate" max="3000-12-31" id="date1" min="1000-01-01" class="form-control"
+                       [(ngModel)]="defaultDate">
+              </div>
+
+              <!--<label>{{defaultDate| date:'yyyy-MM-dd'}}</label>-->
+
+            </div>
+
+          </form>
+        </div>
+
+
+      </div>
+
+
+      <hr style="border-color: blue">
+      <div *ngIf="invoiceProducts.length>0" class="row">
+        <div class="col-md-12">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-md-8">
+                  <h2 style="color: blue">THE PRODUCTS</h2>
+                </div>
+
+                <div class="col-md-4">
+                  <button type="button" (click)="onSubmit(f)" STYLE="margin-right:3px" class="btn btn-primary">
+                    <i class="fa fa-eye" aria-hidden="true" style="color: red"></i>SAVE THE INVOICE<i class="fa fa-eye"
+                                                                                                      aria-hidden="true"
+                                                                                                      style="color: red"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="panel-body">
+              <table class="table table-striped">
+                <thead>
+                <tr style="color:red;font-size: large">
+                  <th>Product Name</th>
+                  <th>The Amount</th>
+                  <th>The Price</th>
+                  <th>Sub Total</th>
+                  <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let invproduct of invoiceProducts ;  let i = index " style="color:blue;font-size: large">
+                  <td>{{invproduct.name}}</td>
+                  <td>{{invproduct.amount}}</td>
+                  <td>{{invproduct.price}}</td>
+                  <td>{{invproduct.amount * invproduct.price}}</td>
+                  <td>
+                    <button (click)="deleteInvoiceProduct(i)" class="btn btn-danger">Delete</button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Tooltip on right">
+        Tooltip on right
+      </button>-->
+
+  </section>
+  <div class="push-footer"></div>
+</main>
+
+<div class="modal fa fa-search" id="employeePopUp" tabindex="-1" role="dialog" *ngIf="showpopup"
+     aria-labelledby="successLabel" aria-hidden="true">
+  <app-search-popup (show-popup)="showpopup=$event"></app-search-popup>
+</div>
+
+
+
+

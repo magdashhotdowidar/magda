@@ -1,0 +1,223 @@
+<div class="modal-dialog modal-dialog-scrollable modal-lg  " role="document">
+  <div class="modal-content">
+    <div class="modal-header" style="background-color:blue ">
+
+
+      <button [ngStyle]="{color :matchAny?'blue':'yellow'}" [ngClass]="{'btn-warning':matchAny}"
+              (click)="closeallivoicestabel()"
+              class="btn btn-outline-warning fa-sliders" style="color: yellow;font-size:large;font-style: italic">
+        <label [ngStyle]="{color :matchAny?'blue':'yellow'}"><input [(ngModel)]="matchAny"
+                                                                    type="checkbox"> {{matchAny ? 'hidden data' : 'show data'}}
+        </label></button>
+
+      <button type="button" (click)="close()" style="background-color: red" data-dismiss="modal" aria-label="Close"
+              id="employeePopupClose">
+        <i class="fa fa-close" aria-hidden="true" style="color:yellow;font-size:x-large "></i>
+      </button>
+    </div>
+    <div class="modal-body" style="background-color: white;min-height:fit-content">
+      <div>
+
+        <form *ngIf="!matchAny" class="full-width" [formGroup]="invoiceSearchForm">
+          <div class="form-group mx-sm-3 mb-2">
+            <div class="input-group mb-3">
+              <label for="cusName" style="color: blue;background-color:#fbfbfb;font-size: xx-large">CUSTOMER NAME
+                : </label>
+              <div class="detail w-100">
+                <input class="form-control" ngModel id="cusName" formControlName="customerName" required="true">
+              </div>
+            </div>
+          </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <div class="input-group mb-3">
+              <label for="date" style="color: blue;background-color:#fbfbfb;font-size: xx-large">DATE : </label>
+
+              <div class="detail w-100">
+                <input type="date" max="3000-12-31" id="date" min="1000-01-01" class="form-control"
+                       [(ngModel)]="defaultDate"
+                       formControlName="date" required="true">
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div *ngIf="matchAny&&showAllInvoicesTable" id="custom-search-input">
+          <div class="row">
+          <div class="input-group col-md-6" style="text-align: center">
+            <input type="text" class="search-query form-control " placeholder="Search Customer Name" name="searchCustomer" style="color: blue"
+                   [(ngModel)]="searchByCustomerName"/>
+          </div>
+          <div class="input-group col-md-6" style="text-align: center">
+            <input type="date" class="search-query form-control " placeholder="Search Date" name="searchDate" style="color: blue"
+                   [(ngModel)]="searchByDate"/>
+          </div>
+        </div>
+        </div>
+
+        <div *ngIf="matchAny&&!showAllInvoicesTable" class="form-group mx-sm-3 mb-2">
+          <div class="container">
+            <div class="row">
+
+              <div class="col-md-6">
+                <div class="input-group mb-3">
+                  <label for="cus" style="color: blue;background-color:#fbfbfb;font-size: large">CUSTOMER MANE: </label>
+                  <input type="text" class="form-control" id="cus" style="font-size: large" name="customerDB"
+                         [(ngModel)]="customerDB" readonly>
+                </div>
+                <div class="input-group mb-3">
+                  <label for="d" style="color: blue;background-color:#fbfbfb;font-size: large">INVOICE SELL
+                    DATE: </label>
+                  <input type="date" class="form-control" id="d" style="font-size: large" name="dateDB"
+                         [(ngModel)]="dateDB" readonly>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group mb-3">
+                  <label for="u" style="color: blue;background-color:#fbfbfb;font-size: large">USER NAME: </label>
+                  <input type="text" class="form-control" id="u" style="font-size: large" name="userDB"
+                         [(ngModel)]="userDB" readonly>
+                </div>
+                <div class="input-group mb-3">
+                  <label for="t" style="color: blue;background-color:#fbfbfb;font-size: large">TOTAL: </label>
+                  <input type="text" class="form-control" id="t" style="font-size: large" name="total"
+                         [(ngModel)]="total" readonly>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div *ngIf="!showAllInvoicesTable" class="text-right form-inline">
+          <div *ngIf="moreOptions">
+            <button type="button" (click)="getAllInvoices()" STYLE="margin-right:3px" class="btn btn-success ">
+              <i class="fa fa-arrow-left" aria-hidden="true" style="color: red"></i> ALL INVOICES <i
+              class="fa fa-address-book" aria-hidden="true" style="color: red"></i>
+            </button>
+            <button type="button" (click)="deleteAllInvoices()" STYLE="margin-right:3px" class="btn btn-danger">
+              <i class="fa fa-edit" aria-hidden="true" style="color: red"></i>DELETE ALL INVOICES <i
+              class="fa fa-align-justify" aria-hidden="true" style="color: red"></i>
+            </button>
+            <button type="button" (click)="deleteInvoice()" STYLE="margin-right:3px" class="btn btn-dark">
+              <i class="fa fa-edge" aria-hidden="true" style="color: white"></i> DELETE INVOICE <i class="fa fa-warning"
+                                                                                                   aria-hidden="true"
+                                                                                                   style="color: red"></i>
+            </button>
+          </div>
+          <button *ngIf="!moreOptions" type="button" (click)="moreOptions=true" STYLE="margin-right:3px"
+                  class="btn btn-link">
+            <i class="fa fa-angle-left" aria-hidden="true" style="color: red"></i> MORE OPTIONS <i class="fa fa-eye"
+                                                                                                   aria-hidden="true"
+                                                                                                   style="color: red"></i>
+          </button>
+          <button [disabled]="invoiceSearchForm.invalid" type="button" (click)="getInvoice()" STYLE="margin-right:3px"
+                  class="btn btn-primary">
+            <i class="fa fa-eye" aria-hidden="true"></i>SEARCH <i class="fa fa-search" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-body" style="background-color: white">
+      <div>
+        <section *ngIf="matchAny&&!showAllInvoicesTable" class="table-section mt-3">
+          <table class="table">
+            <thead class="thead-light">
+            <tr style="color:blue;font-size: large">
+              <th style="color:red;font-size: large">{{'productName'}}</th>
+              <th style="color:red;font-size: large">{{'AMOUNT'}}</th>
+              <th style="color:red;font-size: large">{{'PRICE'}}</th>
+              <th style="color:red;font-size: large">{{'Sub Total'}}</th>
+              <th style="color:red;font-size: large">{{'Invoice No'}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let p of invoiceProductsDB" style="color:blue;font-size: large">
+              <td><span style="cursor: pointer;" class="action-link"
+                        (click)="cons(p)"
+                        data-dismiss="modal">
+                     {{p?.name}}
+                  </span>
+              </td>
+              <td><span style="cursor: pointer;" class="action-link"
+                        (click)="cons(p)"
+                        data-dismiss="modal">
+                  {{p?.amount}}</span>
+              </td>
+              <td><span style="cursor: pointer;" class="action-link"
+                        (click)="cons(p)"
+                        data-dismiss="modal">
+                  {{p?.price}}</span>
+              </td>
+              <td><span style="cursor: pointer;" class="action-link"
+                        (click)="cons(p)"
+                        data-dismiss="modal">
+                  {{p?.price * p?.amount}}</span>
+              </td>
+              <td><span style="cursor: pointer;" class="action-link"
+                        (mouseenter)="invoiceDetails(p?.invoiceNo)" (click)="invoiceDetails(p?.invoiceNo)"
+                        data-toggle="tooltip" data-placement="right" [title]="show"
+                        data-dismiss="modal">
+                  {{p?.invoiceNo}}</span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section *ngIf="matchAny&&showAllInvoicesTable" class="table-section mt-3">
+          <table class="table">
+            <thead class="thead-light">
+            <tr style="color:red;font-size: large">
+              <th style="color:red;font-size: large">{{'Customer Name'}}</th>
+              <th style="color:red;font-size: large">{{'User Name'}}</th>
+              <th style="color:red;font-size: large">{{'Date'}}</th>
+              <th style="color:red;font-size: large">{{'Total'}}</th>
+              <th style="color:red;font-size: large">{{'All Products'}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let invoice of allInvoices|invoiceFilter:searchByCustomerName:searchByDate"
+                style="color:blue;font-size: large">
+              <td><span style="cursor: pointer;" class="action-link"
+                        data-dismiss="modal">
+                     {{invoice?.customerName}}
+                  </span>
+              </td>
+              <td><span style="cursor: pointer;" class="action-link"
+                        data-dismiss="modal">
+                  {{invoice?.userName}}</span>
+              </td>
+              <td><span style="cursor: pointer;" class="action-link"
+                        data-dismiss="modal">
+                  {{invoice?.date}}</span>
+              </td>
+              <td><span style="cursor: pointer;" class="action-link"
+                        data-dismiss="modal">
+                  {{setTotal(invoice.productModels)}}</span>
+              </td>
+
+              <td>
+                <button style="cursor: pointer;" class="btn btn-primary"
+                        (mouseenter)="invoiceProducts(invoice?.productModels,2)"
+                        (click)="invoiceProducts(invoice?.productModels,1)"
+                        data-toggle="tooltip" data-placement="right" [title]="show"
+                        data-dismiss="modal"> The Products
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+
+
+      </div>
+    </div>
+    <div class="modal-footer" style="background-color:blue ">
+      <h3></h3>
+    </div>
+  </div>
+</div>
+<div class="push-footer"></div>
+

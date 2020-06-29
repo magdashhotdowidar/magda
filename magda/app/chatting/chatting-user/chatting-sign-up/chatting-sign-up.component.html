@@ -1,0 +1,107 @@
+<div class="container">
+  <div class="d-flex justify-content-center h-100">
+    <div class="card">
+      <div class="card-header">
+        <!--<div *ngIf="showmessage" style="text-align: center">
+          <h1 class="alert alert-success" style="font-size:large ">{{"the stateis is :" + message}}</h1>
+        </div>-->
+      </div>
+      <div class="card-body" style="background-color: lawngreen">
+        <form class="col col-xl-12" style="background-color: white" #userRegistrationForm="ngForm"
+              (ngSubmit)="OnSubmit(userRegistrationForm)">
+          <fieldset>
+            <legend class="text-center"> INFORMATION. <span class="req"><small>
+                                required *</small></span></legend>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="Name"><span class="req">* </span> Name: <small>This will be your login user
+                    name</small> </label>
+                  <input required type="text" ngModel #UserName="ngModel" [(ngModel)]="user.username" name="name"
+                         id="name"
+                         class="form-control" maxlength="28" placeholder="Enter your fullname..."/>
+                </div>
+
+                <div class="form-group">
+                  <label ><span class="req">* </span> Password: </label>
+                  <input class="form-control" type="text" ngModel #Password="ngModel" [(ngModel)]="user.password"
+                         name="pass" id="pass1" required
+                         placeholder="Password"/>
+                  <div id="errFirst1"></div>
+                </div>
+
+                <div class="form-group">
+                  <label><span class="req">* </span> Role : </label>
+                  <!--    <input class="form-control" type="text" #Role="ngModel" [(ngModel)]="user.roles" name="role" id="role"
+                             placeholder="Your Authority " required/>
+                      <div id="errLast"></div>-->
+                  <select style="font-size: large;background-color:bisque;color: red"
+                          class="form-control form-control-sm"
+                          name="role" [(ngModel)]="role" ngModel>
+                    <option style="color: blue; font-size: large" [value]="role">{{role}}</option>
+
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="active1"><span class="req">* </span> Active: </label>
+                  <input class="form-control" required type="text" ngModel #Enabled="ngModel" [(ngModel)]="user.enabled"
+                         name="active"
+                         id="active1" placeholder="Enter True or False"/>
+                  <div class="status" id="status1"></div>
+                </div>
+
+              </div>
+              <!------------------------------------------>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="name2"><span class="req">* </span> Email: <small>This will be your login user</small> </label>
+                  <input required type="email" ngModel #email="ngModel" [(ngModel)]="user.email" name="email" [pattern]="emailPattern"
+                         id="name2"
+                         class="form-control" maxlength="28" placeholder="Enter your Email..."/>
+                </div>
+
+                <div class="form-group">
+                  <label for="phone"><span class="req">* </span> Phone: </label>
+                  <input class="form-control" type="text" ngModel #Phone="ngModel" [(ngModel)]="user.phoneNumber"
+                         name="phone" id="phone" required
+                         placeholder="Phone Number"/>
+                  <div id="errFirst"></div>
+                </div>
+
+                <div class="form-group">
+                  <label><span class="req">* </span> Gender : </label>
+
+                  <select style="font-size: large;background-color:bisque;color: red"
+                          class="form-control form-control-sm"
+                          name="gender" [(ngModel)]="user.gender" ngModel>
+                    <option style="color: blue; font-size: large" value="male">{{'MALE'}}</option>
+                    <option style="color: blue; font-size: large" value="female">{{'FEMALE'}}</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="birthDate"><span class="req">* </span> Birth Date: </label>
+                  <input class="form-control" required type="date" ngModel #birthDate="ngModel" [(ngModel)]="user.birthDate"
+                         name="birthDate"
+                         id="birthDate" />
+                  <div class="status" id="status"></div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="form-group">
+              <input [disabled]="!userRegistrationForm.valid" class="btn btn-success" type="submit" name="submit_reg"
+                     value="Register">
+            </div>
+          </fieldset>
+        </form><!-- ends register form -->
+        <!-- second for to fiter user-->
+      </div><!-- ends col-6 -->
+
+    </div>
+  </div>
+</div>
+
+

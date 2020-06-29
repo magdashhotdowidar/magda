@@ -1,0 +1,181 @@
+<ngx-loading-bar color="red"></ngx-loading-bar>
+<main>
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+
+          <nav aria-label="breadcrumb" style="background-color: white;color: navy">
+            <ol class="breadcrumb" style="background-color: white;color: navy">
+              <li class="breadcrumb-item"><a routerLink="../" routerLinkActive="active"><i class="fa fa-home" style="font-size: xx-large"></i></a></li>
+              <li class="breadcrumb-item"><a routerLink="../sell" routerLinkActive="active">SELL PRODUCT</a></li>
+              <li class="breadcrumb-item"><a routerLink="../slider" routerLinkActive="active">VIEW PRODCUTS</a></li>
+              <li class="breadcrumb-item">       <a   (click)="showpopup=true" style="background-color: white;cursor: pointer"  data-toggle="modal" data-target="#employeePopUp">
+                <i class="fa fa-eye" aria-hidden="true" style="color:lime;font-size:x-large ">ADD PRODUCT</i></a></li>
+            </ol>
+          </nav>
+
+         <!-- <hr style="border-color: blue">-->
+
+          <!--<form class="form-inline" #loginForm="ngForm" (ngSubmit)="onSubmit()">
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+            <span class="input-group-text" style="background-color: blue"><i class="fa fa-angle-double-right"
+                                                                             style="font-size:xx-large;color:red"></i></span>
+              </div>
+              <input type="text" class="form-control" [(ngModel)]="product.name" #name ngModel name="name "
+                     placeholder="PRODCUT NAME" required>
+
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+            <span class="input-group-text" style="background-color: blue"><i class="fa fa-angle-double-right"
+                                                                             style="font-size: xx-large;color:red"></i></span>
+              </div>
+              <input type="number" class="form-control" [(ngModel)]="product.amount" #amount ngModel name="amount"
+                     placeholder="PRODUCT AMOUNT" required>
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+            <span class="input-group-text" style="background-color: blue"><i class="fa fa-angle-double-right"
+                                                                             style="font-size: xx-large;color:red"></i></span>
+              </div>
+              <input type="number" class="form-control" [(ngModel)]="product.price" #price ngModel name="price"
+                     placeholder="PRODUCT PRICE" required>
+            </div>
+            <div class="input-group form-group">
+              <input type="file" #fileInput (change)="fileEvent=$event" style="display: none">
+              <button type="button" (click)="fileInput.click()" style="background-color: blue;color: red">
+              <span class="input-group-text" style="background-color: blue;border-color: blue"><i class="fa fa-file" style="font-size: large;color:red;border-color: blue">pick file</i></span>
+              </button>
+              &lt;!&ndash;
+                        <button type="button" (click)="onFileUpload()" style="background-color: blue;color: red">Upload</button>
+              &ndash;&gt;
+
+            </div>
+
+            <div class="form-group align-content-center">
+              <input type="submit" value="ADD" class="btn float-right login_btn" [disabled]="!loginForm.valid"
+                     style="background-color: blue;color: red">
+            </div>
+          </form>-->
+        </div>
+      </div>
+      <!--<hr style="border-color: blue">-->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-primary">
+   <!--         <div class="panel-heading">
+              <h2 style="color: blue;text-align: center;">Product List</h2>
+            </div>
+            <hr style="border-color: blue">
+            <br/>-->
+            <div class="panel-body">
+              <input type="text" class="search-query form-control " placeholder="Search By Any"
+                     name="searchAll" style="color: blue;text-align: center"
+                     [(ngModel)]="searchByAll"/>
+
+              <table class="table table-striped table-bordered table-sm" cellspacing="0" width="100% "
+                     style="text-align: center">
+                <thead>
+                <tr style="color: lime">
+                  <th class="th-sm">{{'PROJECT.product.edit.product_image'|translate}}</th>
+                  <th class="th-sm">Product Name</th>
+                  <th class="th-sm">Brand Name</th>
+                  <th class="th-sm">Category Name</th>
+                  <th class="th-sm">The Amount</th>
+                  <th class="th-sm">The Price</th>
+                  <th class="th-sm">Description</th>
+                  <th class="th-sm" style="width: fit-content ">Actions</th>
+                </tr>
+                </thead>
+                <tbody >
+                <tr style="color:blue;border-color: blue">
+                  <td>
+
+                  </td>
+                  <td>
+                    <input type="text" class="search-query form-control " placeholder="Search By name"
+                           name="searchName" style="color: blue"
+                           [(ngModel)]="searchByName"/>
+                  </td>
+                  <td>
+                    <input type="text" class="search-query form-control " placeholder="Search By brand"
+                           name="searchName" style="color: blue"
+                           [(ngModel)]="searchByBrand"/>
+                  </td>
+                  <td>
+                  <input type="text" class="search-query form-control " placeholder="Search By category"
+                         name="searchName" style="color: blue"
+                         [(ngModel)]="searchByCategory"/>
+                </td>
+
+                  <td>
+                    <input type="text" class="search-query form-control " placeholder="Search By Amount"
+                           name="searchAmount" style="color: blue"
+                           [(ngModel)]="searchByAmount"/>
+                  </td>
+                  <td>
+                    <input type="text" class="search-query form-control " placeholder="Search By Price"
+                           name="searchPrice" style="color: blue"
+                           [(ngModel)]="searchByPrice"/>
+                  </td>
+                  <td>
+
+                  </td>
+                  <td>
+                    <h6 style="color: red;font-style:italic;font-family:Algerian">{{products?.length}}-product</h6>
+                  </td>
+
+                </tr>
+                <tr
+                  *ngFor="let product of products |productFilter:searchByAll:searchByName:searchByBrand:searchByCategory"
+                  style="color:blue ">
+                  <td style="width:140px"><img [src]="imgPath+product.imageName" class="embed-responsive" height="50px" width="30px"></td>
+                  <td style="width:130px">{{product.name}}</td>
+                  <td style="width:120px">{{product.brand}}</td>
+                  <td style="width:130px">{{product.category}}</td>
+                  <td style="width:120px">{{product.amount}}</td>
+                  <td style="width:120px">{{product.price}}<i class="fa fa-dollar"></i></td>
+                  <td style="width:120px">{{product.description}}</td>
+                  <td style="width:180px">
+                    <button (click)="updateProduct(product.name)" class="btn btn-primary" style="" data-toggle="tooltip" data-placement="right" title="Edit product"><i
+                      class="fa fa-edit"></i></button>
+                    <button (click)=" productDetails(product.name)" class="btn btn-success" style="" data-toggle="tooltip" data-placement="right" title="Product Details"><i
+                      class="fa fa-eye"></i></button>
+                    <button (click)="deleteProduct(product.name)" class="btn btn-info" data-toggle="tooltip" data-placement="right" title="Delete Product"><i class="fa fa-recycle"></i>
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr style="color:lime">
+                  <th class="th-sm">{{'PROJECT.product.edit.product_image'|translate}}</th>
+                  <th class="th-sm">Product Name</th>
+                  <th class="th-sm">Brand Name</th>
+                  <th class="th-sm">Category Name</th>
+                  <th class="th-sm">The Amount</th>
+                  <th class="th-sm">The Price</th>
+                  <th class="th-sm">Description</th>
+                  <th class="th-sm" style="width: fit-content ">Actions</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal fa fa-search" id="employeePopUp" tabindex="-1" role="dialog"  *ngIf="showpopup"
+     aria-labelledby="successLabel" aria-hidden="true">
+  <app-add-product-popup  (show-popup)="showpopup=$event"></app-add-product-popup>
+</div>
+
+
+
+
+

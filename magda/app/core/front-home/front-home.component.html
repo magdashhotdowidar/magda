@@ -1,0 +1,37 @@
+<main [ngStyle]="{direction:direc?'rtl':'ltr'}">
+<ngx-loading-bar color="#da3f7b"></ngx-loading-bar>
+<front-header (right_direction)="direc=$event"></front-header>
+<div class="container" style="margin-top: 120px;">
+
+  <div class="row">
+    <div class="offset-4">
+      <div class="card  " style="width:400px; height: 350px ;background-color:navy;border-color: #FFC312">
+        <div class="card-body">
+          <div class="tab-content">
+<div class="row" style="margin-bottom: 5px">
+  <div class="col-md-6">
+    <button  (click)="this.login('product')"><i  class="fa fa-shopping-cart" aria-hidden="true"></i><h6> Shopping & Marketing</h6></button>
+  </div>
+  <div class="col-md-6">
+    <button (click)="this.login('chatting')"><i  class="fa fa-phone" aria-hidden="true"></i><h4>CHATTING</h4></button>
+  </div>
+
+</div>
+            <div class="row">
+              <div class="col-md-6">
+                <button (click)="this.login('product')"><i  class="fa fa-newspaper-o" aria-hidden="true"></i><h2>NEWS</h2></button>
+              </div>
+              <div class="col-md-6">
+                <button (click)="this.login('product')"><i  class="fa fa-photo" aria-hidden="true"></i><h2 >recruit</h2></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="push-footer"></div>
+
+</main>

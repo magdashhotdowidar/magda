@@ -1,0 +1,39 @@
+<div class="container" >
+  <div class="row">
+    <div class="col s8 offset-s2">
+      <div class="card  " style="width:500px; height: 600px ;background-color: lime">
+        <div class="card-header" style="background-color: white">
+        <div class="card-header-tabs">
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+             <!-- <a class="nav-link" routerLink='/chattinglogin' routerLinkActive='active'>Sign In</a>-->
+              <button class="btn btn-outline-warning" (click)="signin()" style="margin:0 10px 0 10px">sign In Chatting</button>
+            </li>
+            <li class="nav-item">
+              <!--<a class="nav-link" routerLink='/chattingsignup' routerLinkActive='active'>Sign Up</a>-->
+              <button class="btn btn-outline-warning" (click)="signup()">Update personal data</button>
+            </li>
+
+          </ul>
+        </div>
+        </div>
+
+        <div class="card-body">
+        <div class="tab-content">
+
+          <div class="row">
+            <div *ngIf="signIn">
+              <chatting-sign-in ></chatting-sign-in>
+            </div>
+            <div *ngIf="signUp">
+              <chatting-sign-up ></chatting-sign-up>
+            </div>
+           <!-- <router-outlet></router-outlet>-->
+          </div>
+        </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
