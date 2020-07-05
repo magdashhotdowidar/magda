@@ -8,6 +8,11 @@ import {Friend, FriendService} from "../infrastructure/services/friends.service"
 import {Path} from "../../shared/enums/path.enum";
 import {Message, MessageService} from "../infrastructure/services/messages.service";
 import {formatDate} from "@angular/common";
+import {Store} from "@ngrx/store";
+import {StoreStates} from "../infrastructure/store/store.store";
+import {GetMessageByFromAndTo, SendMessage} from "../infrastructure/store/actions/message.action";
+import {MessageInterface} from "../infrastructure/store/reducers/message.reducer";
+import {take} from "rxjs/operators";
 
 
 @Component({
@@ -19,7 +24,7 @@ export class MainPageComponent implements OnInit, AfterViewChecked {
   userName: string = localStorage.getItem('userName');
   friendImagePath: string = Path.userImagePath;
   friends: ChattingUser[] = [];
-  unReadMessages:Message[]=[];
+  unReadMessages: Message[] = [];
   openChatWindow: boolean = true;
   minimizeChatWindow: boolean = false;
   openFriendsWindow: boolean = true;
@@ -30,7 +35,8 @@ export class MainPageComponent implements OnInit, AfterViewChecked {
   constructor(private toastr: ToastrService,
               private userService: ChattingUserService,
               private friendService: FriendService,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private store: Store<StoreStates>) {
   }
 
   ngOnInit() {
@@ -45,24 +51,23 @@ export class MainPageComponent implements OnInit, AfterViewChecked {
       },
       (error: HttpErrorResponse) => alert(error.message))
   }
-  loadUnreadMessages(){
-    this.messageService.getUnReadMessages(this.userName).subscribe(data=>this.unReadMessages=data,
+
+  loadUnreadMessages() {
+    this.messageService.getUnReadMessages(this.userName).subscribe(data => this.unReadMessages = data,
       (error: HttpErrorResponse) => alert(error.message))
   }
 
   add(name: string) {
-
     this.openChatWindow = true;
     let contain: boolean = false
     for (let i of this.chatWindows) {
       if (i.windowName == name) contain = true;
     }
     if (this.chatWindows.length < 3 && !contain)
-      this.messageService.getMessagesByFromAndTo(this.userName, name).subscribe(
-        (data: Message[]) => {
-          if(data.length==0)data.push(new Message('Hi '+this.userName,this.userName,'','',false));
+      this.messageService.getMessagesByFromAndTo(this.userName, name).subscribe((data: Message[]) => {
+          if (data.length == 0) data.push(new Message('Hi ' + this.userName, this.userName, '', '', false));
           this.chatWindows.push(new ChatWindow(name, data, '', true));
-          this.messageService.setReadToTrue(name,this.userName).subscribe(data=>this.unReadMessages=[]);
+          this.messageService.setReadToTrue(name, this.userName).subscribe(data => this.unReadMessages = []);
         },
         (error: HttpErrorResponse) => alert(error.message))
 
@@ -80,11 +85,13 @@ export class MainPageComponent implements OnInit, AfterViewChecked {
   send(i: number) {
     let date: string = formatDate(new Date(), 'yyyy-MM-dd | hh:mm:ss', 'en-US');
     let m: Message = new Message(this.chatWindows[i].message, this.userName, this.chatWindows[i].windowName, date, false)
-    this.messageService.sendMessage(m)
-      .subscribe(data => {
-        this.chatWindows[i].message = '';
-      }, (error: HttpErrorResponse) => alert(error.message))
 
+    this.store.dispatch(new SendMessage(m))
+    this.store.subscribe((data: StoreStates) => {
+      this.chatWindows[i].message = '';
+      if (data.messages != null)
+        this.chatWindows[i].chat = data.messages
+    })
   }
 
   getUser(user: string) {
@@ -96,7 +103,7 @@ export class MainPageComponent implements OnInit, AfterViewChecked {
 
 ////////////////////////////////////////////
 export class ChatWindow {
-  chat: Message[]=[];
+  chat: Message[] = [];
   message: string
   showWindow: boolean
   windowName: string;

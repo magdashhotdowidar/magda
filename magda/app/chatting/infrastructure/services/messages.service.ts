@@ -37,11 +37,11 @@ export class MessageService {
 ///////////////////////////////////////
 export class Message {
   constructor(
-    public message: string,
-    public messageFrom: string,
-    public messageTo:string,
-    public date:string,
-    public read:boolean
+    public message?: string,
+    public messageFrom?: string,
+    public messageTo?:string,
+    public date?:string,
+    public read?:boolean
 
   ) {}
 

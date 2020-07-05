@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ChattingRoutingModule } from './chatting-routing.module';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
@@ -20,10 +19,13 @@ import {ChattingSignInComponent} from "./chatting-user/chatting-sign-in/chatting
 import {ChattingSignUpComponent} from "./chatting-user/chatting-sign-up/chatting-sign-up.component";
 import {ChattingUserComponent} from "./chatting-user/chatting-user.component";
 import {ChattingUserService} from "./chatting-user/chatting-user-infrastructure/chatting-user.service";
-import {UserService} from "../user/user-infrastructure/user.service";
 import {AuthGuard} from "../auth/auth.guard";
 import {AuthInterceptor} from "../auth/auth.interceptor";
 import {DropdownDirective} from "./infrastructure/directives/dropdown.directive";
+import {StoreModule} from "@ngrx/store";
+import {messageReducer} from "./infrastructure/store/reducers/message.reducer";
+import {EffectsModule} from "@ngrx/effects";
+import {MessageEffect} from "./infrastructure/store/effects/message.effect";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -53,6 +55,8 @@ export function createTranslateLoader(http: HttpClient) {
     LoadingBarModule,
     NgbModule,
     NgbCarouselModule,
+    StoreModule.forFeature('messages',messageReducer),
+    EffectsModule.forFeature([MessageEffect]),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
