@@ -66,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable().authorizeRequests().antMatchers("/authenticate").permitAll()
                 .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()// dont authenticate this particular request
                 .antMatchers("/adduser").permitAll()
+                .antMatchers("/users/admins").permitAll()
                 .anyRequest().authenticated().and().// all other requests need to be authenticated
                 exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()// make sure we use stateless session; session won't be used to store user's state.
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -8,13 +8,14 @@
     <li class="nav-item">
       <a [routerLink]="mainPath" class="nav-link" routerLinkActive="active">MAIN PAGE</a>
     </li>
-    <li *ngIf="role=='ROLE_SELLER'||role=='ROLE_ADMIN'" class="nav-item">
+    <li *ngIf="role=='ROLE_USER'||role=='ROLE_ADMIN'" class="nav-item">
       <a (click)="showimag()" routerLink="slider" class="nav-link" routerLinkActive="active">Online Shopping</a>
     </li>
     <li *ngIf="role=='ROLE_ADMIN'" class="nav-item">
       <a (click)="showimag()" routerLink="add" class="nav-link" routerLinkActive="active">Product Edit</a>
     </li>
-    <li *ngIf="role=='ROLE_USER'||role=='ROLE_ADMIN'" class="nav-item">
+
+    <li *ngIf="role=='ROLE_SELLER'||role=='ROLE_ADMIN'" class="nav-item">
       <a routerLink="sell" (click)="showimag()" class="nav-link" routerLinkActive="active">Traditional Shopping </a>
     </li>
   </ul>

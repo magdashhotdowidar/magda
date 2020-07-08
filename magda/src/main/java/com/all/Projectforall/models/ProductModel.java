@@ -14,6 +14,7 @@ public class ProductModel {
     private int amount;
     private double price;
     private String imageName;
+    private String the_admin;
 
     public ProductModel() {
     }
@@ -36,6 +37,7 @@ public class ProductModel {
         this.amount = product.getAmount();
         this.price = product.getPrice();
         this.imageName = product.getImageName();
+        this.the_admin=product.getTheAdmin();
 
     }
 
@@ -43,6 +45,7 @@ public class ProductModel {
         this.name = product.getName();
         this.amount = product.getAmount();
         this.price = product.getPrice();
+        this.the_admin=product.getTheAdmin();
         //  this.file=product.getFile();
     }
 
@@ -100,6 +103,14 @@ public class ProductModel {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getThe_admin() {
+        return the_admin;
+    }
+
+    public void setThe_admin(String the_admin) {
+        this.the_admin = the_admin;
     }
 
     @Override

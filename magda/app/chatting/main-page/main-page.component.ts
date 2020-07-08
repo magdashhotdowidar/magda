@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, ElementRef, OnInit, Renderer2} from '@angular/core';
+import {AfterViewChecked, Component, DoCheck, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ToastrService} from "ngx-toastr";
 import {NgForm} from "@angular/forms";
 import {ChattingUserService} from "../chatting-user/chatting-user-infrastructure/chatting-user.service";
@@ -13,6 +13,7 @@ import {StoreStates} from "../infrastructure/store/store.store";
 import {GetMessageByFromAndTo, SendMessage} from "../infrastructure/store/actions/message.action";
 import {MessageInterface} from "../infrastructure/store/reducers/message.reducer";
 import {take} from "rxjs/operators";
+import {Observable} from "rxjs";
 
 
 @Component({
@@ -20,7 +21,9 @@ import {take} from "rxjs/operators";
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.css']
 })
-export class MainPageComponent implements OnInit, AfterViewChecked {
+export class MainPageComponent implements OnInit, AfterViewChecked,DoCheck {
+
+  @ViewChild('scrollMe',{static:false}) myScrollContainer: ElementRef;
   userName: string = localStorage.getItem('userName');
   friendImagePath: string = Path.userImagePath;
   friends: ChattingUser[] = [];
@@ -31,12 +34,14 @@ export class MainPageComponent implements OnInit, AfterViewChecked {
   direction: string;
   chatWindows: Array<ChatWindow> = [];
   d: boolean = false
+ // messages_observe: Observable<Message[]>;
 
   constructor(private toastr: ToastrService,
               private userService: ChattingUserService,
               private friendService: FriendService,
               private messageService: MessageService,
               private store: Store<StoreStates>) {
+
   }
 
   ngOnInit() {
@@ -75,6 +80,17 @@ export class MainPageComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked(): void {
     this.direction = localStorage.getItem('direction');
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) { }
+  }
+
+  ngDoCheck(): void {
+  //  this.messages_observe = this.store.select('messages')
   }
 
   closeWindow(i: number) {

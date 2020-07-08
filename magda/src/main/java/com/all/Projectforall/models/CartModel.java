@@ -10,6 +10,7 @@ public class CartModel {
     private double price;
     private double total;
     private String imageName;
+    private String the_admin;
 
     public CartModel() {
     }
@@ -30,8 +31,16 @@ public class CartModel {
         this.imageName = cart.getImageName();
         this.total = cart.getTotal();
         this.user=cart.getUser();
+        this.the_admin=cart.getThe_admin();
     }
 
+    public String getThe_admin() {
+        return the_admin;
+    }
+
+    public void setThe_admin(String the_admin) {
+        this.the_admin = the_admin;
+    }
 
     public String getName() {
         return name;

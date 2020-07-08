@@ -52,9 +52,11 @@ public class JwtAuthenticationController {
 
         final String token = jwtTokenUtil.generateToken(userDetails);
         final String userName = jwtTokenUtil.getUsernameFromToken(token);
-        final String role = userRepo.findByUsername(userName).get().getAuthorities().get(0).getAuthority();
+        final MyUser user =userRepo.findByUsername(userName).get();
+        final String role = user.getAuthorities().get(0).getAuthority();
+        final String userAdmin=user.getTheUserAdmin();
         System.out.println("authenticate token: " + token);
-        return ResponseEntity.ok(new JwtResponse(token, userName, role));
+        return ResponseEntity.ok(new JwtResponse(token, userName, role,userAdmin));
     }
 
     private void authenticate(String username, String password) throws Exception {
@@ -121,12 +123,17 @@ public class JwtAuthenticationController {
         user.setPhoneNumber(userDetails.getPhoneNumber());
         user.setEnabled(userDetails.isEnabled());
         user.setBirthDate(userDetails.getBirthDate());
+        user.setTheUserAdmin(userDetails.getTheUserAdmin());
 
         if(!userDetails.getRoles().isEmpty())
         userDetails.getRoles().forEach(role -> user.add_authority(new MyAuthority(role)));
 
-
         final MyUser updatedUser = userRepo.save(user);
         return ResponseEntity.ok(new Authusermodel(updatedUser));
+    }
+
+    @GetMapping("/users/admins")
+    public List<String> selectnames() {
+        return userRepo.selectAllUsersAdmin();
     }
 }

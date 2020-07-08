@@ -25,6 +25,7 @@ public class Product {
     private int amount;
     private double price;
     private String imageName;
+    private String theAdmin;
 
     public Product() {
     }
@@ -48,6 +49,7 @@ public class Product {
         this.amount = productModel.getAmount();
         this.price = productModel.getPrice();
         this.imageName = productModel.getImageName();
+        this.theAdmin=productModel.getThe_admin();
     }
 
     @Id
@@ -122,6 +124,15 @@ public class Product {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    public String getTheAdmin() {
+        return theAdmin;
+    }
+
+    public void setTheAdmin(String the_admin) {
+        this.theAdmin = the_admin;
+    }
+
 
     @Override
     public String toString() {

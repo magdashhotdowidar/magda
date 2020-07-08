@@ -10,6 +10,7 @@ public class Category {
     private int id;
     private String name;
     private String description;
+    private String theAdmin;
 
     public Category() {
     }
@@ -17,6 +18,7 @@ public class Category {
     public Category(CategoryModel categoryModel){
         this.name=categoryModel.getName();
         this.description=categoryModel.getDescription();
+        this.theAdmin=categoryModel.getTheAdmin();
     }
 
     public Category(int id, String name, String description) {
@@ -34,6 +36,15 @@ public class Category {
     public void setId(int id) {
         this.id = id;
     }
+
+    public String getTheAdmin() {
+        return theAdmin;
+    }
+
+    public void setTheAdmin(String the_admin) {
+        this.theAdmin = the_admin;
+    }
+
 
     public String getName() {
         return name;

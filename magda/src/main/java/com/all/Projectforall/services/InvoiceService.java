@@ -26,18 +26,18 @@ public class InvoiceService {
     @Autowired
     private InvoiceRepository inr;
 
-    public List<InvoiceModel> allInvoices() {
+    public List<InvoiceModel> allInvoices(String admin) {
 
-        return inr.findAll().stream().map(InvoiceModel::new).collect(Collectors.toList());
+        return inr.findAllByTheAdmin(admin).stream().map(InvoiceModel::new).collect(Collectors.toList());
     }
 
-    public InvoiceResponse getInvoiceBycustomerAndDate(String customer, String date) throws ResourceNotFoundException, ParseException {
+    public InvoiceResponse getInvoiceBycustomerAndDate(String customer, String date,String admin) throws ResourceNotFoundException, ParseException {
 
       /*  SimpleDateFormat simpleDateFormatIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ");
        // String stringDate=simpleDateFormatIn.format(date);
         Date formattedDate = simpleDateFormatIn.parse(date);
         System.out.println("THE INPUT DATE(" + date + ")");*/
-        List<InvoiceA> invoices = inr.findByCustomerNameAndDate(customer, date)
+        List<InvoiceA> invoices = inr.findByCustomerNameAndDateAndTheAdmin(customer, date,admin)
                 .orElseThrow(() -> new ResourceNotFoundException("NO INVOICE FOR :: " + customer));
         if (!invoices.isEmpty()) {
          List<InvoiceModel>invoiceModels=   invoices.stream().map(invoiceA -> new InvoiceModel(invoiceA)).collect(Collectors.toList());
@@ -58,8 +58,8 @@ public class InvoiceService {
         return new RecipeModel(updatedrecipe);
     }*/
 
-    public Map<String, Boolean> deleteInvoice(String customer, String date) throws ResourceNotFoundException {
-        List<InvoiceA> invoices = inr.findByCustomerNameAndDate(customer, date)
+    public Map<String, Boolean> deleteInvoice(String customer, String date,String admin) throws ResourceNotFoundException {
+        List<InvoiceA> invoices = inr.findByCustomerNameAndDateAndTheAdmin(customer, date,admin)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found for this id :: " + customer));
         invoices.forEach(invoiceA ->inr.delete(invoiceA) );
 
@@ -68,8 +68,8 @@ public class InvoiceService {
         return response;
     }
 
-    public Map<String, Boolean> deleteAllInvoices() throws ResourceNotFoundException {
-        inr.deleteAll();
+    public Map<String, Boolean> deleteAllInvoices(String admin) throws ResourceNotFoundException {
+        inr.deleteAllByTheAdmin(admin);
         Map<String, Boolean> response = new HashMap<String, Boolean>();
         response.put("all_recipes_deleted_successfully", Boolean.TRUE);
         return response;

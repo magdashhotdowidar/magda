@@ -34,20 +34,28 @@ export class MessageEffect {
         // alert(data[8].message)
         return new FromMessageAction.SetAllFromToMessages(data)
       }))
-    }))
-
-/*
-  @Effect()
-  getMessagesByFromAndTo$ = this.actions.pipe(
-    ofType(FromMessageAction.GET_BY_FROM_TO),
-    switchMap((action: FromMessageAction.GetMessageByFromAndTo) => {
-      let from = action.payload.from;
-      let to = action.payload.to;
-     return  this.messageService.getMessagesByFromAndTo(from, to).pipe(map((data: Message[]) => {
-        return new FromMessageAction.SetAllFromToMessages(data)
+    })/*,
+    switchMap((action: FromMessageAction.SetAllFromToMessages) => {
+      let to = action.payload[0].messageTo;
+      return this.messageService.getUnReadMessages(to).pipe(map((data: Message[]) => {
+        // alert(data[8].message)
+        return new FromMessageAction.SetUnReadMessages(data)
       }))
-    })
-  )*/
+    })*/
+  )
+
+  /*
+    @Effect()
+    getMessagesByFromAndTo$ = this.actions.pipe(
+      ofType(FromMessageAction.GET_BY_FROM_TO),
+      switchMap((action: FromMessageAction.GetMessageByFromAndTo) => {
+        let from = action.payload.from;
+        let to = action.payload.to;
+       return  this.messageService.getMessagesByFromAndTo(from, to).pipe(map((data: Message[]) => {
+          return new FromMessageAction.SetAllFromToMessages(data)
+        }))
+      })
+    )*/
 
 
 }

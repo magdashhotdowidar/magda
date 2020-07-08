@@ -32,26 +32,27 @@ public class CategoryController {
     }*/
 
     @GetMapping()
-    public List<CategoryModel> getAllCategories() {
-        return cserv.allCategories();
+    public List<CategoryModel> getAllCategories(HttpServletRequest request) {
+        return cserv.allCategories(request.getHeader("theAdmin"));
     }
 
     @PostMapping()
-    public CategoryModel createCategory(@RequestBody CategoryModel categoryModel) {
+    public CategoryModel createCategory(@RequestBody CategoryModel categoryModel,HttpServletRequest request) {
+        categoryModel.setTheAdmin(request.getHeader("theAdmin"));
         return cserv.save(categoryModel);
     }
 
 
     @DeleteMapping("{name}")
-    public Map<String, Boolean> deleteCategory(@PathVariable(value = "name") String name)
+    public Map<String, Boolean> deleteCategory(@PathVariable(value = "name") String name,HttpServletRequest request)
             throws ResourceNotFoundException {
 
-        return cserv.deleteCategory(name);
+        return cserv.deleteCategory(name,request.getHeader("theAdmin"));
     }
 
     @GetMapping("names")
-    public List<String> selectnames() {
-        return cserv.selectcategorynames();
+    public List<String> selectnames(HttpServletRequest request) {
+        return cserv.selectcategorynames(request.getHeader("theAdmin"));
     }
 
 

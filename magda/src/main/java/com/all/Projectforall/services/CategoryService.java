@@ -24,16 +24,16 @@ public class CategoryService {
     @Autowired
     private CategoryRepository crepo;
 
-    public List<CategoryModel> allCategories() {
-        return  crepo.findAll().stream().map(category -> new CategoryModel(category)).collect(Collectors.toList());
+    public List<CategoryModel> allCategories(String admin) {
+        return  crepo.findAllByTheAdmin(admin).stream().map(category -> new CategoryModel(category)).collect(Collectors.toList());
 
     }
 
 
 
-    public Map<String, Boolean> deleteCategory(String name)
+    public Map<String, Boolean> deleteCategory(String name,String admin)
             throws ResourceNotFoundException {
-        Category category = crepo.findByName(name)
+        Category category = crepo.findByNameAndTheAdmin(name,admin)
                 .orElseThrow(() -> new ResourceNotFoundException("product not found  "));
         crepo.delete(category);
         Map<String, Boolean> response = new HashMap<String, Boolean>();
@@ -46,8 +46,8 @@ public class CategoryService {
 
     }
 
-    public List<String> selectcategorynames() {
-        return crepo.selectNames();
+    public List<String> selectcategorynames(String admin) {
+        return crepo.selectNames(admin);
     }
 
 

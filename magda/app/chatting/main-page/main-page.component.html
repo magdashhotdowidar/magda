@@ -56,7 +56,7 @@
           </button>
         </div>
       </div>
-      <div class="form-container-show pre-scrollable" >
+      <div #scrollMe class="form-container-show pre-scrollable" style="overflow:-moz-scrollbars-vertical ">
         <div class="text-center " data-toggle="tooltip" data-placement="right" [title]="message.date"
              [ngStyle]="{color:message.messageFrom!=userName?'yellow':'blue'}"
              *ngFor="let message of chatWindow.chat">{{message.message }}</div>

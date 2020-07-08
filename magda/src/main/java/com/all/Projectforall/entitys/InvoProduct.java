@@ -15,6 +15,7 @@ public class InvoProduct {
     private String name;
     private int amount;
     private double price;
+    private String theAdmin;
 
 /*    @Transient
     private MultipartFile file;*/
@@ -31,8 +32,18 @@ public class InvoProduct {
         this.name = productModel.getName();
         this.amount = productModel.getAmount();
         this.price=productModel.getPrice();
+        this.theAdmin=productModel.getThe_admin();
        // this.file=productModel.getFile();
     }
+
+    public String getTheAdmin() {
+        return theAdmin;
+    }
+
+    public void setTheAdmin(String the_admin) {
+        this.theAdmin = the_admin;
+    }
+
 
     public int getId() {
         return id;

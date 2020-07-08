@@ -20,6 +20,7 @@ public class Authusermodel {
     private String birthDate;
     private String personalImage;
     private String backgroundImage;
+    private String theUserAdmin;
     private List<String> roles;
     private List<String> friends;
     private boolean enabled;
@@ -39,6 +40,7 @@ public class Authusermodel {
             this.birthDate=user.getBirthDate();
             this.personalImage=user.getPersonalImage();
             this.backgroundImage=user.getBackgroundImage();
+            this.theUserAdmin=user.getTheUserAdmin();
 
             if (!user.getAuthorities().isEmpty()) {
                 this.roles = user.getAuthorities().stream().map(MyAuthority::getAuthority).collect(Collectors.toList());
@@ -147,6 +149,14 @@ public class Authusermodel {
 
     public void setBackgroundImage(String backgroundImage) {
         this.backgroundImage = backgroundImage;
+    }
+
+    public String getTheUserAdmin() {
+        return theUserAdmin;
+    }
+
+    public void setTheUserAdmin(String theUserAdmin) {
+        this.theUserAdmin = theUserAdmin;
     }
 
     @Override

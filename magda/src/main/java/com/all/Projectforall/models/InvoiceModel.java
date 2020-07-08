@@ -15,6 +15,7 @@ public class InvoiceModel {
     private String userName;
     private String customerName;
     private List<ProductModel> productModels;
+    private String the_admin;
 
 
     public InvoiceModel() {
@@ -26,6 +27,7 @@ public class InvoiceModel {
             this.date = invoice.getDate();
             this.userName = invoice.getUserName();
             this.customerName = invoice.getCustomerName();
+            this.the_admin=invoice.getTheAdmin();
             if (!invoice.getInvoProducts().isEmpty()) {
                 this.productModels = invoice.getInvoProducts().
                         stream().map(product ->
@@ -39,6 +41,14 @@ public class InvoiceModel {
         this.date = date;
         this.userName = userName;
         this.customerName = customerName;
+    }
+
+    public String getThe_admin() {
+        return the_admin;
+    }
+
+    public void setThe_admin(String the_admin) {
+        this.the_admin = the_admin;
     }
 
     public String getDate() {

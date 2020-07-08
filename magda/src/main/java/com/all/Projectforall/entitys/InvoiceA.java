@@ -17,6 +17,7 @@ public class InvoiceA {
     private String date;
     private String userName;
     private String customerName;
+    private String theAdmin;
 
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<InvoProduct> invoProducts;
@@ -36,7 +37,17 @@ public class InvoiceA {
         this.date = invoice.getDate();
         this.userName = invoice.getUserName();
         this.customerName = invoice.getCustomerName();
+        this.theAdmin=invoice.getThe_admin();
     }
+
+    public String getTheAdmin() {
+        return theAdmin;
+    }
+
+    public void setTheAdmin(String the_admin) {
+        this.theAdmin = the_admin;
+    }
+
 
     public Long getId() {
         return id;

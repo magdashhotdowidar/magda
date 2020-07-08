@@ -29,6 +29,7 @@ public class MyUser {
     private String birthDate;
     private String personalImage;
     private String backgroundImage;
+    private String theUserAdmin;
     private boolean enabled;
 
 /*    @JsonIgnore
@@ -55,6 +56,7 @@ public class MyUser {
             this.backgroundImage = model.getBackgroundImage();
             this.personalImage = model.getPersonalImage();
             this.gender = model.getGender();
+            this.theUserAdmin=model.getTheUserAdmin();
         }
     }
 
@@ -157,6 +159,13 @@ public class MyUser {
         this.backgroundImage = backgroundImage;
     }
 
+    public String getTheUserAdmin() {
+        return theUserAdmin;
+    }
+
+    public void setTheUserAdmin(String theUserAdmin) {
+        this.theUserAdmin = theUserAdmin;
+    }
 
     @Override
     public String toString() {

@@ -10,5 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface InvoiceRepository extends JpaRepository<InvoiceA, Long> {
-public Optional<List<InvoiceA>>findByCustomerNameAndDate(String customer, String date);
+public Optional<List<InvoiceA>>findByCustomerNameAndDateAndTheAdmin(String customer, String date,String admin);
+public List<InvoiceA>findAllByTheAdmin(String admin);
+
+public  void deleteAllByTheAdmin(String admin);
 }

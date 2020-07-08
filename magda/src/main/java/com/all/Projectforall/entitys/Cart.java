@@ -21,6 +21,7 @@ public class Cart {
     private double price;
     private double total;
     private String imageName;
+    private String the_admin;
 
     public Cart() {
     }
@@ -42,6 +43,7 @@ public class Cart {
         this.imageName = cartModel.getImageName();
         this.total=cartModel.getTotal();
         this.user=cartModel.getUser();
+        this.the_admin=cartModel.getThe_admin();
     }
 
     @Id
@@ -106,6 +108,15 @@ public class Cart {
     public void setUser(String user) {
         this.user = user;
     }
+
+    public String getThe_admin() {
+        return the_admin;
+    }
+
+    public void setThe_admin(String the_admin) {
+        this.the_admin = the_admin;
+    }
+
 
     @Override
     public String toString() {

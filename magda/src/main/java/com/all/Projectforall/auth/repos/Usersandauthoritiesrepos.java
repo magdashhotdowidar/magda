@@ -15,4 +15,7 @@ public interface Usersandauthoritiesrepos extends JpaRepository<MyUser,String> {
 Optional<MyUser>findByUsername(String username);
 List<MyUser>findByUsernameLikeOrEmailLike(String userName,String email);
 
+    @Query("select distinct u.theUserAdmin from MyUser u")
+    public List<String>selectAllUsersAdmin();
+
 }

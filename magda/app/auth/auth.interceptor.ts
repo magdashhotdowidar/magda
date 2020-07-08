@@ -17,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
         if (localStorage.getItem('userToken') != null) {
             const clonedreq = req.clone({
-               setHeaders:{Authorization:localStorage.getItem('userToken')}
+               setHeaders:{Authorization:localStorage.getItem('userToken'),theAdmin:localStorage.getItem('adminLogin')}
             });
             /*,
                  'Content-Type':' application/json','Access-Control-Allow-Origin':'*',

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -28,21 +29,23 @@ public class InvoiceController {
     }
 
     @GetMapping("")
-    public List<InvoiceModel> getAllInvoices() {
-        return invoiceService.allInvoices();
+    public List<InvoiceModel> getAllInvoices(HttpServletRequest request) {
+        return invoiceService.allInvoices(request.getHeader("theAdmin"));
     }
 
     @GetMapping("/{customer}/{date}")
     public ResponseEntity<InvoiceResponse> getInvoiceByCustomerAndDate(@PathVariable(value = "customer") String customer,
-                                                                    @PathVariable(value = "date") String date)
+                                                                       @PathVariable(value = "date") String date,
+                                                                       HttpServletRequest request)
             throws ResourceNotFoundException, ParseException {
 
-        InvoiceResponse response = invoiceService.getInvoiceBycustomerAndDate(customer, date);
+        InvoiceResponse response = invoiceService.getInvoiceBycustomerAndDate(customer, date,request.getHeader("theAdmin"));
         return ResponseEntity.ok().body(response);
     }
 
     @PostMapping("")
-    public ResponseEntity<InvoiceModel> createInvoice(@Valid @RequestBody InvoiceModel invoiceModel) {
+    public ResponseEntity<InvoiceModel> createInvoice(@Valid @RequestBody InvoiceModel invoiceModel,HttpServletRequest request) {
+        invoiceModel.setThe_admin(request.getHeader("theAdmin"));
         return ResponseEntity.ok(invoiceService.save(invoiceModel));
     }
 
@@ -56,17 +59,18 @@ public class InvoiceController {
 
 
     @DeleteMapping("/{customer}/{date}")
-    public Map<String, Boolean>  deleteInvoice(@PathVariable(value = "customer") String customer,
-                                               @PathVariable(value = "date")String date)
+    public Map<String, Boolean> deleteInvoice(@PathVariable(value = "customer") String customer,
+                                              @PathVariable(value = "date") String date,
+                                              HttpServletRequest request)
             throws ResourceNotFoundException {
 
-        return invoiceService.deleteInvoice(customer,date);
+        return invoiceService.deleteInvoice(customer, date,request.getHeader("theAdmin"));
     }
 
     @DeleteMapping("")
-    public Map<String, Boolean> deleteAllInvoices()
+    public Map<String, Boolean> deleteAllInvoices(HttpServletRequest request)
             throws ResourceNotFoundException {
 
-        return invoiceService.deleteAllInvoices();
+        return invoiceService.deleteAllInvoices(request.getHeader("theAdmin"));
     }
 }

@@ -8,6 +8,7 @@ export class ChattingUser {
     public birthDate?: string,
     public personalImage?: string,
     public backgroundImage?: string,
+    public theUserAdmin?: string,
     public roles?: string[],
     public enabled?: boolean
   ) {

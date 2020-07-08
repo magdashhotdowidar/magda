@@ -20,7 +20,7 @@ const routes: Routes = [
       {
         path: 'sell', component: CreateProductComponent,
         canActivate: [AuthGuard, AuthorizeGuard],
-        data: {role: ['ROLE_ADMIN', 'ROLE_USER']},
+        data: {role: ['ROLE_ADMIN', 'ROLE_SELLER']},
         canDeactivate: [CanDeactivateGuard]
       },
       {

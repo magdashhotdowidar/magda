@@ -9,6 +9,7 @@ import {Router} from "@angular/router";
 @Injectable()
 export class UserService {
   readonly rootUrl = 'http://localhost:8081/springboot-crud-rest/';
+  readonly reqHeader = new HttpHeaders({'Content-Type': 'application/json', 'No-Auth': 'True'});
 
   constructor(private router: Router,
               private http: HttpClient) {
@@ -20,36 +21,46 @@ export class UserService {
       username: user.username,
       password: user.password,
       roles: user.roles,
+      theUserAdmin:user.theUserAdmin,
       enabled: user.enabled
     }
-
-    var reqHeader = new HttpHeaders({'Content-Type': 'application/json', 'No-Auth': 'True'});
-    return this.http.post(this.rootUrl + 'adduser', body, {headers: reqHeader});
+    return this.http.post(this.rootUrl + 'adduser', body, {headers: this.reqHeader});
   }
 
   userAuthentication(request: Request) {
-    var reqHeader = new HttpHeaders({'Content-Type': 'application/json', 'No-Auth': 'True'});
-    return this.http.post(this.rootUrl + 'authenticate', request, {headers: reqHeader});
+    return this.http.post(this.rootUrl + 'authenticate', request, {headers: this.reqHeader});
+  }
+
+  getAllAdmins(): Observable<string[]> {
+    return this.http.get<string[]>(this.rootUrl + 'users/admins', {headers: this.reqHeader})
   }
 
   Logout() {
-   this.removeLocalStorageItems();
+    this.removeLocalStorageItems();
     this.router.navigate(['/login']);
   }
-  removeLocalStorageItems(){
+
+  removeLocalStorageItems() {
     localStorage.removeItem('userToken');
     localStorage.removeItem('userName');
     localStorage.removeItem('role');
   }
 
-  getAllUsers() {
-
-    return this.http.get(this.rootUrl + 'allUsers');
-  }
 
 }
 
 ///////////////////////////////////
+export class AuthenticationResponse {
+  constructor(
+    public jwttoken: string,
+    public jwtUserName: string,
+    public role: string,
+    public theUserAdmin: string
+  ) {
+  }
+
+}
+
 export class Request {
 
   constructor(

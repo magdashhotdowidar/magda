@@ -54,6 +54,11 @@ class ProjectforallApplicationTests {
     }
 
     @Test
+    public void get() {
+        repo.selectAllUsersAdmin().forEach(a->System.out.println(a));
+    }
+
+    @Test
     public void creatInvoice() throws ParseException {
 
   /*      InvoiceModel invoice = new InvoiceModel();
@@ -76,7 +81,7 @@ class ProjectforallApplicationTests {
     @Transactional
     public void getallInvoices() {
 
-        List<InvoiceModel> all = invserv.allInvoices();
+        List<InvoiceModel> all = invserv.allInvoices("ahmed");
         all.forEach(invoiceModel ->
         {
             System.out.println(invoiceModel);

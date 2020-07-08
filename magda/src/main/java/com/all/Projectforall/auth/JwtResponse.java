@@ -8,20 +8,24 @@ public class JwtResponse implements Serializable {
     private final String jwttoken;
     private final String jwtUserName;
     private final String role;
+    private final String theUserAdmin;
 
-    public JwtResponse(String jwttoken,String jwtUserName,String role) {
+    public JwtResponse(String jwttoken,String jwtUserName,String role,String theUserAdmin) {
         this.jwttoken = jwttoken;
         this.jwtUserName=jwtUserName;
         this.role=role;
+        this.theUserAdmin=theUserAdmin;
     }
 
-    public String getToken() {
+    public String getJwttoken() {
         return this.jwttoken;
     }
-    public String getUserName() {
+    public String getJwtUserName() {
         return this.jwtUserName;
     }
-
+    public String getTheUserAdmin() {
+        return theUserAdmin;
+    }
     public String getRole() {
         return role;
     }

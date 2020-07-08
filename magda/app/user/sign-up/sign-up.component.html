@@ -1,11 +1,7 @@
-
 <div class="container">
   <div class="d-flex justify-content-center h-100">
     <div class="card">
       <div class="card-header">
-        <div *ngIf="showmessage" style="text-align: center">
-          <h1 class="alert alert-success" style="font-size:large ">{{"the stateis is :"+message}}</h1>
-        </div>
       </div>
       <div class="card-body" style="background-color: lawngreen">
         <form class="col col-xl-12" style="background-color: white" #userRegistrationForm="ngForm"
@@ -30,15 +26,25 @@
             </div>
 
             <div class="form-group">
-              <label><span class="req">* </span> Role : </label>
+              <label><span class="req">* </span> Select Admin : </label>
+              <select style="font-size: large;background-color:bisque;color: red" class="form-control form-control-sm"
+                      name="admin" [(ngModel)]="user.theUserAdmin" ngModel required>
+                <option style="color: blue; font-size: large" *ngFor="let admin of allAdmins" [value]="admin">{{ admin}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label><span class="req">* </span>Select Role : </label>
               <!--    <input class="form-control" type="text" #Role="ngModel" [(ngModel)]="user.roles" name="role" id="role"
                          placeholder="Your Authority " required/>
                   <div id="errLast"></div>-->
               <select style="font-size: large;background-color:bisque;color: red" class="form-control form-control-sm"
                       name="role" [(ngModel)]="user.roles" ngModel>
-                <option  style="color: blue; font-size: large" value=ROLE_USER>{{'USER'}}</option>
-                <option *ngIf="role=='ROLE_ADMIN'" style="color: blue; font-size: large" value=ROLE_ADMIN>{{'ADMIN'}}</option>
-                <option *ngIf="role=='ROLE_ADMIN'"  style="color: blue; font-size: large" value=ROLE_SELLER>{{'SELLER'}}</option>
+                <option style="color: blue; font-size: large" value=ROLE_USER>{{'USER'}}</option>
+                <option *ngIf="role=='ROLE_ADMIN'" style="color: blue; font-size: large"
+                        value=ROLE_ADMIN>{{'ADMIN'}}</option>
+                <option *ngIf="role=='ROLE_ADMIN'" style="color: blue; font-size: large"
+                        value=ROLE_SELLER>{{'SELLER'}}</option>
               </select>
             </div>
 
