@@ -23,6 +23,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
 class ProjectforallApplicationTests {
@@ -79,10 +81,10 @@ class ProjectforallApplicationTests {
 
     @Test
     @Transactional
-    public void getallInvoices() {
+    public void getallInvoices() throws ExecutionException, InterruptedException {
 
-        List<InvoiceModel> all = invserv.allInvoices("ahmed");
-        all.forEach(invoiceModel ->
+        CompletableFuture<List<InvoiceModel>> all = invserv.allInvoices("ahmed");
+        all.get().forEach(invoiceModel ->
         {
             System.out.println(invoiceModel);
         });

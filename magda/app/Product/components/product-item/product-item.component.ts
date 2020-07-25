@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Product} from "../infrastructure/models/product";
+import {Product} from "../../infrastructure/models/product";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Path} from "../../shared/enums/path.enum";
+import {Path} from "../../../shared/enums/path.enum";
 
 @Component({
   selector: 'app-product-item',

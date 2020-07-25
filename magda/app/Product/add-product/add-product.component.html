@@ -80,7 +80,7 @@
                 <thead>
                 <tr style="color: lime">
                   <th class="th-sm">{{'PROJECT.product.edit.product_image'|translate}}</th>
-                  <th class="th-sm">Product Name</th>
+                  <th class="th-sm">{{'PROJECT.product.edit.product_name'|translate}}</th>
                   <th class="th-sm">Brand Name</th>
                   <th class="th-sm">Category Name</th>
                   <th class="th-sm">The Amount</th>
@@ -151,7 +151,7 @@
                 <tfoot>
                 <tr style="color:lime">
                   <th class="th-sm">{{'PROJECT.product.edit.product_image'|translate}}</th>
-                  <th class="th-sm">Product Name</th>
+                  <th class="th-sm">{{'PROJECT.product.edit.product_name'|translate}}</th>
                   <th class="th-sm">Brand Name</th>
                   <th class="th-sm">Category Name</th>
                   <th class="th-sm">The Amount</th>
@@ -172,7 +172,7 @@
 
 <div class="modal fa fa-search" id="employeePopUp" tabindex="-1" role="dialog"  *ngIf="showpopup"
      aria-labelledby="successLabel" aria-hidden="true">
-  <app-add-product-popup  (show-popup)="showpopup=$event"></app-add-product-popup>
+  <app-add-product-popup  (show-popup)="showpopup=$event" (new-product)="addNewProduct($event)"></app-add-product-popup>
 </div>
 
 

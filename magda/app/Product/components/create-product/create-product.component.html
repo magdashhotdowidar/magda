@@ -11,8 +11,8 @@
               <li class="breadcrumb-item"><a routerLink="../" routerLinkActive="active"><i class="fa fa-home"
                                                                                            style="font-size: xx-large"></i></a>
               </li>
-              <li class="breadcrumb-item"><a routerLink="../add" routerLinkActive="active">PRODUCT MANAGEMENT</a></li>
-              <li class="breadcrumb-item"><a routerLink="../slider" routerLinkActive="active">VIEW PRODUCTS</a></li>
+              <li class="breadcrumb-item"><a routerLink="../add" routerLinkActive="active">{{'PROJECT.breadcrumb.product_management'|translate}}</a></li>
+              <li class="breadcrumb-item"><a routerLink="../slider" routerLinkActive="active">{{'PROJECT.breadcrumb.view_product'|translate}}</a></li>
             </ol>
           </nav>
         </div>
@@ -88,14 +88,13 @@
             <div class="row">
 
               <div class="form-group mx-sm-3 mb-2">
-                <label for="user" style="color: blue;background-color:#fbfbfb;font-size: large">THE USER NAME </label>
+                <label for="user" style="color: blue;background-color:#fbfbfb;font-size: large">{{'PROJECT.product.sell.user_name'|translate}} </label>
                 <input type="text" style="font-size: large" class="form-control" id="user" required ngModel
                        [(ngModel)]="invoice.userName" name="user"/>
               </div>
 
               <div class="form-group mx-sm-3 mb-2">
-                <label for="customer" style="color: blue;background-color:#fbfbfb;font-size: large">THE CUSTOMER
-                  NAME </label>
+                <label for="customer" style="color: blue;background-color:#fbfbfb;font-size: large">{{'PROJECT.product.sell.customer_name'|translate}} </label>
                 <input type="text" style="font-size: large" class="form-control" id="customer" required
                        [(ngModel)]="invoice.customerName"
                        name="customer"/>
@@ -108,7 +107,7 @@
               </button>
 
               <div *ngIf="invoiceProducts.length>0" class="form-group mx-sm-3 mb-2">
-                <label for="total" style="color: blue;background-color:#fbfbfb;font-size: large">THE TOTAL</label>
+                <label for="total" style="color: blue;background-color:#fbfbfb;font-size: large">{{'PROJECT.product.sell.grand_total'|translate}}</label>
                 <input type="text" style="font-size: large" class="form-control" id="total" required
                        [(ngModel)]="total"
                        name="total"/>
@@ -139,12 +138,12 @@
             <div class="panel-heading">
               <div class="row">
                 <div class="col-md-8">
-                  <h2 style="color: blue">THE PRODUCTS</h2>
+                  <h2 style="color: blue">{{'PROJECT.product.sell.the_invoice'|translate}}</h2>
                 </div>
 
                 <div class="col-md-4">
                   <button type="button" (click)="onSubmit(f)" STYLE="margin-right:3px" class="btn btn-primary">
-                    <i class="fa fa-eye" aria-hidden="true" style="color: red"></i>SAVE THE INVOICE<i class="fa fa-eye"
+                    <i class="fa fa-eye" aria-hidden="true" style="color: red"></i>{{'PROJECT.product.sell.save_the_invoice'|translate}}<i class="fa fa-eye"
                                                                                                       aria-hidden="true"
                                                                                                       style="color: red"></i>
                   </button>
@@ -155,11 +154,11 @@
               <table class="table table-striped">
                 <thead>
                 <tr style="color:red;font-size: large">
-                  <th>Product Name</th>
-                  <th>The Amount</th>
-                  <th>The Price</th>
-                  <th>Sub Total</th>
-                  <th>Actions</th>
+                  <th>{{'PROJECT.product.sell.product_name'|translate}}</th>
+                  <th>{{'PROJECT.product.sell.the_amount'|translate}}</th>
+                  <th>{{'PROJECT.product.sell.the_price'|translate}}</th>
+                  <th>{{'PROJECT.product.sell.sub_total'|translate}}</th>
+                  <th>{{'PROJECT.product.sell.actions'|translate}}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -169,7 +168,7 @@
                   <td>{{invproduct.price}}</td>
                   <td>{{invproduct.amount * invproduct.price}}</td>
                   <td>
-                    <button (click)="deleteInvoiceProduct(i)" class="btn btn-danger">Delete</button>
+                    <button (click)="deleteInvoiceProduct(i)" class="btn btn-danger">{{'PROJECT.product.sell.delete'|translate}}</button>
                   </td>
                 </tr>
                 </tbody>

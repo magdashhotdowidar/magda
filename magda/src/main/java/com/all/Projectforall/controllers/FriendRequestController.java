@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -24,34 +25,34 @@ public class FriendRequestController {
     private FriendRequestService c_service;
 
     /* @RequestMapping("/")
-     public String aa() {return "allah"; }*/
+     public CompletableFuture<  String aa() {return "allah"; }*/
     @GetMapping("/from/{from}")
-    public ResponseEntity<List<FriendRequest>> getFriendRequestByForm(@PathVariable(value = "from") String from) {
-        List<FriendRequest> friendRequests = c_service.getRequestByFrom(from);
-        return ResponseEntity.ok().body(friendRequests.stream().collect(Collectors.toList()));
+    public CompletableFuture<ResponseEntity<List<FriendRequest>>> getFriendRequestByForm(@PathVariable(value = "from") String from) {
+        CompletableFuture<List<FriendRequest>> friendRequests = c_service.getRequestByFrom(from);
+        return friendRequests.thenApply(ResponseEntity::ok);
     }
 
     @GetMapping("/to/{to}")
-    public ResponseEntity<List<FriendRequest>> getFriendRequestByTo(@PathVariable(value = "to") String to) {
-        List<FriendRequest> friendRequests = c_service.getRequestByTo(to);
-        return ResponseEntity.ok().body(friendRequests.stream().collect(Collectors.toList()));
+    public CompletableFuture<ResponseEntity<List<FriendRequest>>> getFriendRequestByTo(@PathVariable(value = "to") String to) {
+        CompletableFuture<List<FriendRequest>> friendRequests = c_service.getRequestByTo(to);
+        return friendRequests.thenApply(ResponseEntity::ok);
     }
 
     @GetMapping("/{from}/{to}")
-    public ResponseEntity<List<FriendRequest>> getFriendRequestByFormAndTo(@PathVariable(value = "from") String from,
-                                                                     @PathVariable(value = "to") String to)  {
-        List<FriendRequest> friendRequest = c_service.getRequestByFromAndTo(from, to);
-        return ResponseEntity.ok().body(friendRequest);
+    public CompletableFuture<ResponseEntity<List<FriendRequest>>> getFriendRequestByFormAndTo(@PathVariable(value = "from") String from,
+                                                                                             @PathVariable(value = "to") String to) {
+        CompletableFuture<List<FriendRequest>> friendRequest = c_service.getRequestByFromAndTo(from, to);
+        return friendRequest.thenApply(ResponseEntity::ok);
     }
 
     @PostMapping()
-    public FriendRequest createProduct(@Valid @RequestBody FriendRequest friendRequest) {
+    public CompletableFuture<FriendRequest> createProduct(@Valid @RequestBody FriendRequest friendRequest) {
         return c_service.save(friendRequest);
     }
 
     @DeleteMapping("/{from}/{to}")
-    public Map<String, Boolean> deleteCartLine(@PathVariable(value = "from") String from,
-                                               @PathVariable(value = "to") String to) {
+    public CompletableFuture<Map<String, Boolean>> deleteCartLine(@PathVariable(value = "from") String from,
+                                                                 @PathVariable(value = "to") String to) {
 
         return c_service.deleteFriendRequest(from, to);
     }

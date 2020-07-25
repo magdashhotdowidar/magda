@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +26,7 @@ public class FriendService {
     @Autowired
     private Usersandauthoritiesrepos user_repo;
 
-    public List<Authusermodel>allUserFriends(String userName) {
+    public CompletableFuture< List<Authusermodel>>allUserFriends(String userName) {
         List<Friend> list1 = f_repo.findByUserName(userName);
         List<Friend> list2 = f_repo.findByFriendName(userName);
         list2.forEach(friend -> {
@@ -35,35 +36,35 @@ public class FriendService {
             friend.setFriendName(tem); });
         list1.addAll(list2);
        List<Authusermodel> friendsDetails= list1.stream().map(friend -> {
-           return user_repo.findByUsername( friend.getFriendName()).get();
+           return  user_repo.findByUsername( friend.getFriendName()).get();
         }).map(Authusermodel::new).collect(Collectors.toList());
-        return friendsDetails;
+        return CompletableFuture.completedFuture(friendsDetails);
 
     }
 
-    public FriendModel getFriendByUserNameAndFriendName(String userName, String friendName) {
-        return new FriendModel(f_repo.findByUserNameAndFriendName(userName, friendName).get());
+    public CompletableFuture< FriendModel> getFriendByUserNameAndFriendName(String userName, String friendName) {
+        return CompletableFuture.completedFuture( new FriendModel(f_repo.findByUserNameAndFriendName(userName, friendName).get()));
     }
 
 
-    public Map<String, Boolean> deleteFriend(String userName, String friendName) {
+    public CompletableFuture< Map<String, Boolean>> deleteFriend(String userName, String friendName) {
         Friend friend = f_repo.findByUserNameAndFriendName(userName, friendName).get();
         f_repo.delete(friend);
         Map<String, Boolean> response = new HashMap<String, Boolean>();
         response.put("deleted", Boolean.TRUE);
-        return response;
+        return CompletableFuture.completedFuture( response);
     }
 
-    public Map<String, Boolean> deleteAllUserFriends(String user) {
+    public CompletableFuture< Map<String, Boolean>> deleteAllUserFriends(String user) {
         List<Friend> friends = f_repo.findByUserName(user);
         f_repo.deleteAll(friends);
         Map<String, Boolean> response = new HashMap<String, Boolean>();
         response.put("deleted", Boolean.TRUE);
-        return response;
+        return CompletableFuture.completedFuture( response);
     }
 
-    public FriendModel save(FriendModel friendModel) {
-        return new FriendModel(f_repo.save(new Friend(friendModel)));
+    public CompletableFuture< FriendModel> save(FriendModel friendModel) {
+        return CompletableFuture.completedFuture( new FriendModel(f_repo.save(new Friend(friendModel))));
 
     }
 

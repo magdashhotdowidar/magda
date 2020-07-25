@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Title} from "@angular/platform-browser";
+import {Coding} from "../shared/enums/coding.enum";
 
 @Component({
   selector: 'app-user',
@@ -7,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserComponent implements OnInit {
 role=localStorage.getItem('role');
-  constructor() { }
+  constructor(private title:Title) { }
 
   ngOnInit() {
+    this.title.setTitle(Coding.siteName_title+' - login')
   }
 
 }

@@ -1,19 +1,20 @@
 import {AfterViewChecked, Component, DoCheck, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ToastrService} from "ngx-toastr";
 import {NgForm} from "@angular/forms";
-import {ChattingUserService} from "../chatting-user/chatting-user-infrastructure/chatting-user.service";
-import {ChattingUser} from "../chatting-user/chatting-user-infrastructure/chatting-user.model";
+import {ChattingUserService} from "../../chatting-user/chatting-user-infrastructure/chatting-user.service";
+import {ChattingUser} from "../../chatting-user/chatting-user-infrastructure/chatting-user.model";
 import {HttpErrorResponse} from "@angular/common/http";
-import {Friend, FriendService} from "../infrastructure/services/friends.service";
-import {Path} from "../../shared/enums/path.enum";
-import {Message, MessageService} from "../infrastructure/services/messages.service";
+import {Friend, FriendService} from "../../infrastructure/services/friends.service";
+import {Path} from "../../../shared/enums/path.enum";
+import {Message, MessageService} from "../../infrastructure/services/messages.service";
 import {formatDate} from "@angular/common";
 import {Store} from "@ngrx/store";
-import {StoreStates} from "../infrastructure/store/store.store";
-import {GetMessageByFromAndTo, SendMessage} from "../infrastructure/store/actions/message.action";
-import {MessageInterface} from "../infrastructure/store/reducers/message.reducer";
+import {StoreStates} from "../../infrastructure/store/store.store";
+import {GetMessageByFromAndTo, SendMessage} from "../../infrastructure/store/actions/message.action";
+import {MessageInterface} from "../../infrastructure/store/reducers/message.reducer";
 import {take} from "rxjs/operators";
 import {Observable} from "rxjs";
+import {Title} from "@angular/platform-browser";
 
 
 @Component({
@@ -40,11 +41,13 @@ export class MainPageComponent implements OnInit, AfterViewChecked,DoCheck {
               private userService: ChattingUserService,
               private friendService: FriendService,
               private messageService: MessageService,
+              private title:Title,
               private store: Store<StoreStates>) {
 
   }
 
   ngOnInit() {
+    this.title.setTitle(this.userName+' - main Page')
     this.loadFriends();
     this.loadUnreadMessages();
   }

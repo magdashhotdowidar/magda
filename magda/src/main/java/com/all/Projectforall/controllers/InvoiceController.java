@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -24,33 +25,33 @@ public class InvoiceController {
     private InvoiceService invoiceService;
 
     @RequestMapping("/allah")
-    public String aa() {
-        return "allah";
+    public CompletableFuture<String> aa() {
+        return CompletableFuture.completedFuture("allah");
     }
 
     @GetMapping("")
-    public List<InvoiceModel> getAllInvoices(HttpServletRequest request) {
-        return invoiceService.allInvoices(request.getHeader("theAdmin"));
+    public CompletableFuture<ResponseEntity<List<InvoiceModel>>> getAllInvoices(HttpServletRequest request) {
+        return invoiceService.allInvoices(request.getHeader("theAdmin")).thenApply(ResponseEntity::ok);
     }
 
     @GetMapping("/{customer}/{date}")
-    public ResponseEntity<InvoiceResponse> getInvoiceByCustomerAndDate(@PathVariable(value = "customer") String customer,
-                                                                       @PathVariable(value = "date") String date,
-                                                                       HttpServletRequest request)
+    public CompletableFuture<ResponseEntity<InvoiceResponse>> getInvoiceByCustomerAndDate(@PathVariable(value = "customer") String customer,
+                                                                                          @PathVariable(value = "date") String date,
+                                                                                          HttpServletRequest request)
             throws ResourceNotFoundException, ParseException {
 
-        InvoiceResponse response = invoiceService.getInvoiceBycustomerAndDate(customer, date,request.getHeader("theAdmin"));
-        return ResponseEntity.ok().body(response);
+        CompletableFuture<InvoiceResponse> response = invoiceService.getInvoiceBycustomerAndDate(customer, date, request.getHeader("theAdmin"));
+        return response.thenApply(ResponseEntity::ok);
     }
 
     @PostMapping("")
-    public ResponseEntity<InvoiceModel> createInvoice(@Valid @RequestBody InvoiceModel invoiceModel,HttpServletRequest request) {
+    public CompletableFuture<ResponseEntity<InvoiceModel>> createInvoice(@Valid @RequestBody InvoiceModel invoiceModel, HttpServletRequest request) {
         invoiceModel.setThe_admin(request.getHeader("theAdmin"));
-        return ResponseEntity.ok(invoiceService.save(invoiceModel));
+        return invoiceService.save(invoiceModel).thenApply(ResponseEntity::ok);
     }
 
    /* @PutMapping("/{id}")
-    public ResponseEntity<RecipeModel> updateRecipe(@PathVariable(value = "id") Long recipeId,
+    public CompletableFuture<  ResponseEntity<RecipeModel> updateRecipe(@PathVariable(value = "id") Long recipeId,
                                                     @Valid @RequestBody RecipeModel recipeDetails) throws ResourceNotFoundException {
 
         final RecipeModel updatedRecipe = recipeService.updateRecipe(recipeId, recipeDetails);
@@ -59,16 +60,16 @@ public class InvoiceController {
 
 
     @DeleteMapping("/{customer}/{date}")
-    public Map<String, Boolean> deleteInvoice(@PathVariable(value = "customer") String customer,
-                                              @PathVariable(value = "date") String date,
-                                              HttpServletRequest request)
+    public CompletableFuture<Map<String, Boolean>> deleteInvoice(@PathVariable(value = "customer") String customer,
+                                                                 @PathVariable(value = "date") String date,
+                                                                 HttpServletRequest request)
             throws ResourceNotFoundException {
 
-        return invoiceService.deleteInvoice(customer, date,request.getHeader("theAdmin"));
+        return invoiceService.deleteInvoice(customer, date, request.getHeader("theAdmin"));
     }
 
     @DeleteMapping("")
-    public Map<String, Boolean> deleteAllInvoices(HttpServletRequest request)
+    public CompletableFuture<Map<String, Boolean>> deleteAllInvoices(HttpServletRequest request)
             throws ResourceNotFoundException {
 
         return invoiceService.deleteAllInvoices(request.getHeader("theAdmin"));

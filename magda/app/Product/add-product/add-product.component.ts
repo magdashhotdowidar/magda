@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ProductService} from '../infrastructure/services/product.service';
 import {ToastrService} from "ngx-toastr";
 import {Path} from "../../shared/enums/path.enum";
+import {Category} from "../infrastructure/models/category";
 
 @Component({
   selector: 'add-product',
@@ -37,6 +38,9 @@ export class AddProductComponent implements OnInit {
 
   reloadData() {
     this.productService.getproductList().subscribe(date => this.products = date);
+  }
+  addNewProduct(event: Product) {
+    this.products.push(event);
   }
 
   deleteProduct(name: string) {

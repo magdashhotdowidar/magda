@@ -1,20 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {Title} from "@angular/platform-browser";
-import {CartService} from "../infrastructure/services/cart.service";
-import {Cart} from "../infrastructure/models/Cart";
-import {ProductService} from "../infrastructure/services/product.service";
-import {Product} from "../infrastructure/models/product";
-import {Path} from "../../shared/enums/path.enum";
+import {CartService} from "../../infrastructure/services/cart.service";
+import {Cart} from "../../infrastructure/models/Cart";
+import {ProductService} from "../../infrastructure/services/product.service";
+import {Product} from "../../infrastructure/models/product";
+import {Path} from "../../../shared/enums/path.enum";
+import {Store} from "@ngrx/store";
+import {ProductStoreStates} from "../../infrastructure/product-store/product-store.store";
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit{
   path: typeof Path = Path;
   imgPath: string = this.path.productImagePath;
   user = localStorage.getItem('userName');
@@ -27,7 +29,8 @@ export class CartComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               private toastr: ToastrService,
-              private title: Title
+              private title: Title,
+              private store:Store<ProductStoreStates>
   ) {
   }
 
@@ -37,6 +40,11 @@ export class CartComponent implements OnInit {
   }
 
   reload() {
+  /*  this.store.dispatch(new AddCart(this.user));
+    this.store.select('carts').subscribe((data :Cart[]) => {
+      this.cartLines = data;
+      this.setTotal();
+    });*/
     this.cartService.getCartLineByUser(this.user).subscribe(data => {
       this.cartLines = data;
       this.setTotal();

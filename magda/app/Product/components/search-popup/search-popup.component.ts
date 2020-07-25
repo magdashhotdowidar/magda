@@ -1,12 +1,12 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Invoice} from "../infrastructure/models/invoice.model";
+import {Invoice} from "../../infrastructure/models/invoice.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {InvoiceService} from "../infrastructure/services/invoice.service";
-import {Product, ProductsTable} from "../infrastructure/models/product";
+import {InvoiceService} from "../../infrastructure/services/invoice.service";
+import {Product, ProductsTable} from "../../infrastructure/models/product";
 import {formatDate} from "@angular/common";
-import {InvoiceResponse} from "../infrastructure/models/invoiceResponse.model";
+import {InvoiceResponse} from "../../infrastructure/models/invoiceResponse.model";
 import {ToastrService} from "ngx-toastr";
-import {ProductService} from "../infrastructure/services/product.service";
+import {ProductService} from "../../infrastructure/services/product.service";
 
 @Component({
   selector: 'app-search-popup',

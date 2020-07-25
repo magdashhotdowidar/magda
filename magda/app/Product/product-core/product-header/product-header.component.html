@@ -6,17 +6,17 @@
   <!-- Links -->
   <ul class="navbar-nav col-md-10">
     <li class="nav-item">
-      <a [routerLink]="mainPath" class="nav-link" routerLinkActive="active">MAIN PAGE</a>
+      <a [routerLink]="mainPath" class="nav-link" routerLinkActive="active">{{'PROJECT.header.main_page'|translate}}</a>
     </li>
     <li *ngIf="role=='ROLE_USER'||role=='ROLE_ADMIN'" class="nav-item">
-      <a (click)="showimag()" routerLink="slider" class="nav-link" routerLinkActive="active">Online Shopping</a>
+      <a (click)="showimag()" routerLink="slider" class="nav-link" routerLinkActive="active">{{'PROJECT.header.online_shopping'|translate}}</a>
     </li>
     <li *ngIf="role=='ROLE_ADMIN'" class="nav-item">
-      <a (click)="showimag()" routerLink="add" class="nav-link" routerLinkActive="active">Product Edit</a>
+      <a (click)="showimag()" routerLink="add" class="nav-link" routerLinkActive="active">{{'PROJECT.header.product_management'|translate}}</a>
     </li>
 
     <li *ngIf="role=='ROLE_SELLER'||role=='ROLE_ADMIN'" class="nav-item">
-      <a routerLink="sell" (click)="showimag()" class="nav-link" routerLinkActive="active">Traditional Shopping </a>
+      <a routerLink="sell" (click)="showimag()" class="nav-link" routerLinkActive="active">{{'PROJECT.header.traditional_shopping'|translate}}</a>
     </li>
   </ul>
   <ul class="nav navbar-nav navbar-right col-md-2">
@@ -28,7 +28,7 @@
 
     <li class="dropdown"  >
       <a (mouseenter)="dropDownOpened=!dropDownOpened" style="cursor: pointer;margin: 20px;color: whitesmoke"  class="dropdown-toggle"
-         appDropdown data-toggle="dropdown" role="button">Hi - <i style="color: yellow">{{userName|uppercase}} </i><span class="caret"></span></a>
+         appDropdown data-toggle="dropdown" role="button">{{'PROJECT.header.hi'|translate}} - <i style="color: yellow">{{userName|uppercase}} </i><span class="caret"></span></a>
       <ul class="dropdown-menu " [ngClass]="{show:dropDownOpened}">
         <li *ngIf="role=='ROLE_USER'"> <a routerLink="cart">
           <i class="fa fa-shopping-cart"></i>

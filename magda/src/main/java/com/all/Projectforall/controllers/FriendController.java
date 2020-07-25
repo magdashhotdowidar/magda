@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -25,36 +26,35 @@ public class FriendController {
     private FriendService f_service;
 
    /* @RequestMapping("/")
-    public String aa() { return "allah"; }*/
+    public CompletableFuture< String aa() { return "allah"; }*/
 
     @GetMapping("/friend/{user}/{name}")
-    public ResponseEntity<FriendModel> getFriendByUserAndFriendName(@PathVariable(value = "user") String user,
-                                                                     @PathVariable(value = "name") String friendName) {
-        FriendModel friend = f_service.getFriendByUserNameAndFriendName(user,friendName);
-        return ResponseEntity.ok(friend);
+    public CompletableFuture<ResponseEntity<FriendModel>> getFriendByUserAndFriendName(@PathVariable(value = "user") String user,
+                                                                                       @PathVariable(value = "name") String friendName) {
+        CompletableFuture<FriendModel> friend = f_service.getFriendByUserNameAndFriendName(user, friendName);
+        return friend.thenApply(ResponseEntity::ok);
     }
 
     @GetMapping("/friend/{user}")
-    public ResponseEntity<List<Authusermodel>> getAllUserFriends(@PathVariable(value = "user") String user) {
-        return ResponseEntity.ok().body(f_service.allUserFriends(user));
+    public CompletableFuture<ResponseEntity<List<Authusermodel>>> getAllUserFriends(@PathVariable(value = "user") String user) {
+        return f_service.allUserFriends(user).thenApply(ResponseEntity::ok);
     }
 
     @PostMapping("/friend")
-    public FriendModel createFriend(@Valid @RequestBody FriendModel friendModel) {
+    public CompletableFuture<FriendModel> createFriend(@Valid @RequestBody FriendModel friendModel) {
         return f_service.save(friendModel);
     }
 
 
-
     @DeleteMapping("/friend/{user}/{name}")
-    public Map<String, Boolean> deleteFriend(@PathVariable(value = "user") String user,
-                                              @PathVariable(value = "name") String name){
+    public CompletableFuture<Map<String, Boolean>> deleteFriend(@PathVariable(value = "user") String user,
+                                                               @PathVariable(value = "name") String name) {
 
-        return f_service.deleteFriend(user,name);
+        return f_service.deleteFriend(user, name);
     }
 
     @DeleteMapping("/friend/{user}")
-    public Map<String, Boolean> deleteUserFriends(@PathVariable(value = "user") String user){
+    public CompletableFuture<Map<String, Boolean>> deleteUserFriends(@PathVariable(value = "user") String user) {
 
         return f_service.deleteAllUserFriends(user);
     }

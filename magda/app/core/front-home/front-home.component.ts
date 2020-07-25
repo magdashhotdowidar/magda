@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import { UserService } from '../../user/user-infrastructure/user.service';
 import {Coding} from "../../shared/enums/coding.enum";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-home',
@@ -14,10 +14,11 @@ export class FrontHomeComponent implements OnInit,OnDestroy {
   direc:boolean=false;
 
   constructor(private router: Router,
-              private route:ActivatedRoute) { }
+              private route:ActivatedRoute,
+              private Title:Title) { }
 
   ngOnInit() {
-
+    this.Title.setTitle(Coding.siteName_title+' - mainPage')
   }
 
   private login(authLicense: string) {

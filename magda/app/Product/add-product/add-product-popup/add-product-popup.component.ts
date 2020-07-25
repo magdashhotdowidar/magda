@@ -14,6 +14,7 @@ import {Category} from "../../infrastructure/models/category";
 })
 export class AddProductPopupComponent implements OnInit {
   @Output('show-popup') showpopup: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output('new-product')newProduct:EventEmitter<Product> = new EventEmitter<Product>();
   product: Product = new Product();
   categories_names:string[]=[];
   selectedValue: string='categories';
@@ -38,7 +39,8 @@ export class AddProductPopupComponent implements OnInit {
     if (this.fileEvent != null) {
       this.selectedFile = (<HTMLInputElement>this.fileEvent.target).files[0];
       fd.append('file',this.selectedFile,this.selectedFile.name);
-      console.log('the selected image',this.selectedFile)
+      this.newProduct.emit(this.product)
+     // console.log('the selected image',this.selectedFile)
     }
 
     this.product.imageName=this.selectedFile.name;

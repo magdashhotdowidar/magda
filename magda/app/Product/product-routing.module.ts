@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {CreateProductComponent} from "./create-product/create-product.component";
+import {CreateProductComponent} from "./components/create-product/create-product.component";
 import {ProductHomeComponent} from "./product-core/product-home/product-home.component";
 import {AddProductComponent} from "./add-product/add-product.component";
-import {UpdateProductComponent} from "./update-product/update-product.component";
-import {ProductDetailsComponent} from "./product-details/product-details.component";
+import {UpdateProductComponent} from "./components/update-product/update-product.component";
+import {ProductDetailsComponent} from "./components/product-details/product-details.component";
 import {CanDeactivateGuard} from "../auth/can-deactivate-guard.service";
-import {ImageSliderComponent} from "./image-slider/image-slider.component";
-import {CartComponent} from "./cart/cart.component";
+import {ImageSliderComponent} from "./components/image-slider/image-slider.component";
+import {CartComponent} from "./components/cart/cart.component";
 import {AuthGuard} from "../auth/auth.guard";
 import {AuthorizeGuard} from "../auth/authorize.guard";
 

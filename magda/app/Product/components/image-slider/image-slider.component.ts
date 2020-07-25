@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductService} from "../infrastructure/services/product.service";
-import {Product} from "../infrastructure/models/product";
-import {Path} from "../../shared/enums/path.enum";
+import {ProductService} from "../../infrastructure/services/product.service";
+import {Product} from "../../infrastructure/models/product";
+import {Path} from "../../../shared/enums/path.enum";
 
 @Component({
   selector: 'app-image-slider',

@@ -1,12 +1,13 @@
 import {Component, DoCheck, OnInit} from '@angular/core';
-import {Path} from "../../shared/enums/path.enum";
-import {ChattingUserService} from "../chatting-user/chatting-user-infrastructure/chatting-user.service";
-import {ChattingUser} from "../chatting-user/chatting-user-infrastructure/chatting-user.model";
+import {Path} from "../../../shared/enums/path.enum";
+import {ChattingUserService} from "../../chatting-user/chatting-user-infrastructure/chatting-user.service";
+import {ChattingUser} from "../../chatting-user/chatting-user-infrastructure/chatting-user.model";
 import {ToastrService} from "ngx-toastr";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
-import {FriendRequest, FriendRequestService} from "../infrastructure/services/friend-request.service";
-import {Friend, FriendService} from "../infrastructure/services/friends.service";
+import {FriendRequest, FriendRequestService} from "../../infrastructure/services/friend-request.service";
+import {Friend, FriendService} from "../../infrastructure/services/friends.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-personal-page',
@@ -32,12 +33,13 @@ export class PersonalPageComponent implements OnInit {
               private friendService: FriendService,
               private toastr: ToastrService,
               private route: ActivatedRoute,
+              private title:Title,
               private router: Router) {
   }
 
 
   ngOnInit() {
-
+    this.title.setTitle(this.userName+ ' - personal Page')
     this.loadUser();
     this.setVisitor();
     this.setShowRemoveFriend();

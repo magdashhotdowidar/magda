@@ -1,11 +1,14 @@
-import {Product} from '../infrastructure/models/product';
+import {Product} from '../../infrastructure/models/product';
 import {Component, OnInit, Input} from '@angular/core';
-import {ProductService} from '../infrastructure/services/product.service';
+import {ProductService} from '../../infrastructure/services/product.service';
 import {Router, ActivatedRoute} from '@angular/router';
-import {CartService} from "../infrastructure/services/cart.service";
-import {Cart} from "../infrastructure/models/Cart";
+import {CartService} from "../../infrastructure/services/cart.service";
+import {Cart} from "../../infrastructure/models/Cart";
 import {ToastrService} from "ngx-toastr";
-import {Path} from "../../shared/enums/path.enum";
+import {Path} from "../../../shared/enums/path.enum";
+import {Store} from "@ngrx/store";
+import {ProductStoreStates} from "../../infrastructure/product-store/product-store.store";
+import {AddCart} from "../../infrastructure/product-store/product-actions/product.action";
 
 @Component({
   selector: 'app-product-details',
@@ -27,7 +30,9 @@ export class ProductDetailsComponent implements OnInit {
               private router: Router,
               private productService: ProductService,
               private cartService: CartService,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+             // private store:Store<ProductStoreStates>
+  ) {
   }
 
   ngOnInit() {
@@ -57,6 +62,7 @@ export class ProductDetailsComponent implements OnInit {
           this.cartService.createCartLine(cart).subscribe(data => {
             this.product.amount -= cart.amount
             this.productService.updateProduct(this.product.name, this.product).subscribe(res => {
+             // this.store.dispatch(new AddCart(cart.user));
               this.router.navigate(['../../cart'], {relativeTo: this.route});
             })
 
