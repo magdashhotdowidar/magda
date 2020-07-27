@@ -31,6 +31,7 @@ import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {ProductEffect} from "./infrastructure/product-store/product-effects/product.effect";
 import {productReducer} from "./infrastructure/product-store/product-reducers/product.reducer";
+import { ShortenPipe } from './infrastructure/filters/shorten.pipe';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -53,7 +54,8 @@ export function createTranslateLoader(http: HttpClient) {
     AddCategoryPopupComponent,
     CartComponent,
     PositiveOnlyDirective,
-    OnlyNumber
+    OnlyNumber,
+    ShortenPipe
   ],
   imports: [
     CommonModule,

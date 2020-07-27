@@ -8,10 +8,10 @@
           <nav aria-label="breadcrumb" style="background-color: white;color: navy">
             <ol class="breadcrumb" style="background-color: white;color: navy">
               <li class="breadcrumb-item"><a routerLink="../" routerLinkActive="active"><i class="fa fa-home" style="font-size: xx-large"></i></a></li>
-              <li class="breadcrumb-item"><a routerLink="../sell" routerLinkActive="active">SELL PRODUCT</a></li>
-              <li class="breadcrumb-item"><a routerLink="../slider" routerLinkActive="active">VIEW PRODCUTS</a></li>
+              <li class="breadcrumb-item"><a routerLink="../sell" routerLinkActive="active">{{'PROJECT.breadcrumb.selling'|translate}}</a></li>
+              <li class="breadcrumb-item"><a routerLink="../slider" routerLinkActive="active">{{'PROJECT.breadcrumb.view_product'|translate}}</a></li>
               <li class="breadcrumb-item">       <a   (click)="showpopup=true" style="background-color: white;cursor: pointer"  data-toggle="modal" data-target="#employeePopUp">
-                <i class="fa fa-eye" aria-hidden="true" style="color:lime;font-size:x-large ">ADD PRODUCT</i></a></li>
+                <i class="fa fa-eye" aria-hidden="true" style="color:lime;font-size:x-large ">{{'PROJECT.breadcrumb.add_product'|translate}}</i></a></li>
             </ol>
           </nav>
 
@@ -71,7 +71,7 @@
             <hr style="border-color: blue">
             <br/>-->
             <div class="panel-body">
-              <input type="text" class="search-query form-control " placeholder="Search By Any"
+              <input type="text" class="search-query form-control " placeholder="{{'PROJECT.product.edit.search.all'|translate}}"
                      name="searchAll" style="color: blue;text-align: center"
                      [(ngModel)]="searchByAll"/>
 
@@ -81,12 +81,12 @@
                 <tr style="color: lime">
                   <th class="th-sm">{{'PROJECT.product.edit.product_image'|translate}}</th>
                   <th class="th-sm">{{'PROJECT.product.edit.product_name'|translate}}</th>
-                  <th class="th-sm">Brand Name</th>
-                  <th class="th-sm">Category Name</th>
-                  <th class="th-sm">The Amount</th>
-                  <th class="th-sm">The Price</th>
-                  <th class="th-sm">Description</th>
-                  <th class="th-sm" style="width: fit-content ">Actions</th>
+                  <th class="th-sm">{{'PROJECT.product.edit.product_brand'|translate}}</th>
+                  <th class="th-sm">{{'PROJECT.product.edit.product_category'|translate}}</th>
+                  <th class="th-sm">{{'PROJECT.product.edit.product_amount'|translate}}</th>
+                  <th class="th-sm">{{'PROJECT.product.edit.product_price'|translate}}</th>
+                  <th class="th-sm">{{'PROJECT.product.edit.product_description'|translate}}</th>
+                  <th class="th-sm" style="width: fit-content ">{{'PROJECT.product.edit.actions'|translate}}</th>
                 </tr>
                 </thead>
                 <tbody >
@@ -95,28 +95,28 @@
 
                   </td>
                   <td>
-                    <input type="text" class="search-query form-control " placeholder="Search By name"
+                    <input type="text" class="search-query form-control " placeholder="{{'PROJECT.product.edit.search.name'|translate}}"
                            name="searchName" style="color: blue"
                            [(ngModel)]="searchByName"/>
                   </td>
                   <td>
-                    <input type="text" class="search-query form-control " placeholder="Search By brand"
+                    <input type="text" class="search-query form-control " placeholder="{{'PROJECT.product.edit.search.brand'|translate}}"
                            name="searchName" style="color: blue"
                            [(ngModel)]="searchByBrand"/>
                   </td>
                   <td>
-                  <input type="text" class="search-query form-control " placeholder="Search By category"
+                  <input type="text" class="search-query form-control " placeholder="{{'PROJECT.product.edit.search.category'|translate}}"
                          name="searchName" style="color: blue"
                          [(ngModel)]="searchByCategory"/>
                 </td>
 
                   <td>
-                    <input type="text" class="search-query form-control " placeholder="Search By Amount"
+                    <input type="text" class="search-query form-control " placeholder="{{'PROJECT.product.edit.search.amount'|translate}}"
                            name="searchAmount" style="color: blue"
                            [(ngModel)]="searchByAmount"/>
                   </td>
                   <td>
-                    <input type="text" class="search-query form-control " placeholder="Search By Price"
+                    <input type="text" class="search-query form-control " placeholder="{{'PROJECT.product.edit.search.price'|translate}}"
                            name="searchPrice" style="color: blue"
                            [(ngModel)]="searchByPrice"/>
                   </td>
@@ -124,7 +124,7 @@
 
                   </td>
                   <td>
-                    <h6 style="color: red;font-style:italic;font-family:Algerian">{{products?.length}}-product</h6>
+                    <h6 style="color: red;font-style:italic;font-family:Algerian">{{products?.length}}-{{'PROJECT.product.edit.product_count'|translate}}</h6>
                   </td>
 
                 </tr>
@@ -132,32 +132,35 @@
                   *ngFor="let product of products |productFilter:searchByAll:searchByName:searchByBrand:searchByCategory"
                   style="color:blue ">
                   <td style="width:140px"><img [src]="imgPath+product.imageName" class="embed-responsive" height="50px" width="30px"></td>
-                  <td style="width:130px">{{product.name}}</td>
-                  <td style="width:120px">{{product.brand}}</td>
-                  <td style="width:130px">{{product.category}}</td>
+                  <td style="width:130px">{{product.name|shorten:11}}</td>
+                  <td style="width:120px">{{product.brand|shorten:8}}</td>
+                  <td style="width:130px">{{product.category|shorten:8}}</td>
                   <td style="width:120px">{{product.amount}}</td>
                   <td style="width:120px">{{product.price}}<i class="fa fa-dollar"></i></td>
-                  <td style="width:120px">{{product.description}}</td>
+                  <td style="width:120px">{{product.description|shorten:8}}</td>
                   <td style="width:180px">
-                    <button (click)="updateProduct(product.name)" class="btn btn-primary" style="" data-toggle="tooltip" data-placement="right" title="Edit product"><i
+                    <button (click)="updateProduct(product.name)" class="btn btn-primary" style=""
+                            data-toggle="tooltip" data-placement="right" title="{{'PROJECT.product.edit.tap.product_edit'|translate}}"><i
                       class="fa fa-edit"></i></button>
-                    <button (click)=" productDetails(product.name)" class="btn btn-success" style="" data-toggle="tooltip" data-placement="right" title="Product Details"><i
+                    <button (click)=" productDetails(product.name)" class="btn btn-success" style=""
+                            data-toggle="tooltip" data-placement="right" title="{{'PROJECT.product.edit.tap.product_details'|translate}}"><i
                       class="fa fa-eye"></i></button>
-                    <button (click)="deleteProduct(product.name)" class="btn btn-info" data-toggle="tooltip" data-placement="right" title="Delete Product"><i class="fa fa-recycle"></i>
+                    <button (click)="deleteProduct(product.name)" class="btn btn-info"
+                            data-toggle="tooltip" data-placement="right" title="{{'PROJECT.product.edit.tap.product_delete'|translate}}"><i class="fa fa-recycle"></i>
                     </button>
                   </td>
                 </tr>
                 </tbody>
                 <tfoot>
-                <tr style="color:lime">
+                <tr style="color: lime">
                   <th class="th-sm">{{'PROJECT.product.edit.product_image'|translate}}</th>
                   <th class="th-sm">{{'PROJECT.product.edit.product_name'|translate}}</th>
-                  <th class="th-sm">Brand Name</th>
-                  <th class="th-sm">Category Name</th>
-                  <th class="th-sm">The Amount</th>
-                  <th class="th-sm">The Price</th>
-                  <th class="th-sm">Description</th>
-                  <th class="th-sm" style="width: fit-content ">Actions</th>
+                  <th class="th-sm">{{'PROJECT.product.edit.product_brand'|translate}}</th>
+                  <th class="th-sm">{{'PROJECT.product.edit.product_category'|translate}}</th>
+                  <th class="th-sm">{{'PROJECT.product.edit.product_amount'|translate}}</th>
+                  <th class="th-sm">{{'PROJECT.product.edit.product_price'|translate}}</th>
+                  <th class="th-sm">{{'PROJECT.product.edit.product_description'|translate}}</th>
+                  <th class="th-sm" style="width: fit-content ">{{'PROJECT.product.edit.actions'|translate}}</th>
                 </tr>
                 </tfoot>
               </table>
@@ -170,7 +173,7 @@
   </section>
 </main>
 
-<div class="modal fa fa-search" id="employeePopUp" tabindex="-1" role="dialog"  *ngIf="showpopup"
+<div class="modal fa fa" id="employeePopUp" tabindex="-1" role="dialog"  *ngIf="showpopup"
      aria-labelledby="successLabel" aria-hidden="true">
   <app-add-product-popup  (show-popup)="showpopup=$event" (new-product)="addNewProduct($event)"></app-add-product-popup>
 </div>
