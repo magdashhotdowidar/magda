@@ -1,0 +1,71 @@
+{
+  "PROJECT": {
+    "header": {
+      "main_page": "The Main Page",
+      "online_shopping": "Online Shopping",
+      "traditional_shopping": "Sell",
+      "product_management": "Product Management",
+      "hi": "Hi"
+    },
+    "breadcrumb": {
+      "product_management": "Product Management",
+      "view_product": "View Product",
+      "selling": "SELL",
+      "add_product": "Add Product"
+    },
+    "product": {
+      "sell": {
+        "select_category": "SELECT CATEGORY",
+        "select_product": "SELECT PRODUCT",
+        "quantity": "QUANTITY",
+        "add": "ADD",
+        "check": "CHECK",
+        "date": "DATE",
+        "customer_name": "THE CUSTOMER NAME",
+        "user_name": "The USER Name",
+        "the_invoice": "The Invoice",
+        "grand_total": "The Grand Total",
+        "search": "Search",
+        "save_the_invoice": "Save The Invoice",
+        "product_name": "The Product Name",
+        "the_amount": "The Quantity",
+        "the_price": "The Price",
+        "sub_total": "Sub Total",
+        "delete": "Delete",
+        "actions": "Actions"
+      },
+      "edit": {
+        "product_image": "PRODUCT IMAGE",
+        "product_name": " Name",
+        "product_brand": " Brand",
+        "product_category": " Category",
+        "product_description": " Description",
+        "product_price": " Price",
+        "product_amount": " Amount",
+        "product_count": "Product",
+        "select_CP": "Select Category & Picture",
+        "add_category": "Add Category",
+        "category_name": "The Category Name",
+        "category_description": "Description",
+        "save": "Save",
+        "actions": "Actions",
+        "items_per_page": "Items Per Page",
+        "search": {
+          "all": "search By All",
+          "name": "SB_Name",
+          "brand": "SB_Brand",
+          "category": "SB_Category",
+          "price": "SB_Price",
+          "amount": "SB_Amount"
+        },
+        "tap": {
+          "product_edit": "Edit Product",
+          "product_details": "View Product",
+          "product_delete": "Delete Product",
+          "select_category": "Categories",
+          "select_image": "IMAGES"
+        }
+      }
+    }
+  }
+}

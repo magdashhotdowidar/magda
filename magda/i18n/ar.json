@@ -1,0 +1,71 @@
+{
+  "PROJECT": {
+    "header": {
+      "main_page": "الصفحة الرئيسية",
+      "online_shopping": "تسوق اون لاين",
+      "traditional_shopping": "بيع",
+      "product_management": "إدارة المنتجات",
+      "hi": "مرحباً"
+    },
+    "breadcrumb": {
+      "product_management": "إدارة المنتجات",
+      "view_product": "عرض المنتجات",
+      "selling": "بيع",
+      "add_product": "إضافة منتج"
+    },
+    "product": {
+      "sell": {
+        "select_category": "اختر فئة",
+        "select_product": "اختر منتج",
+        "quantity": "كمية",
+        "add": "إضافة",
+        "check": "اختبر",
+        "date": "التاريخ",
+        "customer_name": "اسم العميل",
+        "user_name": "اسم المستخدم",
+        "the_invoice": "الفاتورة",
+        "grand_total": "إجمالي الفاتورة",
+        "search": "بحث",
+        "save_the_invoice": "حفظ الفاتورة",
+        "product_name": "اسم المنتج",
+        "the_amount": "الكمية",
+        "the_price": "السعر",
+        "sub_total": "المجموع",
+        "delete": "حذف",
+        "actions": "عمليات علي الفاتورة"
+      },
+      "edit": {
+        "product_image": "صورة المنتج",
+        "product_name": "اسم المنتج",
+        "product_brand": "ماركة المنتج",
+        "product_category": "فئتة المنتج",
+        "product_description": "وصف المنتج",
+        "product_price": "سعر المنتج",
+        "product_amount": "كمية المنتج",
+        "product_count": "منتج",
+        "select_CP": "اختر فئة و صورة",
+        "add_category": "اضف فئة",
+        "category_name": "اسم الفئة",
+        "category_description": "وصف",
+        "save": "حفظ",
+        "actions": "عمليات علي المنتج",
+        "items_per_page": "عدد العناصر لكل صفحة",
+        "search": {
+          "all": "بحث بالسم أو الماركة أو الفئة أو السعر أو الكمية ",
+          "name": "بحث بالاسم",
+          "brand": "بحث بالماركة",
+          "category": "بحث بالفئة",
+          "price": "بحث بالسعر",
+          "amount": "بحث بالكمية"
+        },
+        "tap": {
+          "product_edit": "إدارة المنتج",
+          "product_details": "عرض المنتج",
+          "product_delete": "حذف المنتج",
+          "select_category": "اختر فئة",
+          "select_image": "اختر صورة"
+        }
+      }
+    }
+  }
+}

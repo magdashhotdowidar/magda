@@ -5,6 +5,9 @@
 /*input.ng-invalid.ng-touched{
   border: 1px solid  red;
 }*/
+thead>tr>th {
+  cursor: pointer;
+}
 input{
   border: 1px solid  blue;
 }

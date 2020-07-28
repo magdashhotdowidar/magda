@@ -32,6 +32,8 @@ import {EffectsModule} from "@ngrx/effects";
 import {ProductEffect} from "./infrastructure/product-store/product-effects/product.effect";
 import {productReducer} from "./infrastructure/product-store/product-reducers/product.reducer";
 import { ShortenPipe } from './infrastructure/filters/shorten.pipe';
+import {Ng2OrderModule} from "ng2-order-pipe";
+import {NgxPaginationModule} from "ngx-pagination";
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -66,6 +68,8 @@ export function createTranslateLoader(http: HttpClient) {
     HttpClientModule,
     ReactiveFormsModule,
     LoadingBarModule,
+    Ng2OrderModule,
+    NgxPaginationModule,
     NgbModule,
     NgbCarouselModule,
     TranslateModule.forChild({

@@ -80,12 +80,18 @@
                 <thead>
                 <tr style="color: lime">
                   <th class="th-sm">{{'PROJECT.product.edit.product_image'|translate}}</th>
-                  <th class="th-sm">{{'PROJECT.product.edit.product_name'|translate}}</th>
-                  <th class="th-sm">{{'PROJECT.product.edit.product_brand'|translate}}</th>
-                  <th class="th-sm">{{'PROJECT.product.edit.product_category'|translate}}</th>
-                  <th class="th-sm">{{'PROJECT.product.edit.product_amount'|translate}}</th>
-                  <th class="th-sm">{{'PROJECT.product.edit.product_price'|translate}}</th>
-                  <th class="th-sm">{{'PROJECT.product.edit.product_description'|translate}}</th>
+                  <th (click)="sort('name')"  class="th-sm">{{'PROJECT.product.edit.product_name'|translate}}
+                    <span class="fa fa-sort"  [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+                  <th (click)="sort('brand')" class="th-sm">{{'PROJECT.product.edit.product_brand'|translate}}
+                    <span class="fa fa-sort"  [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+                  <th (click)="sort('category')"  class="th-sm">{{'PROJECT.product.edit.product_category'|translate}}
+                    <span class="fa fa-sort"  [ngClass]="{'fa-sort-amount-desc ':reverse,' fa-sort-amount-asc ':!reverse}"></span></th>
+                  <th (click)="sort('amount')"  class="th-sm">{{'PROJECT.product.edit.product_amount'|translate}}
+                    <span class="fa fa-sort"  [ngClass]="{'fa-sort-numeric-desc ':reverse,'fa-sort-numeric-asc ':!reverse}"></span></th>
+                  <th  (click)="sort('price')" class="th-sm">{{'PROJECT.product.edit.product_price'|translate}}
+                    <span class="fa fa-sort"  [ngClass]="{'fa-sort-numeric-desc ':reverse,'fa-sort-numeric-asc ':!reverse}"></span></th>
+                  <th (click)="sort('description')"  class="th-sm">{{'PROJECT.product.edit.product_description'|translate}}
+                    <span class="fa fa-sort "  [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
                   <th class="th-sm" style="width: fit-content ">{{'PROJECT.product.edit.actions'|translate}}</th>
                 </tr>
                 </thead>
@@ -129,7 +135,10 @@
 
                 </tr>
                 <tr
-                  *ngFor="let product of products |productFilter:searchByAll:searchByName:searchByBrand:searchByCategory"
+                  *ngFor="let product of products|orderBy:key:reverse
+                  | paginate: { itemsPerPage: itemsPerPage, currentPage: p }
+                                                 |productFilter:searchByAll:searchByName:searchByBrand:searchByCategory"
+
                   style="color:blue ">
                   <td style="width:140px"><img [src]="imgPath+product.imageName" class="embed-responsive" height="50px" width="30px"></td>
                   <td style="width:130px">{{product.name|shorten:11}}</td>
@@ -151,6 +160,7 @@
                   </td>
                 </tr>
                 </tbody>
+
                 <tfoot>
                 <tr style="color: lime">
                   <th class="th-sm">{{'PROJECT.product.edit.product_image'|translate}}</th>
@@ -164,6 +174,25 @@
                 </tr>
                 </tfoot>
               </table>
+              <div class="row">
+                <div class="row">
+                  <div class="col-md-8">
+                    <label style="color: blue">{{'PROJECT.product.edit.items_per_page'|translate}}</label>
+                  </div>
+                  <div class="col-md-4">
+
+                      <select style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px;border-bottom-color: blue"
+                              class="form-control form-control-sm text-center"
+                              [(ngModel)]="itemsPerPage"
+                              ngModel required>
+                        <option style="color: white"
+                                [value]="'categories'">{{'PROJECT.product.edit.tap.select_category'|translate}}</option>
+                        <option style="color: blue; font-size: small" *ngFor="let item of items" [value]="item">{{ item }}</option>
+                      </select>
+
+                  </div>
+                </div>
+                <pagination-controls (pageChange)="p = $event"></pagination-controls></div>
             </div>
           </div>
 

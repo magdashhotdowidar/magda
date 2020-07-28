@@ -35,6 +35,16 @@ export class SearchPopupComponent implements OnInit {
     customerName: null,
     date: null
   });
+  //sort and pagination
+  items:number[]=[5,10,15,20,50];
+  itemsPerPage:number=5;
+  p: number = 1;//initializing the currentPage which is p to 1
+  key: string = 'name'; //set default
+  reverse: boolean = false;
+  sort(key){
+    this.key = key;
+    this.reverse = !this.reverse;
+  }
 
   constructor(private fb: FormBuilder,
               private invoiceService: InvoiceService,

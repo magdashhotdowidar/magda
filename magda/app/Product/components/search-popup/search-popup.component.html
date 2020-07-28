@@ -15,7 +15,7 @@
         <i class="fa fa-close" aria-hidden="true" style="color:yellow;font-size:x-large "></i>
       </button>
     </div>
-    <div class="modal-body" style="background-color: white;min-height:fit-content">
+    <div class="modal-body" style="background-color: white;min-height:60px">
       <div>
 
         <form *ngIf="!matchAny" class="full-width" [formGroup]="invoiceSearchForm">
@@ -170,15 +170,21 @@
           <table class="table">
             <thead class="thead-light">
             <tr style="color:red;font-size: large">
-              <th style="color:red;font-size: large">{{'Customer Name'}}</th>
-              <th style="color:red;font-size: large">{{'User Name'}}</th>
-              <th style="color:red;font-size: large">{{'Date'}}</th>
-              <th style="color:red;font-size: large">{{'Total'}}</th>
+              <th (click)="sort('customerName')"   style="color:red;font-size: large">{{'Customer Name'}}
+                <span class="fa fa-sort"  [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+              <th (click)="sort('userName')"   style="color:red;font-size: large">{{'User Name'}}
+                <span class="fa fa-sort"  [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+              <th (click)="sort('date')"   style="color:red;font-size: large">{{'Date'}}
+                <span class="fa fa-sort"  [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+              <th (click)="sort('date')"   style="color:red;font-size: large">{{'Total'}}
+                <span class="fa fa-sort"  [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
               <th style="color:red;font-size: large">{{'All Products'}}</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let invoice of allInvoices|invoiceFilter:searchByCustomerName:searchByDate"
+            <tr *ngFor="let invoice of allInvoices|orderBy:key:reverse
+                                                  | paginate: { itemsPerPage: itemsPerPage, currentPage: p }
+                                                  |invoiceFilter:searchByCustomerName:searchByDate"
                 style="color:blue;font-size: large">
               <td><span style="cursor: pointer;" class="action-link"
                         data-dismiss="modal">
@@ -209,6 +215,25 @@
             </tr>
             </tbody>
           </table>
+          <div class="row">
+            <div class="row">
+              <div class="col-md-8">
+                <label style="color: blue">{{'PROJECT.product.edit.items_per_page'|translate}}</label>
+              </div>
+              <div class="col-md-4">
+
+                <select style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px;border-bottom-color: blue"
+                        class="form-control form-control-sm text-center"
+                        [(ngModel)]="itemsPerPage"
+                        ngModel required>
+                  <option style="color: white"
+                          [value]="'categories'">{{'PROJECT.product.edit.tap.select_category'|translate}}</option>
+                  <option style="color: blue; font-size: small" *ngFor="let item of items" [value]="item">{{ item }}</option>
+                </select>
+
+              </div>
+            </div>
+            <pagination-controls (pageChange)="p = $event"></pagination-controls></div>
         </section>
 
 
