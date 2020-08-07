@@ -30,14 +30,16 @@ public class ProductModel {
     }
 
     public ProductModel(Product product) {
-        this.name = product.getName();
+       // this.name = product.getName();
+        this.name=product.getId().getName();
         this.brand = product.getBrand();
         this.description = product.getDescription();
         this.category = product.getCategory();
         this.amount = product.getAmount();
         this.price = product.getPrice();
         this.imageName = product.getImageName();
-        this.the_admin=product.getTheAdmin();
+        this.the_admin=product.getId().getTheAdmin();
+       // this.the_admin=product.getTheAdmin();
 
     }
 

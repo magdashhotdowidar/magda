@@ -5,6 +5,8 @@ import {ProductService} from '../infrastructure/services/product.service';
 import {ToastrService} from "ngx-toastr";
 import {Path} from "../../shared/enums/path.enum";
 import {Category} from "../infrastructure/models/category";
+import {ProductJasperReportService} from "../infrastructure/services/product-jasper-report.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'add-product',
@@ -24,7 +26,8 @@ export class AddProductComponent implements OnInit {
   selectedFile:File;
   path: typeof Path = Path;
   imgPath: string = this.path.productImagePath;
-  showpopup:boolean=false;
+  showAddProductPopup:boolean=false;
+  showChartPopup:boolean=false;
   items:number[]=[5,10,15,20,50];
   itemsPerPage:number=5;
   p: number = 1;//initializing the currentPage which is p to 1
@@ -39,7 +42,8 @@ export class AddProductComponent implements OnInit {
   constructor(private productService: ProductService,
               private router: Router,
               private route: ActivatedRoute,
-              private toastr: ToastrService) {}
+              private toastr: ToastrService,
+              private report:ProductJasperReportService) {}
 
   ngOnInit() {
     this.reloadData();
@@ -94,17 +98,9 @@ export class AddProductComponent implements OnInit {
     this.product = new Product();
   }
 
-  onSubmit() {
-    this.save();
+  generateProductReport(){
+    this.report.generateReport('pdf').subscribe(data=>this.toastr.success('Report Generated Successfully'),
+      (error :HttpErrorResponse)=>this.toastr.error(error.message))
   }
 
-
-  onFileSelected($event: Event) {
-
-  }
-
-  onFileUpload() {
-    console.log('the event', this.fileEvent)
-
-  }
 }

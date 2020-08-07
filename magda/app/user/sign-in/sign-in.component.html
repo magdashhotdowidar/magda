@@ -7,7 +7,7 @@
       <div class="d-flex justify-content-center h-100">
         <div class="card">
           <div class="card-header" style="background-color: #FFC312">
-            <h3>Sign In</h3>
+            <h3>{{'PROJECT.user.sign_in'|translate}}</h3>
             <div class="d-flex justify-content-end social_icon">
               <span><i class="fa fa-facebook-square"></i></span>
               <span><i class="fa fa-google-plus-square"></i></span>
@@ -29,12 +29,18 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fa fa-key" style="font-size: x-large;color: navy"></i></span>
                 </div>
-                <input type="password" class="form-control" #Password ngModel name="Password" placeholder="Password"
+                <input [attr.type]="showPassword" class="form-control pass" #Password ngModel name="Password" placeholder="Password"
                        required>
+                <div class="input-group-append">
+                <span class="input-group-text fa fa-eye" style="color: red;font-size: x-large;background-color: blue;cursor: pointer"
+                      (mousedown)="showPassword = 'text'"
+                      (mouseup)="showPassword = 'password'"
+                ></span>
+                </div>
               </div>
 
               <div class="form-group align-content-center">
-                <input type="submit" value="Login" class="btn float-right login_btn" [disabled]="!f.valid">
+                <input type="submit" value="{{'PROJECT.user.log_in'|translate}}" class="btn float-right login_btn" [disabled]="!f.valid">
               </div>
             </form>
           </div>

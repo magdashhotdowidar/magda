@@ -1,37 +1,59 @@
-<div class="container" >
+<main [ngStyle]="{direction:direc?'rtl':'ltr'}">
+<div class="container" style="margin: 0px">
   <div class="row">
-    <div class="col s8 offset-s2">
-      <div class="card  " style="width:500px; height: 670px ;background-color: lime">
+    <div class="col-md-5">
+      <div class="card  " style="width:500px; height: 702px ;background-color: lime">
         <div class="card-header" style="background-color: white">
-        <div class="card-header-tabs">
-          <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
-              <!--<a class="nav-link" routerLink='/login' routerLinkActive='active'>Sign In</a>-->
-              <button class="btn btn-outline-warning" routerLink="/login" routerLinkActive="active"
-                      style="margin:0 10px 0 10px">sign In</button>
-            </li>
-            <li class="nav-item">
-              <!--<a class="nav-link" routerLink='/signup' routerLinkActive='active'>Sign Up</a>-->
-              <button class="btn btn-outline-warning" routerLink="/signup" routerLinkActive="active"
-                      >sign Up</button>
-            </li>
-            <li *ngIf="role=='ROLE_ADMIN'" class="nav-item">
-              <a class="nav-link" routerLink='../product' routerLinkActive='active'>Back To Product </a>
-            </li>
-          </ul>
-        </div>
+          <div class="card-header-tabs">
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                <!--<a class="nav-link" routerLink='/login' routerLinkActive='active'>Sign In</a>-->
+                <button class="btn btn-outline-warning" routerLink="/login" routerLinkActive="active"
+                        style="margin:0 10px 0 10px">{{'PROJECT.user.sign_in'|translate}}
+                </button>
+              </li>
+              <li class="nav-item">
+                <!--<a class="nav-link" routerLink='/signup' routerLinkActive='active'>Sign Up</a>-->
+                <button class="btn btn-outline-warning" routerLink="/signup" routerLinkActive="active"
+                >{{'PROJECT.user.sign_up'|translate}}
+                </button>
+              </li>
+              <li *ngIf="role=='ROLE_ADMIN'" class="nav-item">
+                <a class="nav-link" routerLink="{{productPath}}" routerLinkActive='active'>{{'PROJECT.user.product'|translate}} </a>
+              </li>
+              <li class="nav-item" >
+                <a > <select class="fa fa-eye"  (change)="setLang()" [(ngModel)]="selectedLang"
+                             style="background-color:navy;color:white;font-size: x-large;height: 38px">
+                  <option *ngFor="let lang of langs" [value]="lang">{{lang}}<i class="fa fa-eye" style="color: red"></i></option>
+                </select> </a>
+               <!-- <a (click)="toggleLanguage()" class="login-lang" style="cursor: pointer">
+                  <span>{{'header.login.language' | translate}}</span>
+                </a>-->
+              </li>
+            </ul>
+          </div>
         </div>
 
         <div class="card-body">
-        <div class="tab-content">
+          <div class="tab-content">
 
-          <div class="row">
-            <router-outlet></router-outlet>
+            <div class="row">
+              <router-outlet></router-outlet>
+            </div>
           </div>
         </div>
-        </div>
       </div>
-
+    </div>
+    <div class="col-md-7" style="margin:2px 0px;">
+      <ngb-carousel style="background-color: #FFC312;width: 940px">
+        <ng-template ngbSlide *ngFor="let background of backgrounds ;let i=index" >
+          <div class="picsum-img-wrapper" style="background-color:red" >
+            <img [src]="imgPath+background" class="embed-responsive"
+                 style="height: 700px;width:1000px;z-index: 1;">
+          </div>
+        </ng-template>
+      </ngb-carousel>
     </div>
   </div>
 </div>
+</main>

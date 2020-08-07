@@ -2,15 +2,19 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Product} from "../models/product";
+import {URLConfigService} from "../../../shared/services/urlconfig.service";
+import {Modules} from "../../../shared/enums/modules.enum";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  private baseUrl = 'http://localhost:8081/springboot-crud-rest/api/v1/product';
+  // private baseUrl = 'http://localhost:8081/springboot-crud-rest/api/v1/product';
+  private baseUrl = this.urlConfigService.getApiUrl(Modules.P) + 'v1/product';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private urlConfigService: URLConfigService) {
   }
 
   getProduct(name: string): Observable<any> {
@@ -25,8 +29,8 @@ export class ProductService {
     return this.http.get(`${this.baseUrl}/grouping`);
   }
 
-  createProduct(fd:FormData): Observable<Product> {
-    return this.http.post<Product>(`${this.baseUrl}`,fd);
+  createProduct(fd: FormData): Observable<Product> {
+    return this.http.post<Product>(`${this.baseUrl}`, fd);
   }
 
   updateProduct(name: string, value: any): Observable<Object> {

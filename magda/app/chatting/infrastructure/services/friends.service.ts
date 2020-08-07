@@ -1,8 +1,9 @@
-
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ChattingUser} from "../../chatting-user/chatting-user-infrastructure/chatting-user.model";
+import {URLConfigService} from "../../../shared/services/urlconfig.service";
+import {Modules} from "../../../shared/enums/modules.enum";
 
 
 @Injectable({
@@ -10,12 +11,14 @@ import {ChattingUser} from "../../chatting-user/chatting-user-infrastructure/cha
 })
 export class FriendService {
 
-  private baseUrl = 'http://localhost:8081/springboot-crud-rest/api/friend';
+  // private baseUrl = 'http://localhost:8081/springboot-crud-rest/api/friend';
+  private baseUrl = this.urlConfigService.getApiUrl(Modules.CH) + 'friend';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private urlConfigService: URLConfigService) {
   }
 
-  getFriendByUserAndFriendName(userName: string,friendName:string): Observable<Friend> {
+  getFriendByUserAndFriendName(userName: string, friendName: string): Observable<Friend> {
     return this.http.get<Friend>(`${this.baseUrl}/${userName}/${friendName}`);
   }
 
@@ -23,11 +26,11 @@ export class FriendService {
     return this.http.get<ChattingUser[]>(`${this.baseUrl}/${user}`);
   }
 
-  createFriend(friend:Friend) {
+  createFriend(friend: Friend) {
     return this.http.post(`${this.baseUrl}`, friend);
   }
 
-  deleteFriend(userName: string,friendName:string): Observable<any> {
+  deleteFriend(userName: string, friendName: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${userName}/${friendName}`, {responseType: 'text'});
   }
 
@@ -42,7 +45,8 @@ export class Friend {
   constructor(
     public userName?: string,
     public friendName?: string
-  ) {}
+  ) {
+  }
 
 }
 

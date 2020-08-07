@@ -21,7 +21,7 @@ export class UserService {
       username: user.username,
       password: user.password,
       roles: user.roles,
-      theUserAdmin:user.theUserAdmin,
+      theUserAdmin: user.theUserAdmin,
       enabled: user.enabled
     }
     return this.http.post(this.rootUrl + 'adduser', body, {headers: this.reqHeader});
@@ -33,6 +33,10 @@ export class UserService {
 
   getAllAdmins(): Observable<string[]> {
     return this.http.get<string[]>(this.rootUrl + 'users/admins', {headers: this.reqHeader})
+  }
+
+  fakeRequestForTranslating() {
+    return this.http.get(this.rootUrl + 'hello', {responseType: 'text',headers:{'No-Auth': 'True'}})
   }
 
   Logout() {

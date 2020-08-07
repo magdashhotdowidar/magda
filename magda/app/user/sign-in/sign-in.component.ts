@@ -15,6 +15,7 @@ import {Coding} from "../../shared/enums/coding.enum";
   styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent implements OnInit {
+  showPassword: string = 'password';
 
   constructor(private userService: UserService, private router: Router, private toastr: ToastrService) {
   }

@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Coding} from "../../shared/enums/coding.enum";
 import {Title} from "@angular/platform-browser";
+import {Path} from "../../shared/enums/path.enum";
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,10 @@ export class FrontHomeComponent implements OnInit,OnDestroy {
   userClaims: any;
   title = 'WEL COME TO OUR SITE ';
   direc:boolean=false;
+  path: typeof Path = Path;
+  preloadImgPath:string=this.path.preloaderPath;
+  imgPath: string = this.path.backgroundPath;
+  backgrounds: string[] = ['1.jpg', '2.jpg', '3.jfif', '4.jfif', '5.jfif', '6.jfif'];
 
   constructor(private router: Router,
               private route:ActivatedRoute,

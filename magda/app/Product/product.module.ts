@@ -34,6 +34,8 @@ import {productReducer} from "./infrastructure/product-store/product-reducers/pr
 import { ShortenPipe } from './infrastructure/filters/shorten.pipe';
 import {Ng2OrderModule} from "ng2-order-pipe";
 import {NgxPaginationModule} from "ngx-pagination";
+import {AddChartPopupComponent} from "./add-product/add-chart-popup/add-chart-popup.component";
+import {ChartistModule} from "ng-chartist";
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -54,6 +56,7 @@ export function createTranslateLoader(http: HttpClient) {
     ProductItemComponent,
     AddProductPopupComponent,
     AddCategoryPopupComponent,
+    AddChartPopupComponent,
     CartComponent,
     PositiveOnlyDirective,
     OnlyNumber,
@@ -71,6 +74,7 @@ export function createTranslateLoader(http: HttpClient) {
     Ng2OrderModule,
     NgxPaginationModule,
     NgbModule,
+    ChartistModule,
     NgbCarouselModule,
     TranslateModule.forChild({
       loader: {

@@ -1,17 +1,21 @@
 import {Injectable} from '@angular/core';
 import {map} from 'rxjs/operators';
 
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Invoice} from "../models/invoice.model";
+import {URLConfigService} from "../../../shared/services/urlconfig.service";
+import {Modules} from "../../../shared/enums/modules.enum";
 
 @Injectable({
   providedIn: 'root'
 })
 export class InvoiceService {
-  private baseUrl = 'http://localhost:8081/springboot-crud-rest/api/invoice';
+  // private baseUrl = 'http://localhost:8081/springboot-crud-rest/api/invoice';
+  private baseUrl = this.urlConfigService.getApiUrl(Modules.P) + 'invoice';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private urlConfigService: URLConfigService) {
   }
 
   getInvoice(customer: string, date: string): Observable<any> {

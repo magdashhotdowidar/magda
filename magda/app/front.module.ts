@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router'
@@ -26,13 +26,18 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import {LoadingBarHttpClientModule} from "@ngx-loading-bar/http-client";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient} from '@angular/common/http';
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateModule, TranslateLoader, TranslateService} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
+import {URLConfigService} from "./shared/services/urlconfig.service";
 
 
-
+const appInitializerFn = (appConfig: URLConfigService) => {
+  return () => {
+    return appConfig.loadAppConfig();
+  };
+};
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -69,13 +74,10 @@ export function createTranslateLoader(http: HttpClient) {
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
+        useFactory: createTranslateLoader,
         deps: [HttpClient]
       }
     })
-
-
-
 
   ],
   providers: [UserService, AuthGuard,
@@ -84,10 +86,12 @@ export function createTranslateLoader(http: HttpClient) {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }],
+    },
+    {provide: APP_INITIALIZER, useFactory: appInitializerFn, multi: true, deps: [URLConfigService]}],
   exports: [
   ],
   bootstrap: [Frontcomponent]
 })
 export class FrontModule {
+
 }

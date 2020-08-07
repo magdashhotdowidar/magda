@@ -2,6 +2,7 @@ package com.all.Projectforall.services;
 
 
 import com.all.Projectforall.entitys.Product;
+import com.all.Projectforall.entitys.compositkey.ProductKey;
 import com.all.Projectforall.exceptions.ResourceNotFoundException;
 import com.all.Projectforall.models.ProductModel;
 import com.all.Projectforall.repos.ProductRepository;
@@ -26,20 +27,20 @@ public class ProductService {
 
     @Async
     public CompletableFuture<List<ProductModel>> allProducts(String admin) {
-        return  CompletableFuture.completedFuture(prepo.findAllByTheAdmin(admin).stream().map(product -> new ProductModel(product)).collect(Collectors.toList()));
+        return  CompletableFuture.completedFuture(prepo.findAllById_TheAdmin(admin).stream().map(product -> new ProductModel(product)).collect(Collectors.toList()));
 
     }
 
     // public CompletableFuture<List<Product> allProducts() {return CompletableFuture.completedFuture(  prepo.findAll();}
 
     public CompletableFuture<ProductModel> getProductbyname(String name, String admin) {
-        Optional<Product> product = prepo.findByNameAndTheAdmin(name, admin);
+        Optional<Product> product = prepo.findById_NameAndId_TheAdmin(name, admin);
         product.orElseThrow(() -> new UsernameNotFoundException("Not Found" + name));
         return CompletableFuture.completedFuture( product.map(ProductModel::new).get());
     }
 
     public CompletableFuture<List<ProductModel>> getProductbyCategory(String name, String admin) {
-        List<Product> products = prepo.findByCategoryAndTheAdmin(name, admin);
+        List<Product> products = prepo.findByCategoryAndId_TheAdmin(name, admin);
         return CompletableFuture.completedFuture( products.stream().map(product -> new ProductModel(product)).collect(Collectors.toList()));
     }
 
@@ -54,25 +55,25 @@ public class ProductService {
 
     public CompletableFuture<ProductModel> updateProduct(String name, ProductModel productDetails)
             throws ResourceNotFoundException {
-        Product product = prepo.findByNameAndTheAdmin(name, productDetails.getThe_admin())
+        Product product = prepo.findById_NameAndId_TheAdmin(name, productDetails.getThe_admin())
                 .orElseThrow(() -> new ResourceNotFoundException("product not found  "));
+        prepo.delete(product);
 
-        product.setName(productDetails.getName());
+     /*   product.setId(new ProductKey(productDetails.getName(),productDetails.getThe_admin()));
         product.setBrand(productDetails.getBrand());
         product.setDescription(productDetails.getDescription());
         product.setImageName(productDetails.getImageName());
         product.setCategory(productDetails.getCategory());
         product.setAmount(productDetails.getAmount());
-        product.setPrice(productDetails.getPrice());
-        product.setTheAdmin(productDetails.getThe_admin());
+        product.setPrice(productDetails.getPrice());*/
 
-        final Product updatedProduct = prepo.save(product);
+        final Product updatedProduct = prepo.save(new Product(productDetails));
         return CompletableFuture.completedFuture( new ProductModel(updatedProduct));
     }
 
     public CompletableFuture<Map<String, Boolean>> deleteProduct(String name, String admin)
             throws ResourceNotFoundException {
-        Product product = prepo.findByNameAndTheAdmin(name, admin)
+        Product product = prepo.findById_NameAndId_TheAdmin(name, admin)
                 .orElseThrow(() -> new ResourceNotFoundException("product not found  "));
         prepo.delete(product);
         Map<String, Boolean> response = new HashMap<String, Boolean>();

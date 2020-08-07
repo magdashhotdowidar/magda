@@ -7,15 +7,33 @@
 
           <nav aria-label="breadcrumb" style="background-color: white;color: navy">
             <ol class="breadcrumb" style="background-color: white;color: navy">
-              <li class="breadcrumb-item"><a routerLink="../" routerLinkActive="active"><i class="fa fa-home" style="font-size: xx-large"></i></a></li>
-              <li class="breadcrumb-item"><a routerLink="../sell" routerLinkActive="active">{{'PROJECT.breadcrumb.selling'|translate}}</a></li>
-              <li class="breadcrumb-item"><a routerLink="../slider" routerLinkActive="active">{{'PROJECT.breadcrumb.view_product'|translate}}</a></li>
-              <li class="breadcrumb-item">       <a   (click)="showpopup=true" style="background-color: white;cursor: pointer"  data-toggle="modal" data-target="#employeePopUp">
-                <i class="fa fa-eye" aria-hidden="true" style="color:lime;font-size:x-large ">{{'PROJECT.breadcrumb.add_product'|translate}}</i></a></li>
+              <li class="breadcrumb-item"> <a routerLink="../" routerLinkActive="active"><i class="fa fa-home"
+                                                                                           style="font-size: xx-large"></i></a>
+              </li>
+              <li class="breadcrumb-item" style="font-size: large"> <a routerLink="../sell" style="padding:0px 5px"
+                                                                      routerLinkActive="active"> {{'PROJECT.breadcrumb.selling'|translate}}</a>
+              </li>
+              <li class="breadcrumb-item" style="font-size: large;">   <a routerLink="../slider" style="padding:0px 5px"
+                                                                       routerLinkActive="active"> {{'PROJECT.breadcrumb.view_product'|translate}}</a>
+              </li>
+              <li class="breadcrumb-item"> <a (click)="showAddProductPopup=true"
+                                             style="background-color: white;cursor: pointer;padding:0px 5px" data-toggle="modal"
+                                             data-target="#employeePopUp">
+                <i class="fa fa-eye" aria-hidden="true"
+                   style="color:lime;font-size:x-large "> {{'PROJECT.breadcrumb.add_product'|translate}}</i></a></li>
+              <li class="breadcrumb-item"><a (click)="showChartPopup=true"
+                                             style="background-color: white;cursor: pointer;padding:0px 5px" data-toggle="modal"
+                                             data-target="#chartPopUp">
+                <i class="fa fa-bar-chart" aria-hidden="true"
+                   style="color:magenta;font-size:x-large "> {{'PROJECT.breadcrumb.chart'|translate}}</i></a></li>
+              <li class="breadcrumb-item"><a (click)="generateProductReport()"
+                                             style="background-color: white;cursor: pointer;padding:0px 5px">
+                <i class="fa fa-print" aria-hidden="true"
+                   style="color:blue;font-size:x-large ">  {{'PROJECT.breadcrumb.print'|translate}}</i></a></li>
             </ol>
           </nav>
 
-         <!-- <hr style="border-color: blue">-->
+          <!-- <hr style="border-color: blue">-->
 
           <!--<form class="form-inline" #loginForm="ngForm" (ngSubmit)="onSubmit()">
             <div class="input-group form-group">
@@ -65,13 +83,14 @@
       <div class="row">
         <div class="col-md-12">
           <div class="panel panel-primary">
-   <!--         <div class="panel-heading">
-              <h2 style="color: blue;text-align: center;">Product List</h2>
-            </div>
-            <hr style="border-color: blue">
-            <br/>-->
+            <!--         <div class="panel-heading">
+                       <h2 style="color: blue;text-align: center;">Product List</h2>
+                     </div>
+                     <hr style="border-color: blue">
+                     <br/>-->
             <div class="panel-body">
-              <input type="text" class="search-query form-control " placeholder="{{'PROJECT.product.edit.search.all'|translate}}"
+              <input type="text" class="search-query form-control "
+                     placeholder="{{'PROJECT.product.edit.search.all'|translate}}"
                      name="searchAll" style="color: blue;text-align: center"
                      [(ngModel)]="searchByAll"/>
 
@@ -80,49 +99,60 @@
                 <thead>
                 <tr style="color: lime">
                   <th class="th-sm">{{'PROJECT.product.edit.product_image'|translate}}</th>
-                  <th (click)="sort('name')"  class="th-sm">{{'PROJECT.product.edit.product_name'|translate}}
-                    <span class="fa fa-sort"  [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+                  <th (click)="sort('name')" class="th-sm">{{'PROJECT.product.edit.product_name'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
                   <th (click)="sort('brand')" class="th-sm">{{'PROJECT.product.edit.product_brand'|translate}}
-                    <span class="fa fa-sort"  [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
-                  <th (click)="sort('category')"  class="th-sm">{{'PROJECT.product.edit.product_category'|translate}}
-                    <span class="fa fa-sort"  [ngClass]="{'fa-sort-amount-desc ':reverse,' fa-sort-amount-asc ':!reverse}"></span></th>
-                  <th (click)="sort('amount')"  class="th-sm">{{'PROJECT.product.edit.product_amount'|translate}}
-                    <span class="fa fa-sort"  [ngClass]="{'fa-sort-numeric-desc ':reverse,'fa-sort-numeric-asc ':!reverse}"></span></th>
-                  <th  (click)="sort('price')" class="th-sm">{{'PROJECT.product.edit.product_price'|translate}}
-                    <span class="fa fa-sort"  [ngClass]="{'fa-sort-numeric-desc ':reverse,'fa-sort-numeric-asc ':!reverse}"></span></th>
-                  <th (click)="sort('description')"  class="th-sm">{{'PROJECT.product.edit.product_description'|translate}}
-                    <span class="fa fa-sort "  [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+                  <th (click)="sort('category')" class="th-sm">{{'PROJECT.product.edit.product_category'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-amount-desc ':reverse,' fa-sort-amount-asc ':!reverse}"></span></th>
+                  <th (click)="sort('amount')" class="th-sm">{{'PROJECT.product.edit.product_amount'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-numeric-desc ':reverse,'fa-sort-numeric-asc ':!reverse}"></span></th>
+                  <th (click)="sort('price')" class="th-sm">{{'PROJECT.product.edit.product_price'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-numeric-desc ':reverse,'fa-sort-numeric-asc ':!reverse}"></span></th>
+                  <th (click)="sort('description')"
+                      class="th-sm">{{'PROJECT.product.edit.product_description'|translate}}
+                    <span class="fa fa-sort " [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
                   <th class="th-sm" style="width: fit-content ">{{'PROJECT.product.edit.actions'|translate}}</th>
                 </tr>
                 </thead>
-                <tbody >
+                <tbody>
                 <tr style="color:blue;border-color: blue">
                   <td>
 
                   </td>
                   <td>
-                    <input type="text" class="search-query form-control " placeholder="{{'PROJECT.product.edit.search.name'|translate}}"
+                    <input type="text" class="search-query form-control "
+                           placeholder="{{'PROJECT.product.edit.search.name'|translate}}"
                            name="searchName" style="color: blue"
                            [(ngModel)]="searchByName"/>
                   </td>
                   <td>
-                    <input type="text" class="search-query form-control " placeholder="{{'PROJECT.product.edit.search.brand'|translate}}"
+                    <input type="text" class="search-query form-control "
+                           placeholder="{{'PROJECT.product.edit.search.brand'|translate}}"
                            name="searchName" style="color: blue"
                            [(ngModel)]="searchByBrand"/>
                   </td>
                   <td>
-                  <input type="text" class="search-query form-control " placeholder="{{'PROJECT.product.edit.search.category'|translate}}"
-                         name="searchName" style="color: blue"
-                         [(ngModel)]="searchByCategory"/>
-                </td>
+                    <input type="text" class="search-query form-control "
+                           placeholder="{{'PROJECT.product.edit.search.category'|translate}}"
+                           name="searchName" style="color: blue"
+                           [(ngModel)]="searchByCategory"/>
+                  </td>
 
                   <td>
-                    <input type="text" class="search-query form-control " placeholder="{{'PROJECT.product.edit.search.amount'|translate}}"
+                    <input type="text" class="search-query form-control "
+                           placeholder="{{'PROJECT.product.edit.search.amount'|translate}}"
                            name="searchAmount" style="color: blue"
                            [(ngModel)]="searchByAmount"/>
                   </td>
                   <td>
-                    <input type="text" class="search-query form-control " placeholder="{{'PROJECT.product.edit.search.price'|translate}}"
+                    <input type="text" class="search-query form-control "
+                           placeholder="{{'PROJECT.product.edit.search.price'|translate}}"
                            name="searchPrice" style="color: blue"
                            [(ngModel)]="searchByPrice"/>
                   </td>
@@ -130,7 +160,8 @@
 
                   </td>
                   <td>
-                    <h6 style="color: red;font-style:italic;font-family:Algerian">{{products?.length}}-{{'PROJECT.product.edit.product_count'|translate}}</h6>
+                    <h6 style="color: red;font-style:italic;font-family:Algerian">{{products?.length}}
+                      -{{'PROJECT.product.edit.product_count'|translate}}</h6>
                   </td>
 
                 </tr>
@@ -140,7 +171,8 @@
                                                  |productFilter:searchByAll:searchByName:searchByBrand:searchByCategory"
 
                   style="color:blue ">
-                  <td style="width:140px"><img [src]="imgPath+product.imageName" class="embed-responsive" height="50px" width="30px"></td>
+                  <td style="width:140px"><img [src]="imgPath+product.imageName" class="embed-responsive" height="50px"
+                                               width="30px"></td>
                   <td style="width:130px">{{product.name|shorten:11}}</td>
                   <td style="width:120px">{{product.brand|shorten:8}}</td>
                   <td style="width:130px">{{product.category|shorten:8}}</td>
@@ -149,13 +181,17 @@
                   <td style="width:120px">{{product.description|shorten:8}}</td>
                   <td style="width:180px">
                     <button (click)="updateProduct(product.name)" class="btn btn-primary" style=""
-                            data-toggle="tooltip" data-placement="right" title="{{'PROJECT.product.edit.tap.product_edit'|translate}}"><i
+                            data-toggle="tooltip" data-placement="right"
+                            title="{{'PROJECT.product.edit.tap.product_edit'|translate}}"><i
                       class="fa fa-edit"></i></button>
                     <button (click)=" productDetails(product.name)" class="btn btn-success" style=""
-                            data-toggle="tooltip" data-placement="right" title="{{'PROJECT.product.edit.tap.product_details'|translate}}"><i
+                            data-toggle="tooltip" data-placement="right"
+                            title="{{'PROJECT.product.edit.tap.product_details'|translate}}"><i
                       class="fa fa-eye"></i></button>
                     <button (click)="deleteProduct(product.name)" class="btn btn-info"
-                            data-toggle="tooltip" data-placement="right" title="{{'PROJECT.product.edit.tap.product_delete'|translate}}"><i class="fa fa-recycle"></i>
+                            data-toggle="tooltip" data-placement="right"
+                            title="{{'PROJECT.product.edit.tap.product_delete'|translate}}"><i
+                      class="fa fa-recycle"></i>
                     </button>
                   </td>
                 </tr>
@@ -181,18 +217,21 @@
                   </div>
                   <div class="col-md-4">
 
-                      <select style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px;border-bottom-color: blue"
-                              class="form-control form-control-sm text-center"
-                              [(ngModel)]="itemsPerPage"
-                              ngModel required>
-                        <option style="color: white"
-                                [value]="'categories'">{{'PROJECT.product.edit.tap.select_category'|translate}}</option>
-                        <option style="color: blue; font-size: small" *ngFor="let item of items" [value]="item">{{ item }}</option>
-                      </select>
+                    <select
+                      style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px;border-bottom-color: blue"
+                      class="form-control form-control-sm text-center"
+                      [(ngModel)]="itemsPerPage"
+                      ngModel required>
+                      <option style="color: white"
+                              [value]="'categories'">{{'PROJECT.product.edit.tap.select_category'|translate}}</option>
+                      <option style="color: blue; font-size: small" *ngFor="let item of items"
+                              [value]="item">{{ item }}</option>
+                    </select>
 
                   </div>
                 </div>
-                <pagination-controls (pageChange)="p = $event"></pagination-controls></div>
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+              </div>
             </div>
           </div>
 
@@ -202,9 +241,14 @@
   </section>
 </main>
 
-<div class="modal fa fa" id="employeePopUp" tabindex="-1" role="dialog"  *ngIf="showpopup"
+<div class="modal fa fa" id="employeePopUp" tabindex="-1" role="dialog" *ngIf="showAddProductPopup"
      aria-labelledby="successLabel" aria-hidden="true">
-  <app-add-product-popup  (show-popup)="showpopup=$event" (new-product)="addNewProduct($event)"></app-add-product-popup>
+  <app-add-product-popup (show-popup)="showAddProductPopup=$event" (new-product)="addNewProduct($event)"></app-add-product-popup>
+</div>
+
+<div class="modal fa fa" id="chartPopUp" tabindex="-1" role="dialog" *ngIf="showChartPopup"
+     aria-labelledby="successLabel" aria-hidden="true">
+  <product-bar-chart (show-popup)="showChartPopup=$event" ></product-bar-chart>
 </div>
 
 

@@ -6,6 +6,7 @@ import {ToastrService} from "ngx-toastr";
 import {NgForm} from "@angular/forms";
 import {CategoryService} from "../../infrastructure/services/category.service";
 import {Category} from "../../infrastructure/models/category";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-add-product-popup',
@@ -49,9 +50,9 @@ export class AddProductPopupComponent implements OnInit {
     this.productService.createProduct(fd)
       .subscribe(data => {
         this.toastr.success("SUCCESSFULLY SAVED");
-      }, error => {
-        this.toastr.warning("ERROR!!!");
-        console.log(error)
+      }, (error:HttpErrorResponse) => {
+        //this.toastr.warning("ERROR!!!");
+        alert(error.message);
       });
     this.product = new Product();
   }

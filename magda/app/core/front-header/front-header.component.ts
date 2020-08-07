@@ -13,7 +13,7 @@ export class FrontHeaderComponent implements OnInit {
 
   @Output() showing = new EventEmitter<boolean>();
   @Output() right_direction = new EventEmitter<boolean>();
-  selectedLang:string='en'
+  selectedLang:string='ar'
   userName:string=localStorage.getItem("userName");
   total:number=0;
   dropDownOpened:boolean=false;
