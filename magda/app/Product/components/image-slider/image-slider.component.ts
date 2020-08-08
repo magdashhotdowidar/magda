@@ -13,7 +13,7 @@ export class ImageSliderComponent implements OnInit {
   path: typeof Path = Path;
   imgPath: string = this.path.productImagePath;
   carouselData: Product[]=[];
-  groupingProducts: any;
+  groupingProducts: Array<Product[]>;
 
 
   constructor(private productService: ProductService) {

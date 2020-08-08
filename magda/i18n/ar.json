@@ -1,17 +1,36 @@
 {
   "PROJECT": {
+    "user": {
+      "sign_in": "تسجيل الدخول",
+      "sign_up":"تسجيل",
+      "product": "الرجوع الي المنتجات",
+      "log_in": "دخول"
+    },
+    "home": {
+      "shopping_and_marketing" : "تسويق و تسوق",
+      "chatting": "محادثة",
+      "recruitment":"توظيف",
+      "management": "إدارة",
+      "news": "أخبار",
+      "tutorials": "شرح"
+    },
     "header": {
       "main_page": "الصفحة الرئيسية",
       "online_shopping": "تسوق اون لاين",
       "traditional_shopping": "بيع",
       "product_management": "إدارة المنتجات",
-      "hi": "مرحباً"
+      "hi": "مرحباً",
+      "language": "ع"
     },
     "breadcrumb": {
       "product_management": "إدارة المنتجات",
       "view_product": "عرض المنتجات",
       "selling": "بيع",
-      "add_product": "إضافة منتج"
+      "add_product": "إضافة منتج",
+      "chart": "التمثيل بيانياً",
+      "products_chart": "عرض المنتج",
+      "categories_chart": " عرض الفئات",
+      "print": "طباعة"
     },
     "product": {
       "sell": {
@@ -49,6 +68,8 @@
         "category_description": "وصف",
         "save": "حفظ",
         "actions": "عمليات علي المنتج",
+        "chart_product_message": "منتج <=> كمية",
+        "chart_category_message": "الفئة <=> عدد المنتجات",
         "items_per_page": "عدد العناصر لكل صفحة",
         "search": {
           "all": "بحث بالسم أو الماركة أو الفئة أو السعر أو الكمية ",

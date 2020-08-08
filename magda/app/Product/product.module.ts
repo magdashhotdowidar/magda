@@ -36,6 +36,7 @@ import {Ng2OrderModule} from "ng2-order-pipe";
 import {NgxPaginationModule} from "ngx-pagination";
 import {AddChartPopupComponent} from "./add-product/add-chart-popup/add-chart-popup.component";
 import {ChartistModule} from "ng-chartist";
+import {ChartsModule} from "ng2-charts";
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -75,6 +76,7 @@ export function createTranslateLoader(http: HttpClient) {
     NgxPaginationModule,
     NgbModule,
     ChartistModule,
+    ChartsModule,
     NgbCarouselModule,
     TranslateModule.forChild({
       loader: {

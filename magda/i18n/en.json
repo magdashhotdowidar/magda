@@ -1,17 +1,36 @@
 {
   "PROJECT": {
+    "user": {
+      "sign_in": "Sign In",
+      "sign_up":"Sign Up",
+      "product": "Back To Product",
+      "log_in": "Log In"
+    },
+    "home": {
+      "shopping_and_marketing" : "Shopping & Marketing",
+      "chatting": "Chatting",
+      "recruitment":"Recruitment",
+      "management": "Management",
+      "news": "NEWS",
+      "tutorials": "Tutorials"
+    },
     "header": {
       "main_page": "The Main Page",
       "online_shopping": "Online Shopping",
       "traditional_shopping": "Sell",
       "product_management": "Product Management",
-      "hi": "Hi"
+      "hi": "Hi",
+      "language": "E"
     },
     "breadcrumb": {
       "product_management": "Product Management",
       "view_product": "View Product",
       "selling": "SELL",
-      "add_product": "Add Product"
+      "add_product": "Add Product",
+      "chart": "CHART",
+      "products_chart": "Product View",
+      "categories_chart": "Category View",
+      "print": "PRINT"
     },
     "product": {
       "sell": {
@@ -49,6 +68,8 @@
         "category_description": "Description",
         "save": "Save",
         "actions": "Actions",
+        "chart_product_message": "PRODUCT <=> AMOUNT",
+        "chart_category_message": "CATEGORY <=> PRODUCTS COUNT",
         "items_per_page": "Items Per Page",
         "search": {
           "all": "search By All",

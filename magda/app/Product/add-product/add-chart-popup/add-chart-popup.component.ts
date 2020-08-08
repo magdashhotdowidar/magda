@@ -1,22 +1,32 @@
-import {AfterViewInit, Component, DoCheck, EventEmitter, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, DoCheck, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {ToastrService} from "ngx-toastr";
 import {ProductService} from "../../infrastructure/services/product.service";
 import {
   IBarChartOptions,
-  IChartistAnimationOptions,
   IChartistData
 } from 'chartist';
 import {ChartEvent, ChartType} from 'ng-chartist';
 import {Product} from "../../infrastructure/models/product";
 import {HttpErrorResponse} from "@angular/common/http";
+import {DOCUMENT} from "@angular/common";
+import * as Chart from "chart.js";
 
 @Component({
   selector: 'product-bar-chart',
   template: `
       <div class="modal-dialog modal-dialog-scrollable modal-lg  " role="document">
           <div class="modal-content">
-              <div class="modal-header" style="background-color:blue ">
-                  <h6 style="color: white;font-size: x-large">{{'PROJECT.breadcrumb.chart'|translate}}</h6>
+              <div class="modal-header" style="background-color:navy">
+                  <div class="row">
+                      <label style="background-color: darkmagenta;padding:10px 10px;color:orangered;border: 3px solid white;border-radius:50%;cursor:pointer;font-size: large">{{'PROJECT.breadcrumb.chart'|translate}}</label>
+                      <a (click)="loadProductChart()"> {{'PROJECT.breadcrumb.products_chart'|translate}}</a>
+                      <a (click)="loadCategoryChart()"> {{'PROJECT.breadcrumb.categories_chart'|translate}}</a></div>
+                  <div (change)="setChart()" class="custom-radio" *ngFor="let formChart of chartForms" style="color: white;font-size: large">
+                      <label>
+                          <input type="radio" [(ngModel)]="chartType" [value]="formChart"/>{{formChart}}
+                      </label>
+                  </div>
+
                   <button type="button" (click)="close()" style="background-color: red" data-dismiss="modal"
                           aria-label="Close"
                           id="chartPopupClose">
@@ -24,17 +34,14 @@ import {HttpErrorResponse} from "@angular/common/http";
                   </button>
               </div>
               <div class="modal-body" style="background-color: white;min-height:fit-content">
-                  <x-chartist
-                          [type]="type"
-                          [data]="data"
-                          [options]="options"
-                          [events]="events"
-                  ></x-chartist>
+                  <h5 class="text-center" style="color: red">{{message|translate}}</h5>
+                  <canvas id="myChart" width="800" height="450"></canvas>
               </div>
               <div class="modal-footer" style="background-color: blue"></div>
           </div>
       </div>
-  `
+  `,
+  styles: ['a{padding:10px 10px;color:orangered;background-color:lime;border: 3px solid white;border-radius:50%;cursor:pointer }']
 })
 
 export class AddChartPopupComponent implements OnInit {
@@ -42,61 +49,75 @@ export class AddChartPopupComponent implements OnInit {
   @Output('show-popup') showpopup: EventEmitter<boolean> = new EventEmitter<boolean>();
   labels: string[] = [];
   series: number[] = [];
-  type: ChartType = 'Bar';
   data: IChartistData;
-  options: IBarChartOptions;
-  events: ChartEvent;
+  chartForms: string[] = ['bar', 'line', 'radar']
+  message: string = '';
+  chartType: string = 'bar';
 
-  constructor(private productService: ProductService,
+  constructor(@Inject(DOCUMENT) private document,
+              private productService: ProductService,
               private toastr: ToastrService) {
   }
 
   ngOnInit() {
-    this.loadChartDAta();
+     this.loadProductChart();
   }
 
-  loadChartDAta() {
+  loadProductChart() {
+    this.labels = [];
+    this.series = []
+    this.message='PROJECT.product.edit.chart_product_message'
     this.productService.getproductList().subscribe((data: Product[]) => {
-
       for (let product of data) {
         this.labels.push(product.name);
         this.series.push(product.amount);
       }
+      this.setChart();
+    }, (error: HttpErrorResponse) => this.toastr.error(error.message));
+  }
 
-      this.data = {
-        labels: this.labels,
-        series: [
-          this.series
-        ]
-      };
-
-      this.options = {
-        axisX: {
-          showGrid: false
-        },
-        height: 300
-      };
-
-      this.events = {
-        draw: (data) => {
-          if (data.type === 'bar') {
-            data.element.animate({
-              y2: <IChartistAnimationOptions>{
-                dur: '0.5s',
-                from: data.y1,
-                to: data.y2,
-                easing: 'easeOutQuad'
-              }
-            });
+  loadCategoryChart() {
+    this.labels = [];
+    this.series = [];
+    this.message='PROJECT.product.edit.chart_category_message'
+    this.productService.getProductsInGroups().subscribe((data: Array<Product[]>) => {
+      if (data)
+        for (let group of data) {
+          if (group[0]) {
+            this.labels.push(group[0].category);
+            this.series.push(group.length);
           }
         }
-      };
-
+      this.setChart();
     }, (error: HttpErrorResponse) => this.toastr.error(error.message));
+  }
+
+  setChart() {
+    let colors: string[] = [];
+    for (let c = 0; c < this.labels.length; c++) {
+      if (c % 2 == 0) {
+        colors.push("rgba(153,255,51,1)")
+      } else colors.push("rgba(255,153,0,1)")
+    }
+    new Chart(this.document.getElementById("myChart"), {
+      type: this.chartType,
+      data: {
+        labels: this.labels,
+        datasets: [{
+          label: 'apples',
+          data: this.series,
+          borderColor: "rgba(153,255,51,1)",
+          backgroundColor: colors
+        }, {
+          label: 'oranges',
+          borderColor: "rgba(255,153,0,1)",
+          backgroundColor: "rgba(255,153,0,1)"
+        }]
+      }
+    });
   }
 
   close() {
     this.showpopup.emit(false);
   }
-
 }
