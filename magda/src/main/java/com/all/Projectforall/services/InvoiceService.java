@@ -3,13 +3,18 @@ package com.all.Projectforall.services;
 import com.all.Projectforall.entitys.InvoProduct;
 import com.all.Projectforall.entitys.InvoiceA;
 import com.all.Projectforall.exceptions.ResourceNotFoundException;
+import com.all.Projectforall.jasperReports.services.ProductReportService;
 import com.all.Projectforall.models.InvoiceModel;
+import com.all.Projectforall.repos.InvoProductRepository;
 import com.all.Projectforall.repos.InvoiceRepository;
 import com.all.Projectforall.responses.InvoiceResponse;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -26,44 +31,46 @@ public class InvoiceService {
 
     @Autowired
     private InvoiceRepository inr;
+    @Autowired
+    private ProductReportService print;
+    @Autowired
+    private InvoProductRepository invoProductRepository;
 
     public CompletableFuture<List<InvoiceModel>> allInvoices(String admin) {
-
         return CompletableFuture.completedFuture(inr.findAllByTheAdmin(admin).stream().map(InvoiceModel::new).collect(Collectors.toList()));
     }
 
-    public CompletableFuture<InvoiceResponse> getInvoiceBycustomerAndDate(String customer, String date, String admin)
+    public CompletableFuture<InvoiceResponse> getInvoiceByInvoiceNoAndDate(int invoiceNo, String date, String admin)
             throws ResourceNotFoundException {
 
-      /*  SimpleDateFormat simpleDateFormatIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ");
-       // String stringDate=simpleDateFormatIn.format(date);
-        Date formattedDate = simpleDateFormatIn.parse(date);
-        System.out.println("THE INPUT DATE(" + date + ")");*/
-        List<InvoiceA> invoices = inr.findByCustomerNameAndDateAndTheAdmin(customer, date, admin)
-                .orElseThrow(() -> new ResourceNotFoundException("NO INVOICE FOR :: " + customer));
+        List<InvoiceA> invoices = inr.findByInvoiceNoAndDateAndTheAdmin(invoiceNo, date, admin)
+                .orElseThrow(() -> new ResourceNotFoundException("NO INVOICE FOR :: " + invoiceNo));
         if (!invoices.isEmpty()) {
             List<InvoiceModel> invoiceModels = invoices.stream().map(invoiceA -> new InvoiceModel(invoiceA)).collect(Collectors.toList());
-            return CompletableFuture.completedFuture(new InvoiceResponse(invoiceModels, "THE INVOICE FOR CUSTOMER " + customer + " IS FOUNDED"));
+            return CompletableFuture.completedFuture(new InvoiceResponse(invoiceModels, "THE INVOICE NO " + invoiceNo + " IS FOUNDED"));
         } else {
             return CompletableFuture.completedFuture(new InvoiceResponse(new ArrayList<InvoiceModel>(),
-                    "THE INVOICE FOR CUSTOMER " + customer + " IS NOT FOUNDED"));
+                    "THE INVOICE NO " + invoiceNo + " IS NOT FOUNDED"));
         }
     }
 
-/*    public CompletableFuture<  RecipeModel updateRecipe(Long id, RecipeModel recipe) throws ResourceNotFoundException {
-        Recipe oldrecipe = rr.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found for this id :: " + id));
-        oldrecipe.setName(recipe.getName());
-        oldrecipe.setDescription(recipe.getDescription());
-        oldrecipe.setImagepath(recipe.getImagepath());
-        recipe.getIngredients().forEach(ingredientModel -> oldrecipe.add_ingredient(new Ingredient(ingredientModel)));
-        final Recipe updatedrecipe = rr.save(oldrecipe);
-        return CompletableFuture.completedFuture(   new RecipeModel(updatedrecipe);
+   /* public CompletableFuture<InvoiceResponse> getInvoiceByInvoiceNoAndDateAndTime(int invoiceNo, String date, String time, String admin)
+            throws ResourceNotFoundException {
+
+        List<InvoiceA> invoices = inr.findByInvoiceNoAndDateAndTimeLikeAndTheAdmin(invoiceNo, date, time, admin)
+                .orElseThrow(() -> new ResourceNotFoundException("NO INVOICE FOR :: " + invoiceNo));
+        if (!invoices.isEmpty()) {
+            List<InvoiceModel> invoiceModels = invoices.stream().map(invoiceA -> new InvoiceModel(invoiceA)).collect(Collectors.toList());
+            return CompletableFuture.completedFuture(new InvoiceResponse(invoiceModels, "THE INVOICE NO " + invoiceNo + " IS FOUNDED"));
+        } else {
+            return CompletableFuture.completedFuture(new InvoiceResponse(new ArrayList<InvoiceModel>(),
+                    "THE INVOICE NO " + invoiceNo + " IS NOT FOUNDED"));
+        }
     }*/
 
-    public CompletableFuture<Map<String, Boolean>> deleteInvoice(String customer, String date, String admin) throws ResourceNotFoundException {
-        List<InvoiceA> invoices = inr.findByCustomerNameAndDateAndTheAdmin(customer, date, admin)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found for this id :: " + customer));
+    public CompletableFuture<Map<String, Boolean>> deleteInvoice(int invoiceNo, String date, String admin) throws ResourceNotFoundException {
+        List<InvoiceA> invoices = inr.findByInvoiceNoAndDateAndTheAdmin(invoiceNo, date, admin)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found for this id :: " + invoiceNo));
         invoices.forEach(invoiceA -> inr.delete(invoiceA));
 
         Map<String, Boolean> response = new HashMap<String, Boolean>();
@@ -71,6 +78,7 @@ public class InvoiceService {
         return CompletableFuture.completedFuture(response);
     }
 
+    @Transactional  // to prevent this exception=>No EntityManager with actual transaction available for current thread - cannot reliably process 'remove' call]
     public CompletableFuture<Map<String, Boolean>> deleteAllInvoices(String admin) throws ResourceNotFoundException {
         inr.deleteAllByTheAdmin(admin);
         Map<String, Boolean> response = new HashMap<String, Boolean>();
@@ -78,15 +86,20 @@ public class InvoiceService {
         return CompletableFuture.completedFuture(response);
     }
 
-    public CompletableFuture<InvoiceModel> save(InvoiceModel invoiceModel) {
-     /*   String[] dates = invoiceModel.getDate().toString().split("T");
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-mm-yyyy");
-      invoiceModel.setDate( simpleDateFormat.parse(dates[0]));*/
+    public CompletableFuture<InvoiceModel> save(InvoiceModel invoiceModel) throws IOException, JRException {
+        print.printInvoice(invoiceModel);
         InvoiceA invoice = new InvoiceA(invoiceModel);
-        invoiceModel.getProductModels().forEach(productModel -> invoice.add_Product(new InvoProduct(productModel)));
+        invoiceModel.getProductModels().forEach(productModel -> {
+            productModel.setThe_admin(invoiceModel.getThe_admin());
+            invoice.add_Product(new InvoProduct(productModel));
+        });
 
         return CompletableFuture.completedFuture(new InvoiceModel(inr.save(invoice)));
 
+    }
+
+    public CompletableFuture<List<Object[]>> chartData(){
+        return CompletableFuture.completedFuture(invoProductRepository.chartData());
     }
 
 }

@@ -3,9 +3,9 @@
   <a (click)="openFriendsWindow=!openFriendsWindow" class="ng-chat-title secondary-background shadowed"><span
     style="color:white;margin-left: 5px;margin-right: 5px"> Friends </span></a><!---->
 
-  <!----><input class="friends-search-bar " id="ng-chat-search_friend" type="search"
+  <!----><input class="friends-search-bar " id="ng-chat-search_friend" type="search" [(ngModel)]="search"
                 placeholder="Search"><!---->
-  <ul id="ng-chat-users"  class="offset-search" *ngFor="let friend of friends">
+  <ul id="ng-chat-users"  class="offset-search" *ngFor="let friend of friends|friendsFilter :search">
     <li>
       <div class="ng-chat-friends-list-container" (click)="add(friend.username)"><!----><!---->
         <div class="row" >

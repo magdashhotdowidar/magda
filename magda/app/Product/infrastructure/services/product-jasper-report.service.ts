@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {Product} from "../models/product";
 import {URLConfigService} from "../../../shared/services/urlconfig.service";
 import {Modules} from "../../../shared/enums/modules.enum";
+import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class ProductJasperReportService {
   }
 
   generateReport(format:string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${format}`,{responseType: 'text'} );
+    return this.http.get(`${this.baseUrl}/${format}/${localStorage.getItem(LocalStorage.userName)}`,{responseType: 'text'} );
   }
 }
 

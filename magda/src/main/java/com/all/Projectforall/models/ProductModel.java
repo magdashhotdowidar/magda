@@ -15,6 +15,8 @@ public class ProductModel {
     private double price;
     private String imageName;
     private String the_admin;
+    private double subTotal;
+    private Long cod;
 
     public ProductModel() {
     }
@@ -30,6 +32,7 @@ public class ProductModel {
     }
 
     public ProductModel(Product product) {
+        this.cod=product.getCod();
        // this.name = product.getName();
         this.name=product.getId().getName();
         this.brand = product.getBrand();
@@ -115,6 +118,22 @@ public class ProductModel {
         this.the_admin = the_admin;
     }
 
+    public double getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    public Long getCod() {
+        return cod;
+    }
+
+    public void setCod(Long cod) {
+        this.cod = cod;
+    }
+
     @Override
     public String toString() {
         return "ProductModel{" +
@@ -125,6 +144,9 @@ public class ProductModel {
                 ", amount=" + amount +
                 ", price=" + price +
                 ", imageName='" + imageName + '\'' +
+                ", the_admin='" + the_admin + '\'' +
+                ", subTotal=" + subTotal +
+                ", cod=" + cod +
                 '}';
     }
 }

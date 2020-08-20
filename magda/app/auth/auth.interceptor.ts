@@ -4,6 +4,7 @@ import { UserService } from "../user/user-infrastructure/user.service";
 import {tap} from 'rxjs/operators';
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
+import {LocalStorage} from "../shared/enums/local-storage-coding.enum";
 
 
 @Injectable()
@@ -15,9 +16,9 @@ export class AuthInterceptor implements HttpInterceptor {
         if (req.headers.get('No-Auth') == "True")
             return next.handle(req.clone());
 
-        if (localStorage.getItem('userToken') != null) {
+        if (localStorage.getItem(LocalStorage.token) != null) {
             const clonedreq = req.clone({
-               setHeaders:{Authorization:localStorage.getItem('userToken'),theAdmin:localStorage.getItem('adminLogin')}
+               setHeaders:{Authorization:localStorage.getItem(LocalStorage.token),theAdmin:localStorage.getItem(LocalStorage.admin)}
             });
             /*,
                  'Content-Type':' application/json','Access-Control-Allow-Origin':'*',

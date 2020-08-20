@@ -5,6 +5,7 @@ import {CartService} from "../../infrastructure/services/cart.service";
 import {Cart} from "../../infrastructure/models/Cart";
 import {UserService} from "../../../user/user-infrastructure/user.service";
 import {Coding} from "../../../shared/enums/coding.enum";
+import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
 
 
 
@@ -16,10 +17,11 @@ import {Coding} from "../../../shared/enums/coding.enum";
 export class ProductHeaderComponent implements OnInit {
   @Output() showing = new EventEmitter<boolean>();
   @Output() right_direction = new EventEmitter<boolean>();
+  l:typeof LocalStorage=LocalStorage;
   selectedLang:string='ar'
-  userName:string=localStorage.getItem("userName");
-  mainPath:string='/multichoice.com/'+localStorage.getItem('adminLogin')+'/'+Coding.front_home;
-  role:string=localStorage.getItem('role');
+  userName:string=localStorage.getItem(LocalStorage.userName);
+  mainPath:string='/multichoice.com/'+localStorage.getItem(LocalStorage.admin)+'/'+Coding.front_home;
+  role:string=localStorage.getItem(LocalStorage.role);
   activated: boolean = false;
   dropDownOpened:boolean=false;
   total:number=0;

@@ -26,6 +26,7 @@ import {StoreModule} from "@ngrx/store";
 import {messageReducer} from "./infrastructure/store/reducers/message.reducer";
 import {EffectsModule} from "@ngrx/effects";
 import {MessageEffect} from "./infrastructure/store/effects/message.effect";
+import {FriendsFilterPipe} from "./infrastructure/pipes/friends-filter.pipe";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -42,6 +43,7 @@ export function createTranslateLoader(http: HttpClient) {
     ChattingUserComponent,
     MinimizeDirective,
     DropdownDirective,
+    FriendsFilterPipe,
     PersonalPageComponent
   ],
   imports: [

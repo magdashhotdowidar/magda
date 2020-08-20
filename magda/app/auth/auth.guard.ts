@@ -8,6 +8,7 @@ import {
   UrlTree
 } from '@angular/router';
 import { Observable } from 'rxjs';
+import {LocalStorage} from "../shared/enums/local-storage-coding.enum";
 
 @Injectable()
 export class AuthGuard implements CanActivate,CanActivateChild {
@@ -15,7 +16,7 @@ export class AuthGuard implements CanActivate,CanActivateChild {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot):  boolean {
-      if (localStorage.getItem('userToken') != null)
+      if (localStorage.getItem(LocalStorage.token) != null)
       return true;
       this.router.navigate(['/login']);
       return false;

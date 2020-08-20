@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {TranslateService} from "@ngx-translate/core";
 import {UserService} from "../../user/user-infrastructure/user.service";
 import {Coding} from "../../shared/enums/coding.enum";
+import {LocalStorage} from "../../shared/enums/local-storage-coding.enum";
 
 @Component({
   selector: 'front-header',
@@ -14,7 +15,7 @@ export class FrontHeaderComponent implements OnInit {
   @Output() showing = new EventEmitter<boolean>();
   @Output() right_direction = new EventEmitter<boolean>();
   selectedLang:string='ar'
-  userName:string=localStorage.getItem("userName");
+  userName:string=localStorage.getItem(LocalStorage.userName);
   total:number=0;
   dropDownOpened:boolean=false;
 

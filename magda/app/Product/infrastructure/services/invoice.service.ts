@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 import {Invoice} from "../models/invoice.model";
 import {URLConfigService} from "../../../shared/services/urlconfig.service";
 import {Modules} from "../../../shared/enums/modules.enum";
+import {InvoiceResponse} from "../models/invoiceResponse.model";
 
 @Injectable({
   providedIn: 'root'
@@ -18,15 +19,24 @@ export class InvoiceService {
               private urlConfigService: URLConfigService) {
   }
 
-  getInvoice(customer: string, date: string): Observable<any> {
+  getInvoice(invoiceNo:number, date: string): Observable<any> {
 
-    return this.http.get(`${this.baseUrl}/${customer}/${date}`).pipe(map(invoice => {
+    return this.http.get(`${this.baseUrl}/${invoiceNo}/${date}`).pipe(map(invoice => {
       if (!invoice['productModels']) {
         invoice['productModels'] = [];
       }
       return invoice;
     }));
   }
+/*  getInvoiceByInvoiceNoAndDateAndTime(invoiceNo:number, date: string,time:string): Observable<InvoiceResponse> {
+
+    return this.http.get<InvoiceResponse>(`${this.baseUrl}/${invoiceNo}/${date}/${time}`).pipe(map(invoice => {
+      if (!invoice['productModels']) {
+        invoice['productModels'] = [];
+      }
+      return invoice;
+    }));
+  }*/
 
   createInvoice(invoice: Invoice): Observable<Object> {
     return this.http.post(`${this.baseUrl}`, invoice);
@@ -36,12 +46,16 @@ export class InvoiceService {
       return this.http.put(`${this.baseUrl}/${name}`, value);
     }*/
 
-  deleteInvoice(customer: string, date: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${customer}/${date}`, {responseType: 'json'});
+  deleteInvoice(invoiceNo:number, date: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${invoiceNo}/${date}`, {responseType: 'json'});
   }
 
   deleteAllInvoices(): Observable<any> {
     return this.http.delete(`${this.baseUrl}`, {responseType: 'text'});
+  }
+
+  getChartData():Observable<ChartData[]>{
+    return this.http.get<ChartData[]>(`${this.baseUrl}/chartData`)
   }
 
   getAllInvoices(): Observable<Invoice[]> {
@@ -57,4 +71,15 @@ export class InvoiceService {
       }));
   }
 
+}
+
+/////////////////////////////////////////
+export class ChartData {
+ public name:string;
+ public count:number;
+
+  constructor(name: string, count: number) {
+    this.name = name;
+    this.count = count;
+  }
 }

@@ -87,8 +87,8 @@
         class="caret"></span></a>
       <ul class="dropdown-menu " [ngClass]="{show:dropDownOpened3}">
 
-        <div *ngIf="role=='ROLE_ADMIN'" class="dropdown-divider"></div>
-        <a *ngIf="role=='ROLE_ADMIN'" STYLE="color: blue" class="nav-link" routerLink='/signup'
+        <div *ngIf="role==roleAdmin" class="dropdown-divider"></div>
+        <a *ngIf="role==roleAdmin" STYLE="color: blue" class="nav-link" routerLink='/signup'
            routerLinkActive='active'>Sign Up</a>
         <div class="dropdown-divider"></div>
         <li><a style="cursor: pointer;color:blue" (click)="Logout()">Logout</a></li>
@@ -114,8 +114,8 @@
         class="caret"></span></a>
       <ul class="dropdown-menu " [ngClass]="{show:dropDownOpened}">
 
-        <div *ngIf="role=='ROLE_ADMIN'" class="dropdown-divider"></div>
-        <a *ngIf="role=='ROLE_ADMIN'" STYLE="color: blue" class="nav-link" routerLink='/signup'
+        <div *ngIf="role==roleAdmin" class="dropdown-divider"></div>
+        <a *ngIf="role==roleAdmin" STYLE="color: blue" class="nav-link" routerLink='/signup'
            routerLinkActive='active'>Sign Up</a>
         <div class="dropdown-divider"></div>
         <li><a style="cursor: pointer;color:blue" (click)="Logout()">Logout</a></li>

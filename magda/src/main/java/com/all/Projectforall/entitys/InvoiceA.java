@@ -15,8 +15,9 @@ public class InvoiceA {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String date;
+    private String time;
     private String userName;
-    private String customerName;
+    private int invoiceNo;
     private String theAdmin;
 
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -35,8 +36,9 @@ public class InvoiceA {
 
     public InvoiceA(InvoiceModel invoice) {
         this.date = invoice.getDate();
+        this.time=invoice.getTime();
         this.userName = invoice.getUserName();
-        this.customerName = invoice.getCustomerName();
+        this.invoiceNo = invoice.getInvoiceNo();
         this.theAdmin=invoice.getThe_admin();
     }
 
@@ -73,12 +75,12 @@ public class InvoiceA {
         this.userName = userName;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public int getInvoiceNo() {
+        return invoiceNo;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setInvoiceNo(int invoiceNO) {
+        this.invoiceNo = invoiceNO;
     }
 
     public List<InvoProduct> getInvoProducts() {
@@ -89,14 +91,23 @@ public class InvoiceA {
         this.invoProducts = invoProducts;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     @Override
     public String toString() {
         return "InvoiceA{" +
                 "id=" + id +
-                ", date=" + date +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
                 ", userName='" + userName + '\'' +
-                ", customerName='" + customerName + '\'' +
-                ", invoProducts=" + invoProducts +
+                ", invoiceNo=" + invoiceNo +
+                ", theAdmin='" + theAdmin + '\'' +
                 '}';
     }
 }

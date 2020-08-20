@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 @CrossOrigin
 @RestController
@@ -15,9 +16,10 @@ public class ProductReportController {
     @Autowired
     private ProductReportService service;
 
-    @GetMapping("report/{format}")
-    public String exportReport(@PathVariable String format) throws FileNotFoundException, JRException {
-        System.out.println("controller");
-        return service.exprotReport(format);
+    @GetMapping("report/{format}/{user}")
+    public String exportReport(@PathVariable String format,
+                               @PathVariable String user) throws IOException, JRException {
+
+        return service.exprotReport(format, user);
     }
 }

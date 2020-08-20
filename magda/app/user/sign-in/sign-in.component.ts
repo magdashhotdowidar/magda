@@ -7,6 +7,8 @@ import {ToastrService} from "ngx-toastr";
 import {NgForm} from "@angular/forms";
 import {User} from "../user-infrastructure/user.model";
 import {Coding} from "../../shared/enums/coding.enum";
+import {LocalStorage} from "../../shared/enums/local-storage-coding.enum";
+import {EncodingLocalStorageService} from "../../shared/services/encoding-local-storage.service";
 
 
 @Component({
@@ -16,23 +18,27 @@ import {Coding} from "../../shared/enums/coding.enum";
 })
 export class SignInComponent implements OnInit {
   showPassword: string = 'password';
+  l: typeof LocalStorage = LocalStorage;
 
-  constructor(private userService: UserService, private router: Router, private toastr: ToastrService) {
+  constructor(private userService: UserService,
+              private router: Router,
+              private toastr: ToastrService) {
   }
 
   ngOnInit() {
   }
 
   OnSubmit(f: NgForm, userName, password) {
-    this.userService.userAuthentication(new Request(userName, password)).subscribe((data:AuthenticationResponse) => {
+    this.userService.userAuthentication(new Request(userName, password)).subscribe((data: AuthenticationResponse) => {
         const tokenappendbearer: string = 'Bearer ' + data.jwttoken;
 
-        localStorage.setItem('adminLogin', data.theUserAdmin)
-        localStorage.setItem('userToken', tokenappendbearer);
-        localStorage.setItem('userName', data.jwtUserName);
-        localStorage.setItem('role', data.role);
-
-        this.router.navigate([Coding.siteName + localStorage.getItem('adminLogin')]);
+        localStorage.setItem(this.l.admin, data.theUserAdmin)
+        localStorage.setItem(this.l.token, tokenappendbearer);
+        localStorage.setItem(this.l.userName, data.jwtUserName);
+        localStorage.setItem(this.l.role, data.role);
+        if (data.visitsCount == null || data.visitsCount == 0) data.visitsCount = 1;else data.visitsCount++;
+        this.toastr.info('VISIT NO ->' + data.visitsCount);
+        this.updateUserVisitsCount(data.jwtUserName, data.visitsCount);
       },
       (err: HttpErrorResponse) => {
         f.reset();
@@ -40,6 +46,12 @@ export class SignInComponent implements OnInit {
       });
   }
 
+  updateUserVisitsCount(user: string, count: number) {
+    this.userService.setUserVisitsCount(user,count ).subscribe((data:string)=>
+        this.router.navigate([Coding.siteName + localStorage.getItem(LocalStorage.admin)]),
+      (error:HttpErrorResponse)=>this.toastr.error(error.message));
+  }
+
 }
 
-export var na: string = Coding.siteName + localStorage.getItem('adminLogin');
+export var na: string = Coding.siteName + localStorage.getItem(LocalStorage.admin);

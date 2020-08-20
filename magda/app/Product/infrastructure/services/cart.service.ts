@@ -43,7 +43,7 @@ export class CartService {
     return this.http.delete(`${this.baseUrl}/${user}`, {responseType: 'text'});
   }
 
-  getCartLines(): Observable<Product[]> {
+  getCartLines(): Observable<Cart[]> {
     return this.http.get<Cart[]>(`${this.baseUrl}`);
   }
 

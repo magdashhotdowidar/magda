@@ -24,6 +24,7 @@ public class Authusermodel {
     private List<String> roles;
     private List<String> friends;
     private boolean enabled;
+    private int visitsCount;
 
     public Authusermodel() {}
 
@@ -41,6 +42,7 @@ public class Authusermodel {
             this.personalImage=user.getPersonalImage();
             this.backgroundImage=user.getBackgroundImage();
             this.theUserAdmin=user.getTheUserAdmin();
+            this.setVisitsCount(user.getVisitsCount());
 
             if (!user.getAuthorities().isEmpty()) {
                 this.roles = user.getAuthorities().stream().map(MyAuthority::getAuthority).collect(Collectors.toList());
@@ -157,6 +159,14 @@ public class Authusermodel {
 
     public void setTheUserAdmin(String theUserAdmin) {
         this.theUserAdmin = theUserAdmin;
+    }
+
+    public int getVisitsCount() {
+        return visitsCount;
+    }
+
+    public void setVisitsCount(int visitsCount) {
+        this.visitsCount = visitsCount;
     }
 
     @Override

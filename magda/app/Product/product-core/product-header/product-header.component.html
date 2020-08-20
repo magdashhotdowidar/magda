@@ -8,14 +8,14 @@
     <li class="nav-item">
       <a [routerLink]="mainPath" class="nav-link" routerLinkActive="active">{{'PROJECT.header.main_page'|translate}}</a>
     </li>
-    <li *ngIf="role=='ROLE_USER'||role=='ROLE_ADMIN'" class="nav-item">
+    <li *ngIf="role==l.ROLE_USER||role==l.ROLE_ADMIN" class="nav-item">
       <a (click)="showimag()" routerLink="slider" class="nav-link" routerLinkActive="active">{{'PROJECT.header.online_shopping'|translate}}</a>
     </li>
-    <li *ngIf="role=='ROLE_ADMIN'" class="nav-item">
+    <li *ngIf="role==l.ROLE_ADMIN" class="nav-item">
       <a (click)="showimag()" routerLink="add" class="nav-link" routerLinkActive="active">{{'PROJECT.header.product_management'|translate}}</a>
     </li>
 
-    <li *ngIf="role=='ROLE_SELLER'||role=='ROLE_ADMIN'" class="nav-item">
+    <li *ngIf="role==l.ROLE_SELLER||role==l.ROLE_ADMIN"class="nav-item">
       <a routerLink="sell" (click)="showimag()" class="nav-link" routerLinkActive="active">{{'PROJECT.header.traditional_shopping'|translate}}</a>
     </li>
   </ul>
@@ -30,12 +30,12 @@
       <a (mouseenter)="dropDownOpened=!dropDownOpened" style="cursor: pointer;margin: 20px;color: whitesmoke"  class="dropdown-toggle"
          appDropdown data-toggle="dropdown" role="button">{{'PROJECT.header.hi'|translate}} - <i style="color: yellow">{{userName|uppercase}} </i><span class="caret"></span></a>
       <ul class="dropdown-menu " [ngClass]="{show:dropDownOpened}">
-        <li *ngIf="role=='ROLE_USER'"> <a routerLink="cart">
+        <li *ngIf="role==l.ROLE_USER"> <a routerLink="cart">
           <i class="fa fa-shopping-cart"></i>
           <i class="badge" style="color: red">{{cartLineCount}}</i> - &#8377;{{total}}
         </a> </li>
-        <div *ngIf="role=='ROLE_ADMIN'" class="dropdown-divider"></div>
-        <a *ngIf="role=='ROLE_ADMIN'" STYLE="color: blue" class="nav-link" routerLink='/signup' routerLinkActive='active'>Sign Up</a>
+        <div *ngIf="role==l.ROLE_ADMIN" class="dropdown-divider"></div>
+        <a *ngIf="role==l.ROLE_ADMIN" STYLE="color: blue" class="nav-link" routerLink='/signup' routerLinkActive='active'>Sign Up</a>
         <div class="dropdown-divider"></div>
         <li><a style="cursor: pointer;color:blue" (click)="Logout()">Logout</a></li>
 

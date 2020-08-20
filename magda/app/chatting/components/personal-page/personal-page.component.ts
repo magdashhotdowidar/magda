@@ -8,6 +8,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {FriendRequest, FriendRequestService} from "../../infrastructure/services/friend-request.service";
 import {Friend, FriendService} from "../../infrastructure/services/friends.service";
 import {Title} from "@angular/platform-browser";
+import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
 
 @Component({
   selector: 'app-personal-page',
@@ -16,7 +17,7 @@ import {Title} from "@angular/platform-browser";
 })
 export class PersonalPageComponent implements OnInit {
 
-  userName = localStorage.getItem('userName');
+  userName = localStorage.getItem(LocalStorage.userName);
   user: ChattingUser;
   path: typeof Path = Path;
   imgPath: string = this.path.userImagePath;

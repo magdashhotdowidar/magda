@@ -6,13 +6,12 @@ import {Pipe, PipeTransform} from '@angular/core';
 })
 export class InvoiceFilterPipe implements PipeTransform {
 
-  transform(value: any, customer?: string, date?: string): any {
-    if (value.lenght === 0 || (customer === '' && date === '')) return value;
+  transform(value: any, invoiceNO?: number, date?: string): any {
+    if (value.lenght === 0 || (invoiceNO === 0 && date.trim() === '')) return value;
     const resultArray = [];
     for (const item of value)
-      if (item['customerName'] === customer && item['date'] === date) resultArray.push(item);
-      else if (item['customerName'] === customer && date === '') resultArray.push(item);
-      else if (item['date'] === date && customer === '') resultArray.push(item);
+      if (item['invoiceNo'] === invoiceNO && item['date'] === date.trim()) resultArray.push(item);
+      else if (item['date'] === date.trim() && invoiceNO === 0) resultArray.push(item);
 
     return resultArray;
   }

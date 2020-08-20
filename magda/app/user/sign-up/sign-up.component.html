@@ -40,11 +40,11 @@
                   <div id="errLast"></div>-->
               <select style="font-size: large;background-color:bisque;color: red" class="form-control form-control-sm"
                       name="role" [(ngModel)]="user.roles" ngModel>
-                <option style="color: blue; font-size: large" value=ROLE_USER>{{'USER'}}</option>
-                <option *ngIf="role=='ROLE_ADMIN'" style="color: blue; font-size: large"
-                        value=ROLE_ADMIN>{{'ADMIN'}}</option>
-                <option *ngIf="role=='ROLE_ADMIN'" style="color: blue; font-size: large"
-                        value=ROLE_SELLER>{{'SELLER'}}</option>
+                <option style="color: blue; font-size: large" [value]="l.ROLE_USER">{{'USER'}}</option>
+                <option *ngIf="role==l.ROLE_ADMIN" style="color: blue; font-size: large"
+                        [value]="l.ROLE_ADMIN">{{'ADMIN'}}</option>
+                <option *ngIf="role==l.ROLE_ADMIN" style="color: blue; font-size: large"
+                        [value]="l.ROLE_SELLER">{{'SELLER'}}</option>
               </select>
             </div>
 

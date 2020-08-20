@@ -6,9 +6,8 @@ import {CartService} from "../../infrastructure/services/cart.service";
 import {Cart} from "../../infrastructure/models/Cart";
 import {ToastrService} from "ngx-toastr";
 import {Path} from "../../../shared/enums/path.enum";
-import {Store} from "@ngrx/store";
-import {ProductStoreStates} from "../../infrastructure/product-store/product-store.store";
-import {AddCart} from "../../infrastructure/product-store/product-actions/product.action";
+import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
+
 
 @Component({
   selector: 'app-product-details',
@@ -20,8 +19,9 @@ export class ProductDetailsComponent implements OnInit {
   name: string;
   product: Product;
   buy: boolean = false;
-  user = localStorage.getItem('userName');
-  role=localStorage.getItem('role');
+  user = localStorage.getItem(LocalStorage.userName);
+  l:typeof LocalStorage=LocalStorage;
+  role=localStorage.getItem(LocalStorage.role);
   path: typeof Path = Path;
   imgPath: string = this.path.productImagePath;
   amount: number;

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {LocalStorage} from "../../shared/enums/local-storage-coding.enum";
 
 @Component({
   selector: 'chatting-user',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chatting-user.component.css']
 })
 export class ChattingUserComponent implements OnInit {
-role=localStorage.getItem('role');
+role=localStorage.getItem(LocalStorage.role);
 signIn:boolean=true;
 signUp:boolean=false;
   constructor() { }

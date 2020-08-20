@@ -1,5 +1,6 @@
 export enum Modules {
   P = 'Product',
-  CH = 'Chatting'
+  CH = 'Chatting',
+  U='user'
 
 }

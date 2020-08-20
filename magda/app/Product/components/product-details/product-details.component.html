@@ -1,4 +1,4 @@
-<h2 xmlns="http://www.w3.org/1999/html" style="text-align: center;color: lime">Product Details</h2>
+<h2 xmlns="http://www.w3.org/1999/html" style="text-align: center;color: lime">{{'PROJECT.product.sell.the_product_view'|translate}}</h2>
 
 <hr/>
 <div *ngIf="product">
@@ -6,44 +6,44 @@
     <div class="row">
       <div class="col-md-6">
         <div>
-          <label><b>THE PRODUCT CATEGORY: </b></label>
+          <label><b>{{'PROJECT.product.edit.product_category'|translate}} - </b></label>
           <span>{{product.category}}</span>
         </div>
         <div>
-          <label><b>THE PRODUCT NAME: </b></label>
+          <label><b>{{'PROJECT.product.edit.product_name'|translate}} - </b></label>
           <span>{{product.name}}</span>
         </div>
         <div>
-          <label><b>THE PRODUCT BRAND: </b></label>
+          <label><b>{{'PROJECT.product.edit.product_brand'|translate}} - </b></label>
           <span>{{product.brand}}</span>
         </div>
         <div>
-          <label><b>THE DESCRIPTION: </b></label>
+          <label><b>{{'PROJECT.product.edit.product_description'|translate}} - </b></label>
           <span>{{product.description}}</span>
         </div>
         <div>
-          <label><b>THE AMOUNT: </b></label>
+          <label><b>{{'PROJECT.product.edit.product_amount'|translate}} - </b></label>
           <span>{{product.amount}}</span>
         </div>
         <div>
-          <label><b>THE PRICE: </b></label>
+          <label><b>{{'PROJECT.product.edit.product_price'|translate}} - </b></label>
           <span>{{product.price}}<i class="fa fa-dollar"></i></span>
         </div>
         <div><br>
           <hr style="border-color: blue"/>
           <div *ngIf="buy">
             <div class="row">
-            <label style="color:magenta">Enter the amount</label>
+            <label style="color:magenta">{{'PROJECT.product.sell.enterQuantity'|translate}}</label>
             <input type="number" class="form-control " id="amount" required minlength="1" min="1"
                    data-toggle="tooltip" data-placement="right" title="Enter the Amount"
                    [(ngModel)]="amount" style="font-size:small;width: fit-content;text-align: center"
                    name="amount" #_i ngModel PositiveOnly></div>
             <hr style="border-color: blue"/>
           </div>
-          <button *ngIf="buy" (click)="addToCart()" class="btn btn-warning" style="margin: 3px;">Add To Cart</button>
-          <button *ngIf="!buy" (click)="buy=true" class="btn btn-warning">BUY</button>
-          <button class="btn btn-success" style="margin: 3px" routerLink="../../slider">Go To Online Shopping</button>
-          <button *ngIf="role=='ROLE_ADMIN'" (click)="list()" class="btn btn-primary">Go To Product Edit</button>
+          <button *ngIf="buy" (click)="addToCart()" class="btn btn-warning" style="margin: 3px;">{{'PROJECT.product.sell.add_to_cart'|translate}}</button>
+          <button *ngIf="!buy" (click)="buy=true" class="btn btn-warning">{{'PROJECT.product.sell.buy'|translate}}</button>
+          <button class="btn btn-success" style="margin: 3px" routerLink="../../slider">{{'PROJECT.product.sell.back_to_online_shopping'|translate}}</button>
+          <button *ngIf="role==l.ROLE_ADMIN" (click)="list()" class="btn btn-primary">{{'PROJECT.product.sell.back_to_products'|translate}}</button>
           <br></div>
       </div>
       <div class="col-md-6">

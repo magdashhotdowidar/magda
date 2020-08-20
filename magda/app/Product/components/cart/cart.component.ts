@@ -10,6 +10,8 @@ import {Product} from "../../infrastructure/models/product";
 import {Path} from "../../../shared/enums/path.enum";
 import {Store} from "@ngrx/store";
 import {ProductStoreStates} from "../../infrastructure/product-store/product-store.store";
+import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-cart',
@@ -19,7 +21,7 @@ import {ProductStoreStates} from "../../infrastructure/product-store/product-sto
 export class CartComponent implements OnInit{
   path: typeof Path = Path;
   imgPath: string = this.path.productImagePath;
-  user = localStorage.getItem('userName');
+  user = localStorage.getItem(LocalStorage.userName);
   cartLines: Cart[] = [];
   cartLineSaved: boolean = false;
   private total: number;
@@ -86,9 +88,9 @@ export class CartComponent implements OnInit{
         this.toastr.success("SUCCESSFULLY DELETION");
         this.reload();
       },
-      err => {
+      (error:HttpErrorResponse) => {
         this.toastr.error("DELETION FAILED");
-        console.log(err.error);
+        alert(error.message);
       })
   }
 

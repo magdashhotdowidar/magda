@@ -26,6 +26,8 @@ export class URLConfigService {
         return environment.pURL;
       case Modules.CH:
         return environment.chURL;
+      case Modules.U:
+        return environment.uURL;
     }
   }
 

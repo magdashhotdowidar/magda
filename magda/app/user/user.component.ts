@@ -5,6 +5,7 @@ import {na} from "./sign-in/sign-in.component";
 import {Path} from "../shared/enums/path.enum";
 import {TranslateService} from "@ngx-translate/core";
 import {DOCUMENT} from "@angular/common";
+import {LocalStorage} from "../shared/enums/local-storage-coding.enum";
 
 @Component({
   selector: 'app-user',
@@ -13,10 +14,12 @@ import {DOCUMENT} from "@angular/common";
 })
 export class UserComponent implements OnInit {
   path: typeof Path = Path;
-  role = localStorage.getItem('role');
+  l:typeof LocalStorage=LocalStorage;
+  role = localStorage.getItem(LocalStorage.role);
   productPath: string = '../' + na + '/p';
   imgPath: string = this.path.backgroundPath;
-  backgrounds: string[] = ['1.jpg', '2.jpg', '3.jfif', '4.jfif', '5.jfif', '6.jfif'];
+  backgrounds: string[] = ['hi.gif', 'fish.gif','f1.gif','f2.gif','f3.gif','f4.gif','f5.gif','t3.gif','t5.gif',
+    'a1.gif', 'a2.gif', 'a5.gif', 'c2.gif','c5.gif', 'c6.gif','c7.gif'];
   selectedLang: string = 'en'
   langs: string[] = ['en', 'ar']
   direc: boolean = false;

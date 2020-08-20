@@ -7,6 +7,7 @@ import {Path} from "../../shared/enums/path.enum";
 import {Category} from "../infrastructure/models/category";
 import {ProductJasperReportService} from "../infrastructure/services/product-jasper-report.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {ProductResponse} from "../infrastructure/models/ProductResponse.model";
 
 @Component({
   selector: 'add-product',
@@ -50,7 +51,7 @@ export class AddProductComponent implements OnInit {
   }
 
   reloadData() {
-    this.productService.getproductList().subscribe(date => this.products = date);
+    this.productService.getproductList().subscribe((date:ProductResponse )=> this.products = date.products);
   }
   addNewProduct(event: Product) {
     this.products.push(event);

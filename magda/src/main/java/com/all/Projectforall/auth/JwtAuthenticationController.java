@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.ws.rs.Path;
 
 @CrossOrigin()
 @RestController
@@ -52,11 +53,12 @@ public class JwtAuthenticationController {
 
         final String token = jwtTokenUtil.generateToken(userDetails);
         final String userName = jwtTokenUtil.getUsernameFromToken(token);
-        final MyUser user =userRepo.findByUsername(userName).get();
+        final MyUser user = userRepo.findByUsername(userName).get();
         final String role = user.getAuthorities().get(0).getAuthority();
-        final String userAdmin=user.getTheUserAdmin();
+        final String userAdmin = user.getTheUserAdmin();
+        final int count = user.getVisitsCount();
         System.out.println("authenticate token: " + token);
-        return ResponseEntity.ok(new JwtResponse(token, userName, role,userAdmin));
+        return ResponseEntity.ok(new JwtResponse(token, userName, role, userAdmin, count));
     }
 
     private void authenticate(String username, String password) throws Exception {
@@ -74,6 +76,7 @@ public class JwtAuthenticationController {
         Map<String, Boolean> response = new HashMap<>();
         MyUser user = new MyUser(model);
         model.getRoles().forEach(role -> user.add_authority(new MyAuthority(role)));
+        user.setVisitsCount(0);
         //System.out.println("the user controll");
         if ((new Authusermodel(userRepo.save(user))) != null) {
             response.put("Succeeded", Boolean.TRUE);
@@ -107,7 +110,7 @@ public class JwtAuthenticationController {
             throws ResourceNotFoundException {
 
         if (!file.getOriginalFilename().equals(""))
-            FileUpload.UPloadImage(request, file, file.getOriginalFilename(),"user");
+            FileUpload.UPloadImage(request, file, file.getOriginalFilename(), "user");
 
         Authusermodel userDetails = new Gson().fromJson(StrUser, Authusermodel.class);
 
@@ -125,11 +128,19 @@ public class JwtAuthenticationController {
         user.setBirthDate(userDetails.getBirthDate());
         user.setTheUserAdmin(userDetails.getTheUserAdmin());
 
-        if(!userDetails.getRoles().isEmpty())
-        userDetails.getRoles().forEach(role -> user.add_authority(new MyAuthority(role)));
+        if (!userDetails.getRoles().isEmpty())
+            userDetails.getRoles().forEach(role -> user.add_authority(new MyAuthority(role)));
 
         final MyUser updatedUser = userRepo.save(user);
         return ResponseEntity.ok(new Authusermodel(updatedUser));
+    }
+
+    @GetMapping("u/{name}/{count}")
+    public ResponseEntity<String> setVisitsCount(@PathVariable("name") String name,@PathVariable("count")int count) {
+      MyUser user = userRepo.findByUsername(name).get();
+      user.setVisitsCount(count);
+      userRepo.save(user);
+      return ResponseEntity.ok( ""+count);
     }
 
     @GetMapping("/users/admins")

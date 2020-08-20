@@ -9,12 +9,14 @@ public class JwtResponse implements Serializable {
     private final String jwtUserName;
     private final String role;
     private final String theUserAdmin;
+    private final int visitsCount;
 
-    public JwtResponse(String jwttoken,String jwtUserName,String role,String theUserAdmin) {
+    public JwtResponse(String jwttoken,String jwtUserName,String role,String theUserAdmin,int count) {
         this.jwttoken = jwttoken;
         this.jwtUserName=jwtUserName;
         this.role=role;
         this.theUserAdmin=theUserAdmin;
+        this.visitsCount=count;
     }
 
     public String getJwttoken() {
@@ -28,5 +30,8 @@ public class JwtResponse implements Serializable {
     }
     public String getRole() {
         return role;
+    }
+    public int getVisitsCount() {
+        return visitsCount;
     }
 }

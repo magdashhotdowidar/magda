@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 public class InvoiceModel {
 
     private String date;
+    private String time;
     private String userName;
-    private String customerName;
+    private int invoiceNo;
     private List<ProductModel> productModels;
     private String the_admin;
-
 
     public InvoiceModel() {
     }
@@ -25,8 +25,9 @@ public class InvoiceModel {
 
         if (invoice != null) {
             this.date = invoice.getDate();
+            this.time=invoice.getTime();
             this.userName = invoice.getUserName();
-            this.customerName = invoice.getCustomerName();
+            this.invoiceNo = invoice.getInvoiceNo();
             this.the_admin=invoice.getTheAdmin();
             if (!invoice.getInvoProducts().isEmpty()) {
                 this.productModels = invoice.getInvoProducts().
@@ -37,10 +38,10 @@ public class InvoiceModel {
         }
     }
 
-    public InvoiceModel(String date, String userName, String customerName) {
+    public InvoiceModel(String date, String userName, int invoiceNO) {
         this.date = date;
         this.userName = userName;
-        this.customerName = customerName;
+        this.invoiceNo = invoiceNO;
     }
 
     public String getThe_admin() {
@@ -67,12 +68,12 @@ public class InvoiceModel {
         this.userName = userName;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public int getInvoiceNo() {
+        return invoiceNo;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setInvoiceNo(int invoiceNo) {
+        this.invoiceNo = invoiceNo;
     }
 
     public List<ProductModel> getProductModels() {
@@ -84,13 +85,23 @@ public class InvoiceModel {
         this.productModels = productModels;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     @Override
     public String toString() {
         return "InvoiceModel{" +
-                "date=" + date +
+                "date='" + date + '\'' +
+                ", time='" + time + '\'' +
                 ", userName='" + userName + '\'' +
-                ", customerName='" + customerName + '\'' +
+                ", invoiceNo=" + invoiceNo +
                 ", productModels=" + productModels +
+                ", the_admin='" + the_admin + '\'' +
                 '}';
     }
 }

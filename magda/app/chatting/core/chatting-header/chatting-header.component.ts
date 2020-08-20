@@ -10,6 +10,7 @@ import {Coding} from "../../../shared/enums/coding.enum";
 import {Friend, FriendService} from "../../infrastructure/services/friends.service";
 import {ToastrService} from "ngx-toastr";
 import {Message, MessageService} from "../../infrastructure/services/messages.service";
+import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
 
 
 @Component({
@@ -23,9 +24,11 @@ export class ChattingHeaderComponent implements OnInit {
   @Output() right_direction = new EventEmitter<boolean>();
 
   selectedLang: string = 'ar'
-  userName: string = localStorage.getItem("userName");
-  mainPath: string = '/multichoice.com/' + localStorage.getItem('adminLogin') + '/' + Coding.front_home;
-  role: string = localStorage.getItem('role');
+  userName: string = localStorage.getItem(LocalStorage.userName);
+  mainPath: string = '/multichoice.com/' + localStorage.getItem(LocalStorage.admin) + '/' + Coding.front_home;
+  role: string = localStorage.getItem(LocalStorage.role);
+  l:typeof LocalStorage=LocalStorage;
+  roleAdmin:string=this.l.ROLE_ADMIN;
 
   usersForSearch: ChattingUser[] = [];
   friendRequests: FriendRequest[] = [];

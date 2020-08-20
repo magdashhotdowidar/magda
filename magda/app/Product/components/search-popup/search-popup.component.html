@@ -21,31 +21,48 @@
         <form *ngIf="!matchAny" class="full-width" [formGroup]="invoiceSearchForm">
           <div class="form-group mx-sm-3 mb-2">
             <div class="input-group mb-3">
-              <label for="cusName" style="color: blue;background-color:#fbfbfb;font-size: xx-large">CUSTOMER NAME
+              <label for="cusName" style="color: blue;background-color:#fbfbfb;font-size: xx-large">Inoivce No
                 : </label>
               <div class="detail w-100">
-                <input class="form-control" ngModel id="cusName" formControlName="customerName" required="true">
+                <input class="form-control" ngModel id="cusName" formControlName="invoiceNo" required="true">
               </div>
             </div>
           </div>
-          <div class="form-group mx-sm-3 mb-2">
+          <div class="row">
+          <div class="col-md-6 form-group mx-sm-3 mb-2">
             <div class="input-group mb-3">
               <label for="date" style="color: blue;background-color:#fbfbfb;font-size: xx-large">DATE : </label>
-
               <div class="detail w-100">
                 <input type="date" max="3000-12-31" id="date" min="1000-01-01" class="form-control"
-                       [(ngModel)]="defaultDate"
-                       formControlName="date" required="true">
+                       [(ngModel)]="defaultDate" formControlName="date" required="true">
               </div>
             </div>
           </div>
+        <!--    <div  class="form-group mx-sm-3 mb-2" style="margin: 12px 0px">
+              <div class="form-group mx-sm-3 mb-2">
+                <div class="input-group mb-3">
+                  <div *ngIf="showTime" class="form-group mx-sm-3 mb-2"> <label for="amount" style="margin: 0px;padding: 0px;width: 30px;color: blue;background-color:#fbfbfb;font-size: large">
+                    {{'PROJECT.product.sell.time'|translate}} </label></div>
+                  <div class="input-group mb-3">
+                    <input *ngIf="showTime" type="text" class="form-control text-center" id="amount"
+                            style="font-size: large;color:blue;width: 40px"
+                           name="time" ngModel>
+                    <div (click)="showTime=!showTime"  class="input-group-append">
+                      <button [ngStyle]="{color :showTime?'blue':'yellow'}" [ngClass]="{'btn-warning':showTime}"
+                              class="btn btn-outline-warning fa fa-clock-o" style="color: yellow;font-size:large;font-style: italic">
+                        <label [ngStyle]="{color :showTime?'blue':'yellow'}">  {{showTime ? 'TIME-OFF' : 'TIME-ON'}}
+                        </label></button>
+                    </div></div></div></div></div>-->
+
+          </div>
+
         </form>
 
         <div *ngIf="matchAny&&showAllInvoicesTable" id="custom-search-input">
           <div class="row">
           <div class="input-group col-md-6" style="text-align: center">
-            <input type="text" class="search-query form-control " placeholder="Search Customer Name" name="searchCustomer" style="color: blue"
-                   [(ngModel)]="searchByCustomerName"/>
+            <input type="number" class="search-query form-control " placeholder="Search InvoiceNO" name="searchInvoiceNo" style="color: blue"
+                   [(ngModel)]="searchByInvoiceNo"/>
           </div>
           <div class="input-group col-md-6" style="text-align: center">
             <input type="date" class="search-query form-control " placeholder="Search Date" name="searchDate" style="color: blue"
@@ -60,9 +77,9 @@
 
               <div class="col-md-6">
                 <div class="input-group mb-3">
-                  <label for="cus" style="color: blue;background-color:#fbfbfb;font-size: large">CUSTOMER MANE: </label>
-                  <input type="text" class="form-control" id="cus" style="font-size: large" name="customerDB"
-                         [(ngModel)]="customerDB" readonly>
+                  <label for="cus" style="color: blue;background-color:#fbfbfb;font-size: large">INVOICE NO: </label>
+                  <input type="text" class="form-control" id="cus" style="font-size: large" name="invoiceNODB"
+                         [(ngModel)]="invoiceNODB" readonly>
                 </div>
                 <div class="input-group mb-3">
                   <label for="d" style="color: blue;background-color:#fbfbfb;font-size: large">INVOICE SELL
@@ -111,10 +128,11 @@
                                                                                                    aria-hidden="true"
                                                                                                    style="color: red"></i>
           </button>
-          <button [disabled]="invoiceSearchForm.invalid" type="button" (click)="getInvoice()" STYLE="margin-right:3px"
+          <button  [disabled]="invoiceSearchForm.invalid" type="button" (click)="getInvoice()" STYLE="margin-right:3px"
                   class="btn btn-primary">
             <i class="fa fa-eye" aria-hidden="true"></i>SEARCH <i class="fa fa-search" aria-hidden="true"></i>
           </button>
+
         </div>
       </div>
     </div>
@@ -170,7 +188,7 @@
           <table class="table">
             <thead class="thead-light">
             <tr style="color:red;font-size: large">
-              <th (click)="sort('customerName')"   style="color:red;font-size: large">{{'Customer Name'}}
+              <th (click)="sort('invoiceNO')"   style="color:red;font-size: large">{{'Invoice NO'}}
                 <span class="fa fa-sort"  [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
               <th (click)="sort('userName')"   style="color:red;font-size: large">{{'User Name'}}
                 <span class="fa fa-sort"  [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
@@ -184,11 +202,11 @@
             <tbody>
             <tr *ngFor="let invoice of allInvoices|orderBy:key:reverse
                                                   | paginate: { itemsPerPage: itemsPerPage, currentPage: p }
-                                                  |invoiceFilter:searchByCustomerName:searchByDate"
+                                                  |invoiceFilter:searchByInvoiceNo:searchByDate"
                 style="color:blue;font-size: large">
               <td><span style="cursor: pointer;" class="action-link"
                         data-dismiss="modal">
-                     {{invoice?.customerName}}
+                     {{invoice?.invoiceNo}}
                   </span>
               </td>
               <td><span style="cursor: pointer;" class="action-link"

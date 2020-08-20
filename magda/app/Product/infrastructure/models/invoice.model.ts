@@ -1,18 +1,20 @@
-import {Product} from "./product";
+import {Product, ProductsTable} from "./product";
 
 
 export class Invoice {
 
   public date:string;
+  public time:string;
   public userName: string;
-  public customerName: string;
-  public productModels: Product[];
+  public invoiceNo:number;
+  public productModels: ProductsTable[];
 
 
-  constructor(userName?: string, customerName?: string, date?:string, productModels?:Product[]) {
+  constructor(userName?: string, invoiceNo?: number, date?:string,time?:string, productModels?:ProductsTable[]) {
    this.userName=userName;
-    this.customerName=customerName;
+    this.invoiceNo=invoiceNo;
     this.date=date;
+    this.time=time;
    this.productModels=productModels;
   }
 }

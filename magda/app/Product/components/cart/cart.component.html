@@ -3,7 +3,7 @@
   <section class="main-section">
 
     <div class="container">
-      <h1 style="text-align: center;color: blue"><strong>{{user}} Cart</strong></h1>
+      <h1 style="text-align: center;color: blue"><strong>{{'PROJECT.product.sell.user_cart'|translate}} - {{user}} </strong></h1>
       <hr style="border-color: blue">
       <div *ngIf="cartLines.length==0" class="jumbotron">
         <div class="text-center">
@@ -19,11 +19,11 @@
                 <thead>
                 <tr style="color:red;font-size: large">
                   <th class="th-sm">{{'PROJECT.product.edit.product_image'|translate}}</th>
-                  <th>Product Name</th>
-                  <th>The Amount</th>
-                  <th>The Price</th>
-                  <th>Sub Total</th>
-                  <th>Actions</th>
+                  <th>{{'PROJECT.product.sell.product_name'|translate}}</th>
+                  <th>{{'PROJECT.product.sell.the_amount'|translate}}</th>
+                  <th>{{'PROJECT.product.sell.the_price'|translate}}</th>
+                  <th>{{'PROJECT.product.sell.sub_total'|translate}}</th>
+                  <th>{{'PROJECT.product.sell.actions'|translate}}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -45,12 +45,12 @@
                 <tfoot>
                 <tr style="color:red;font-size: large">
                   <th class="th-sm">{{'PROJECT.product.edit.product_image'|translate}}</th>
-                  <th>Product Name</th>
-                  <th>The Amount</th>
-                  <th>The Price</th>
-                  <th><strong style="color:lime;font-size: small">grand total -  <i style="color:lime" class="fa fa-dollar"></i><span style="color: magenta;font-size: large">{{total}}
+                  <th>{{'PROJECT.product.sell.product_name'|translate}}</th>
+                  <th>{{'PROJECT.product.sell.the_amount'|translate}}</th>
+                  <th>{{'PROJECT.product.sell.the_price'|translate}}</th>
+                  <th><strong style="color:lime;font-size: small">{{'PROJECT.product.sell.grand_total'|translate}} -  <i style="color:lime" class="fa fa-dollar"></i><span style="color: magenta;font-size: large">{{total}}
                    </span></strong></th>
-                  <th>Actions</th>
+                  <th>{{'PROJECT.product.sell.actions'|translate}}</th>
                 </tr>
                 </tfoot>
               </table>

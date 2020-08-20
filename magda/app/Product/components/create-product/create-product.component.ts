@@ -1,17 +1,19 @@
 import {ProductService} from '../../infrastructure/services/product.service';
-import {Product} from '../../infrastructure/models/product';
-import {Component, OnInit} from '@angular/core';
+import {Product, ProductsTable} from '../../infrastructure/models/product';
+import {AfterViewChecked, Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {map, takeUntil} from 'rxjs/operators';
 import {ToastrService} from "ngx-toastr";
 import {Invoice} from "../../infrastructure/models/invoice.model";
 import {Observable} from "rxjs";
 import {InvoiceService} from "../../infrastructure/services/invoice.service";
 import {formatDate} from "@angular/common";
-import {run} from "tslint/lib/runner";
 import {CanComponentDeactivate} from "../../../auth/can-deactivate-guard.service";
 import {NgForm} from "@angular/forms";
 import {CategoryService} from "../../infrastructure/services/category.service";
+import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
+import {HttpErrorResponse} from "@angular/common/http";
+import {ProductResponse} from "../../infrastructure/models/ProductResponse.model";
+import {BarecodeScannerLivestreamComponent} from "ngx-barcode-scanner";
 
 
 export class Brand {
@@ -29,23 +31,32 @@ export class Brand {
   styleUrls: ['./create-product.component.css'],
 
 })
-export class CreateProductComponent implements OnInit, CanComponentDeactivate {
-
+export class CreateProductComponent implements OnInit, AfterViewChecked, CanComponentDeactivate {
+  // @ts-ignore
+  @ViewChild(BarecodeScannerLivestreamComponent)
+  barecodeScanner: BarecodeScannerLivestreamComponent;
+  barcodeValue;
+  userName: string;
+  selectedCod: number;
   selectedValue: string;
   selectedCategory: string;
   brands: Brand[];
   categories: string[];
   amount: number;
   invoice: Invoice;
-  invoices: Observable<Invoice[]>;
-  invoiceProducts: Product[];
-  invoiceProductsDB: Product[];
+  invoiceProducts: ProductsTable[];
+  productsDB: Product[] = [];
+  invoicesCount: number = 0;
   total: number;
   submitted: boolean;
   invoiceSaved: boolean;
   showpopup: boolean;
-  defaultDate: Date;
+  scanner: boolean;
+  showStopScanner:boolean=false;
+  scannerMode:string;
+  defaultDate: string;
   role: string;
+  l: typeof LocalStorage = LocalStorage;
 
 
   constructor(private productService: ProductService,
@@ -58,46 +69,68 @@ export class CreateProductComponent implements OnInit, CanComponentDeactivate {
   }
 
   ngOnInit() {
-    // this.selectdata();
-    this.getCategorys();
-    this.reloadData();
-    this.setDefaultData();
+    this.reloadProducts();
+  }
+  openScanner() {
+    this.showStopScanner=true;
+    this.barecodeScanner.start();
+  }
+  stopScanner(){
+    this.barecodeScanner.stop();
+    this.showStopScanner=false;
+  }
 
+  onValueChanges(result){
+    this.barcodeValue = result.codeResult.code;
+  }
+
+  onStarted(started){
+    console.log(started);
   }
 
   setDefaultData() {
-    this.role = localStorage.getItem('role');
+    this.role = localStorage.getItem(LocalStorage.role);
+    this.userName = localStorage.getItem(LocalStorage.userName);
     this.selectedValue = 'PRODUCTS';
     this.selectedCategory = 'categories';
-    this.amount = 0;
-    this.invoice = new Invoice('', '', '', []);
+    this.selectedCod=0;
+    this.amount = 1;
+    this.invoice = new Invoice(this.userName, this.invoicesCount, '', '', []);
     this.invoiceProducts = [];
-    this.invoiceProductsDB = [];
     this.brands = [];
     this.categories = [];
     this.total = 0;
-    this.defaultDate = new Date();
+    this.defaultDate = formatDate(new Date(), 'yyyy-MM-dd | hh:mm a', 'en-US');
     this.submitted = false;
     this.showpopup = false;
+    this.scanner = false;
     this.invoiceSaved = false;
   }
 
-  reloadData() {
-    this.invoices = this.invoiceService.getAllInvoices();
+  reloadProducts() {
+    this.productService.getproductList().subscribe((data: ProductResponse) => {
+        this.productsDB = data.products;
+        this.invoicesCount = data.invoicesCount;
+        this.setDefaultData();
+        this.getCategorys();
+      },
+      (error: HttpErrorResponse) => this.toastr.info(error.message))
   }
 
 
-  save() {
-    let date: string = formatDate(this.defaultDate, 'yyyy-MM-dd', 'en-US');
-    this.invoice.date = date;
+  save(form: NgForm) {
+    let date: string[] = this.defaultDate.split('|');
+    this.invoice.time = date[1].trim();
+    this.invoice.date = date[0].trim();
     this.invoice.productModels = this.invoiceProducts;
-    if (this.invoice.customerName == '' || this.invoice.userName == '') this.toastr.warning("Enter CustomerName and UserName")
+    if (this.invoice.invoiceNo == 0 || this.invoice.userName == '') this.toastr.warning("Enter InvoiceNo and UserName")
     else
       this.invoiceService.createInvoice(this.invoice)
         .subscribe(data => {
+          this.invoicesCount++;
           this.clear();
-          // this.reloadData();
-          console.log(data);
+          this.submitted = true;
+          this.invoiceSaved = true;
           this.toastr.success("SUCCESSFULLY SAVED");
         }, error => {
           this.toastr.warning("ERROR!!!");
@@ -108,40 +141,27 @@ export class CreateProductComponent implements OnInit, CanComponentDeactivate {
 
   clear() {
     this.total = 0;
+    this.amount = 1;
     this.selectedValue = 'PRODUCTS';
     this.selectedCategory = 'categories';
-    this.defaultDate = new Date();
-    this.invoice = new Invoice();
+    this.selectedCod=0;
+    this.invoice = new Invoice(this.userName, this.invoicesCount, '', '', []);
     this.invoiceProducts = [];
-    this.invoiceProductsDB = [];
-    this.amount = 0;
   }
 
   selectdata() {
     this.brands = [];
-    this.productService.getProductsByCategory(this.selectedCategory).subscribe(data => {
-      for (let d of data) {
-        this.brands.push(new Brand(d.name, d.name));
-      }
-      //console.log('ahmed names', data)
-    })
+    for (let d of this.productsDB)
+      if (d.category == this.selectedCategory) this.brands.push(new Brand(d.name, d.name));
   }
 
   getCategorys() {
-    this.categoryService.getNames().subscribe(data => {
-        this.categories = data
-      },
-      error => {
-        console.log(error);
-      }
-    )
+    this.categoryService.getNames().subscribe(data => this.categories = data,
+      (error: HttpErrorResponse) => this.toastr.error(error.message))
   }
 
   onSubmit(form: NgForm) {
-    this.submitted = true;
-    this.save();
-    form.reset();
-    this.invoiceSaved = true;
+    this.save(form);
   }
 
   setTotal() {
@@ -155,39 +175,51 @@ export class CreateProductComponent implements OnInit, CanComponentDeactivate {
 
   addProduct() {
 
-    let product: Product = new Product();
+    let product: ProductsTable = new ProductsTable(0,new Product());
     let productdb: Product = new Product();
-    this.productService.getProduct(this.selectedValue).subscribe(res => {
-      productdb = res
-      product.price = productdb.price;
-      product.name = productdb.name;
-      product.amount = this.amount;
+    if (this.scanner) {
+      productdb = this.getProductByCod(this.selectedCod);
+    this.selectedCategory=productdb.category;
+    this.selectedValue=productdb.name;
+    } else productdb = this.getProductByName(this.selectedValue);
 
-      let contain: boolean = false;
+    product.price = productdb.price;
+    product.name = productdb.name;
+    product.amount = this.amount;
 
-      if (this.invoiceProducts.length > 0)
-        for (let p of this.invoiceProducts) {
-          if (product.name == p.name) contain = true;
-        }
+    let contain: boolean = false;
 
-      let runOut: boolean = false;
+    if (this.invoiceProducts.length > 0)
+      for (let p of this.invoiceProducts) {
+        if (product.name == p.name) contain = true;
+      }
 
-      if (productdb.amount <= 0 || productdb.amount < product.amount) runOut = true;
+    let runOut: boolean = false;
 
-      if (!contain && !runOut && product.amount != 0 && product.amount != null) {
-        this.invoiceProducts.push(product);
-        this.setTotal()
-        productdb.amount = productdb.amount - product.amount;
-        this.productService.updateProduct(productdb.name, productdb).subscribe();
+    if (productdb.amount <= 0 || productdb.amount < product.amount) runOut = true;
 
-      } else if (contain) this.toastr.error("NO DUPLICATION!!");
-      else if (productdb.amount < product.amount) this.toastr.error("THIS AMOUNT NOT AVAILABLE!!");
-      else if (productdb.amount <= 0) this.toastr.error("THE PRODUCT IS RUN OUT!!");
-      else if (product.amount == 0 && product.amount == null) this.toastr.error("MUST ENTER AMOUNT");
+    if (!contain && !runOut && product.amount != 0 && product.amount != null) {
+      this.invoiceProducts.push(product);
+      this.setTotal()
+      productdb.amount = productdb.amount - product.amount;
+      this.productService.updateProduct(productdb.name, productdb).subscribe();
 
+    } else if (contain) this.toastr.error("NO DUPLICATION!!");
+    else if (productdb.amount < product.amount) this.toastr.error("THIS AMOUNT NOT AVAILABLE!!");
+    else if (productdb.amount <= 0) this.toastr.error("THE PRODUCT IS RUN OUT!!");
+    else if (product.amount == 0 && product.amount == null) this.toastr.error("MUST ENTER AMOUNT");
+  }
 
-    })
+  getProductByName(name: string): Product {
+    for (let i = 0; i < this.productsDB.length; i++)
+      if (this.productsDB[i].name == name) return this.productsDB[i];
+    return new Product();
+  }
 
+  getProductByCod(cod: number): Product {
+    for (let i = 0; i < this.productsDB.length; i++)
+      if (this.productsDB[i].cod == cod) return this.productsDB[i];
+    return new Product();
   }
 
   deleteInvoiceProduct(index: number) {
@@ -198,7 +230,9 @@ export class CreateProductComponent implements OnInit, CanComponentDeactivate {
       this.productService.updateProduct(product.name, product).subscribe();
       this.invoiceProducts.splice(index, 1);
       this.setTotal()
-
+      this.selectedCod=0;
+      this.selectedValue='PRODUCT';
+      this.selectedCategory='CATEGORY';
     })
 
 
@@ -224,6 +258,15 @@ export class CreateProductComponent implements OnInit, CanComponentDeactivate {
     if (this.invoiceProducts.length > 0 && !this.invoiceSaved) return confirm("Do You Wanna leave without saving the invoice");
     else
       return true;
+  }
+
+  ngAfterViewChecked(): void {
+    this.defaultDate = formatDate(new Date(), 'yyyy-MM-dd | hh:mm a', 'en-US');
+    this.setScannerMode();
+  }
+  setScannerMode(){
+    if (this.scanner)this.scannerMode='PROJECT.breadcrumb.scanner_mode';
+    else this.scannerMode='PROJECT.breadcrumb.traditional_mode';
   }
 
 

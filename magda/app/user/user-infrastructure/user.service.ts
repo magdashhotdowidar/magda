@@ -5,14 +5,18 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {User} from './user.model';
 import {Router} from "@angular/router";
+import {LocalStorage} from "../../shared/enums/local-storage-coding.enum";
+import {Modules} from "../../shared/enums/modules.enum";
+import {URLConfigService} from "../../shared/services/urlconfig.service";
 
 @Injectable()
 export class UserService {
-  readonly rootUrl = 'http://localhost:8081/springboot-crud-rest/';
+  readonly rootUrl = this.urlConfigService.getApiUrl(Modules.U)
   readonly reqHeader = new HttpHeaders({'Content-Type': 'application/json', 'No-Auth': 'True'});
 
   constructor(private router: Router,
-              private http: HttpClient) {
+              private http: HttpClient,
+              private urlConfigService: URLConfigService) {
   }
 
   registerUser(user: User) {
@@ -35,6 +39,10 @@ export class UserService {
     return this.http.get<string[]>(this.rootUrl + 'users/admins', {headers: this.reqHeader})
   }
 
+  setUserVisitsCount(name: string, count:number): Observable<string> {
+    return this.http.get<string>(`${this.rootUrl}u/${name}/${count}`);
+  }
+
   fakeRequestForTranslating() {
     return this.http.get(this.rootUrl + 'hello', {responseType: 'text',headers:{'No-Auth': 'True'}})
   }
@@ -45,9 +53,10 @@ export class UserService {
   }
 
   removeLocalStorageItems() {
-    localStorage.removeItem('userToken');
-    localStorage.removeItem('userName');
-    localStorage.removeItem('role');
+    localStorage.removeItem(LocalStorage.token);
+    localStorage.removeItem(LocalStorage.userName);
+    localStorage.removeItem(LocalStorage.role);
+    localStorage.removeItem(LocalStorage.admin);
   }
 
 
@@ -59,9 +68,9 @@ export class AuthenticationResponse {
     public jwttoken: string,
     public jwtUserName: string,
     public role: string,
-    public theUserAdmin: string
-  ) {
-  }
+    public theUserAdmin: string,
+    public visitsCount:number
+  ) {}
 
 }
 

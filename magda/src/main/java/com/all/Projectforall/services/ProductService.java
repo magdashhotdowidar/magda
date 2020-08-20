@@ -5,7 +5,9 @@ import com.all.Projectforall.entitys.Product;
 import com.all.Projectforall.entitys.compositkey.ProductKey;
 import com.all.Projectforall.exceptions.ResourceNotFoundException;
 import com.all.Projectforall.models.ProductModel;
+import com.all.Projectforall.repos.InvoiceRepository;
 import com.all.Projectforall.repos.ProductRepository;
+import com.all.Projectforall.responses.ProductResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,10 +27,14 @@ public class ProductService {
     @Autowired
     private CategoryService categoryService;
 
-    @Async
-    public CompletableFuture<List<ProductModel>> allProducts(String admin) {
-        return  CompletableFuture.completedFuture(prepo.findAllById_TheAdmin(admin).stream().map(product -> new ProductModel(product)).collect(Collectors.toList()));
+    @Autowired
+    private InvoiceRepository invoiceRepository;
 
+    @Async
+    public CompletableFuture<ProductResponse> allProducts(String admin) {
+        return  CompletableFuture.completedFuture(new ProductResponse(prepo.findAllById_TheAdmin(admin)
+                .stream().map(product -> new ProductModel(product)).collect(Collectors.toList()),
+                invoiceRepository.countInvoiceAByInvoiceNoIsNotNull()+1));
     }
 
     // public CompletableFuture<List<Product> allProducts() {return CompletableFuture.completedFuture(  prepo.findAll();}
@@ -36,6 +42,12 @@ public class ProductService {
     public CompletableFuture<ProductModel> getProductbyname(String name, String admin) {
         Optional<Product> product = prepo.findById_NameAndId_TheAdmin(name, admin);
         product.orElseThrow(() -> new UsernameNotFoundException("Not Found" + name));
+        return CompletableFuture.completedFuture( product.map(ProductModel::new).get());
+    }
+
+    public CompletableFuture<ProductModel> getProductbyCod(Long cod, String admin) {
+        Optional<Product> product = prepo.findByCodAndId_TheAdmin(cod, admin);
+        product.orElseThrow(() -> new UsernameNotFoundException("Not Found Product With Cod " + cod));
         return CompletableFuture.completedFuture( product.map(ProductModel::new).get());
     }
 

@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {CreateProductComponent} from "./components/create-product/create-product.component";
 import {ProductHomeComponent} from "./product-core/product-home/product-home.component";
 import {AddProductComponent} from "./add-product/add-product.component";
@@ -10,6 +10,7 @@ import {ImageSliderComponent} from "./components/image-slider/image-slider.compo
 import {CartComponent} from "./components/cart/cart.component";
 import {AuthGuard} from "../auth/auth.guard";
 import {AuthorizeGuard} from "../auth/authorize.guard";
+import {LocalStorage} from "../shared/enums/local-storage-coding.enum";
 
 
 //path: '',pathMatch:'full',redirectTo :'slider'
@@ -20,28 +21,28 @@ const routes: Routes = [
       {
         path: 'sell', component: CreateProductComponent,
         canActivate: [AuthGuard, AuthorizeGuard],
-        data: {role: ['ROLE_ADMIN', 'ROLE_SELLER']},
+        data: {OiIyMDIxLTAxLTA: [LocalStorage.ROLE_ADMIN, LocalStorage.ROLE_SELLER]},
         canDeactivate: [CanDeactivateGuard]
       },
       {
         path: 'cart', component: CartComponent,
         canActivate: [AuthGuard, AuthorizeGuard],
-        data: {role: ['ROLE_ADMIN', 'ROLE_USER']}
+        data: {OiIyMDIxLTAxLTA: [LocalStorage.ROLE_ADMIN, LocalStorage.ROLE_USER]}
       },
       {
         path: 'add', component: AddProductComponent,
         canActivate: [AuthGuard, AuthorizeGuard],
-        data: {role: ['ROLE_ADMIN']}
+        data: {OiIyMDIxLTAxLTA: [LocalStorage.ROLE_ADMIN]}
       },
       {
         path: 'p_update/:name', component: UpdateProductComponent,
         canActivate: [AuthGuard, AuthorizeGuard],
-        data: {role: ['ROLE_ADMIN']}
+        data: {OiIyMDIxLTAxLTA: [LocalStorage.ROLE_ADMIN]}
       },
       {
         path: 'p_details/:name', component: ProductDetailsComponent,
         canActivate: [AuthGuard, AuthorizeGuard],
-        data: {role: ['ROLE_ADMIN', 'ROLE_USER']}
+        data: {OiIyMDIxLTAxLTA: [LocalStorage.ROLE_ADMIN, LocalStorage.ROLE_USER]}
       },
 
     ]

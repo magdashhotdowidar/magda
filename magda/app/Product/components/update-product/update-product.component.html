@@ -2,8 +2,16 @@
 <div style="width: 400px;">
   <form (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="firstName">PRODUCT NAME</label>
-      <input type="text" class="form-control" id="firstName" required [(ngModel)]="product.name" name="PRODUCT NAME">
+      <label for="cod">PRODUCT COD</label>
+      <input type="text" class="form-control" id="cod" required [(ngModel)]="product.cod" name="PRODUCT COD">
+    </div>
+    <div class="form-group">
+    <label for="firstName">PRODUCT NAME</label>
+    <input type="text" class="form-control" id="firstName" required [(ngModel)]="product.name" name="PRODUCT NAME">
+  </div>
+    <div class="form-group">
+      <label for="category">PRODUCT CATEGORY</label>
+      <input type="text" class="form-control" id="category" required [(ngModel)]="product.category" name="PRODUCT CATEGORY">
     </div>
     <div class="form-group">
       <label for="lastName">THE AMOUNT</label>

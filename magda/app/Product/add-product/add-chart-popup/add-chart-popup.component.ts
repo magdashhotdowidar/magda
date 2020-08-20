@@ -1,15 +1,14 @@
-import {AfterViewInit, Component, DoCheck, EventEmitter, Inject, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {ToastrService} from "ngx-toastr";
 import {ProductService} from "../../infrastructure/services/product.service";
 import {
-  IBarChartOptions,
   IChartistData
 } from 'chartist';
-import {ChartEvent, ChartType} from 'ng-chartist';
 import {Product} from "../../infrastructure/models/product";
 import {HttpErrorResponse} from "@angular/common/http";
 import {DOCUMENT} from "@angular/common";
 import * as Chart from "chart.js";
+import {ChartData, InvoiceService} from "../../infrastructure/services/invoice.service";
 
 @Component({
   selector: 'product-bar-chart',
@@ -55,7 +54,8 @@ export class AddChartPopupComponent implements OnInit {
   chartType: string = 'bar';
 
   constructor(@Inject(DOCUMENT) private document,
-              private productService: ProductService,
+              private invoiceService: InvoiceService,
+              private productService:ProductService,
               private toastr: ToastrService) {
   }
 
@@ -67,10 +67,10 @@ export class AddChartPopupComponent implements OnInit {
     this.labels = [];
     this.series = []
     this.message='PROJECT.product.edit.chart_product_message'
-    this.productService.getproductList().subscribe((data: Product[]) => {
-      for (let product of data) {
-        this.labels.push(product.name);
-        this.series.push(product.amount);
+    this.invoiceService.getChartData().subscribe((data: ChartData[]) => {
+      for (let item of data) {
+        this.labels.push(item[0]);
+        this.series.push(item[1]);
       }
       this.setChart();
     }, (error: HttpErrorResponse) => this.toastr.error(error.message));

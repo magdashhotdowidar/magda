@@ -3,26 +3,37 @@
   <section class="main-section">
 
     <div class="container">
-      <div class="row">
-        <div class="col-md-12">
+      <div class="row" style="margin: 0px;padding: 0px">
+        <div class="col-md-12" style="margin: 0px;padding: 0px">
 
-          <nav *ngIf="role=='ROLE_ADMIN'" aria-label="breadcrumb" style="background-color: white;color: navy">
+          <nav *ngIf="role==l.ROLE_ADMIN" aria-label="breadcrumb" style="background-color: white;color: navy">
             <ol class="breadcrumb" style="background-color: white;color: navy">
+              <li class="breadcrumb-item">  <button [ngStyle]="{color :scanner?'blue':'yellow'}" [ngClass]="{'btn-warning':scanner}"
+
+                                                    class="btn btn-outline-warning fa fa-sliders" style="color: yellow;font-size:large;font-style: italic">
+                <label [ngStyle]="{color :scanner?'blue':'yellow'}"><input [(ngModel)]="scanner" type="checkbox">{{scannerMode|translate}}</label></button></li>
               <li class="breadcrumb-item"><a routerLink="../" routerLinkActive="active"><i class="fa fa-home"
                                                                                            style="font-size: xx-large"></i></a>
               </li>
               <li class="breadcrumb-item"><a routerLink="../add" routerLinkActive="active">{{'PROJECT.breadcrumb.product_management'|translate}}</a></li>
               <li class="breadcrumb-item"><a routerLink="../slider" routerLinkActive="active">{{'PROJECT.breadcrumb.view_product'|translate}}</a></li>
+              <li *ngIf="scanner&&!showStopScanner" class="breadcrumb-item" style="color:lime;cursor:pointer">
+                <a (click)="openScanner()">{{'PROJECT.breadcrumb.open_scanner'|translate}}</a></li>
+              <li *ngIf="scanner&&showStopScanner" class="breadcrumb-item" style="color:lime;cursor:pointer">
+                <a (click)="stopScanner()">{{'PROJECT.breadcrumb.stop_scanner'|translate}}</a></li>
             </ol>
           </nav>
         </div>
         <hr style="border-color: navy"/>
         <div class="col-md-12" style="width: 400px;">
+          <div [hidden]="!barcodeValue">
+            {{barcodeValue}}
+          </div>
           <form (ngSubmit)="onSubmit(f)" #f="ngForm">
             <div class="row">
 
-              <div class="input-group mb-3">
-                <div class="form-group mx-sm-3 mb-2">
+              <div  class="input-group mb-3">
+                <div *ngIf="!scanner" class="form-group mx-sm-3 mb-2">
                   <label
                     style="color: blue;background-color:#fbfbfb;font-size: large">{{'PROJECT.product.sell.select_category'|translate}} </label>
                   <div class="custom-select-box">
@@ -41,7 +52,7 @@
                   </div>
                 </div>
 
-                <div class="form-group mx-sm-3 mb-2">
+                <div *ngIf="!scanner" class="form-group mx-sm-3 mb-2">
                   <label
                     style="color: blue;background-color:#fbfbfb;font-size: large">{{'PROJECT.product.sell.select_product'|translate}} </label>
                   <div class="custom-select-box">
@@ -60,47 +71,59 @@
                     </button>
                   </div>
                 </div>
+                <div *ngIf="scanner" class="form-group mx-sm-3 mb-2">
+                  <label for="cod" style="color: blue;background-color:#fbfbfb;font-size: large">{{'PROJECT.product.edit.product_cod'|translate}} </label>
+                  <input  type="text" style="font-size: large;color:blue"
+                         class="form-control text-center" id="cod" required ngModel
+                         [(ngModel)]="selectedCod" name="cod"/></div>
 
-                <div class="form-group mx-sm-3 mb-2">
-                  <label for="amount"
-                         style="color: blue;background-color:#fbfbfb;font-size: large"> {{'PROJECT.product.sell.quantity'|translate}} </label>
+                <div  class="form-group mx-sm-3 mb-2">
                   <div class="form-group mx-sm-3 mb-2">
                     <div class="input-group mb-3">
-                      <input type="number" class="form-control" id="amount" required minlength="1" min="1"
-                             data-toggle="tooltip" data-placement="right" title="Enter the Amount"
-                             [(ngModel)]="amount" style="font-size: large"
-                              name="amount" #Amount OnlyNumber="true" ngModel>
-                      <div class="input-group-append">
-                        <button type="button" (click)="addProduct()" class="btn btn-success">
-                          <i class="fa fa-eye" aria-hidden="true"></i>{{'PROJECT.product.sell.add'|translate}}
-                        </button>
-                        <button type="button" (click)="checkamount()" STYLE="margin-right:3px" class="btn btn-primary">
-                          <i class="fa fa-eye" aria-hidden="true"></i>{{'PROJECT.product.sell.check'|translate}}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                      <div class="form-group mx-sm-3 mb-2"> <label for="amount" style="margin: 0px;padding: 0px;width: 30px;color: blue;background-color:#fbfbfb;font-size: large">
+                        {{'PROJECT.product.sell.quantity'|translate}} </label></div>
+                      <div class="input-group mb-3">
+                        <input type="number" class="form-control text-center" id="amount" required minlength="1" min="1"
+                               data-toggle="tooltip" data-placement="right" title="Enter the Amount"
+                               [(ngModel)]="amount" style="font-size: large;color:blue;width: 40px"
+                               name="amount" #Amount OnlyNumber="true" ngModel>
+                        <div class="input-group-append">
+                          <button type="button" (click)="addProduct()" class="btn btn-success">
+                            <i class="fa fa-eye" aria-hidden="true"></i>{{'PROJECT.product.sell.add'|translate}}
+                          </button>
+                          <button type="button" (click)="checkamount()" STYLE="margin-right:3px" class="btn btn-primary">
+                            <i class="fa fa-eye" aria-hidden="true"></i>{{'PROJECT.product.sell.check'|translate}}
+                          </button>
+                        </div></div></div></div></div>
+
+                <div *ngIf="scanner" class="form-group mx-sm-3 mb-2">
+                  <label for="c" style="color: blue;background-color:#fbfbfb;font-size: large">{{'PROJECT.product.edit.product_category'|translate}} </label>
+                  <input type="text" style="font-size: large;color:blue" readonly class="form-control text-center" id="c" required ngModel
+                         [(ngModel)]="selectedCategory" name="c"/></div>
+                <div *ngIf="scanner" class="form-group mx-sm-3 mb-2">
+                  <label for="n" style="color: blue;background-color:#fbfbfb;font-size: large">{{'PROJECT.product.edit.product_name'|translate}} </label>
+                  <input type="text" style="font-size: large;color:blue" readonly class="form-control text-center" id="n" required ngModel
+                         [(ngModel)]="selectedValue" name="n"/></div>
 
               </div>
             </div>
-            <hr style="border-color: blue">
-            <div class="row">
+            <hr style="border-color: blue" style="margin: 0px;padding: 0px">
+            <div class="row" style="margin: 0px;padding: 0px">
 
               <div class="form-group mx-sm-3 mb-2">
                 <label for="user" style="color: blue;background-color:#fbfbfb;font-size: large">{{'PROJECT.product.sell.user_name'|translate}} </label>
-                <input type="text" style="font-size: large" class="form-control" id="user" required ngModel
+                <input type="text" style="font-size: large;color:blue" readonly class="form-control text-center" id="user" required ngModel
                        [(ngModel)]="invoice.userName" name="user"/>
               </div>
 
               <div class="form-group mx-sm-3 mb-2">
-                <label for="customer" style="color: blue;background-color:#fbfbfb;font-size: large">{{'PROJECT.product.sell.customer_name'|translate}} </label>
-                <input type="text" style="font-size: large" class="form-control" id="customer" required
-                       [(ngModel)]="invoice.customerName"
-                       name="customer"/>
+                <label for="invoiceNo" style="color: blue;background-color:#fbfbfb;font-size: large">{{'PROJECT.product.sell.invoice_no'|translate}} </label>
+                <input type="text" style="font-size: large;color:blue" readonly class="form-control text-center" id="invoiceNo" required
+                       [(ngModel)]="invoicesCount"
+                       name="invoiceNo"/>
               </div>
 
-              <button *ngIf="invoiceProducts.length===0&&role=='ROLE_ADMIN'" type="button" (click)="showpopup=true"
+              <button *ngIf="invoiceProducts.length===0&&role==l.ROLE_ADMIN" type="button" (click)="showpopup=true"
                       style="background-color: red"
                       class="btn btn-primary" data-toggle="modal" data-target="#employeePopUp">
                 <i class="fa fa-search" aria-hidden="true" style="color:yellow;font-size:large "></i>
@@ -108,7 +131,7 @@
 
               <div *ngIf="invoiceProducts.length>0" class="form-group mx-sm-3 mb-2">
                 <label for="total" style="color: blue;background-color:#fbfbfb;font-size: large">{{'PROJECT.product.sell.grand_total'|translate}}</label>
-                <input type="text" style="font-size: large" class="form-control" id="total" required
+                <input type="text" style="font-size: large;color:blue" readonly class="form-control text-center" id="total" required
                        [(ngModel)]="total"
                        name="total"/>
               </div>
@@ -116,8 +139,8 @@
               <div class="form-group mx-sm-3 mb-2">
                 <label for="date1"
                        style="color: blue;background-color:#fbfbfb;font-size: large">{{'PROJECT.product.sell.date'|translate}}</label>
-                <input type="date" name="defaultDate" max="3000-12-31" id="date1" min="1000-01-01" class="form-control"
-                       [(ngModel)]="defaultDate">
+                <!--<input type="date" name="defaultDate" max="3000-12-31" id="date1" min="1000-01-01" class="form-control" [(ngModel)]="defaultDate">-->
+                <input type="text" name="defaultDate"  id="date1" readonly class="form-control text-center" [(ngModel)]="defaultDate" style="font-size: large;color:blue">
               </div>
 
               <!--<label>{{defaultDate| date:'yyyy-MM-dd'}}</label>-->
@@ -178,6 +201,8 @@
         </div>
       </div>
     </div>
+    <barcode-scanner-livestream type="code_128" (valueChanges)="onValueChanges($event)" (started)="onStarted"></barcode-scanner-livestream>
+
     <!--  <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Tooltip on right">
         Tooltip on right
       </button>-->
@@ -186,7 +211,7 @@
   <div class="push-footer"></div>
 </main>
 
-<div class="modal fa fa-search" id="employeePopUp" tabindex="-1" role="dialog" *ngIf="showpopup"
+<div class="modal fa fa" id="employeePopUp" tabindex="-1" role="dialog" *ngIf="showpopup"
      aria-labelledby="successLabel" aria-hidden="true">
   <app-search-popup (show-popup)="showpopup=$event"></app-search-popup>
 </div>

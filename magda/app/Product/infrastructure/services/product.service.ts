@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {Product} from "../models/product";
 import {URLConfigService} from "../../../shared/services/urlconfig.service";
 import {Modules} from "../../../shared/enums/modules.enum";
+import {ProductResponse} from "../models/ProductResponse.model";
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,10 @@ export class ProductService {
 
   getProduct(name: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${name}`);
+  }
+
+  getProductByCod(cod: number): Observable<Product> {
+    return this.http.get<Product>(`${this.baseUrl}/cod/${cod}`);
   }
 
   getProductsByCategory(name: string): Observable<any> {
@@ -41,8 +46,8 @@ export class ProductService {
     return this.http.delete(`${this.baseUrl}/${name}`, {responseType: 'text'});
   }
 
-  getproductList(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.baseUrl}`);
+  getproductList(): Observable<ProductResponse> {
+    return this.http.get<ProductResponse>(`${this.baseUrl}`);
   }
 
   getNames(): Observable<any> {

@@ -4,6 +4,7 @@ import {ToastrService} from 'ngx-toastr'
 import {User} from '../user-infrastructure/user.model';
 import {UserService} from '../user-infrastructure/user.service';
 import {HttpErrorResponse} from "@angular/common/http";
+import {LocalStorage} from "../../shared/enums/local-storage-coding.enum";
 
 @Component({
   selector: 'app-sign-up',
@@ -14,7 +15,8 @@ export class SignUpComponent implements OnInit {
   user: User;
   allAdmins: string[] = []
   message: any;
-  role: string = localStorage.getItem('role');
+  l:typeof LocalStorage=LocalStorage;
+  role: string = localStorage.getItem(LocalStorage.role);
   emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
 
   constructor(private userService: UserService, private toastr: ToastrService) {

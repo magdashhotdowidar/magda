@@ -30,6 +30,7 @@ public class MyUser {
     private String personalImage;
     private String backgroundImage;
     private String theUserAdmin;
+    private int visitsCount;
     private boolean enabled;
 
 /*    @JsonIgnore
@@ -57,6 +58,7 @@ public class MyUser {
             this.personalImage = model.getPersonalImage();
             this.gender = model.getGender();
             this.theUserAdmin=model.getTheUserAdmin();
+            this.setVisitsCount(model.getVisitsCount());
         }
     }
 
@@ -165,6 +167,14 @@ public class MyUser {
 
     public void setTheUserAdmin(String theUserAdmin) {
         this.theUserAdmin = theUserAdmin;
+    }
+
+    public int getVisitsCount() {
+        return visitsCount;
+    }
+
+    public void setVisitsCount(int visitsCount) {
+        this.visitsCount = visitsCount;
     }
 
     @Override

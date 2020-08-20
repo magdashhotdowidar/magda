@@ -1,20 +1,18 @@
 import {AfterViewChecked, Component, DoCheck, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ToastrService} from "ngx-toastr";
-import {NgForm} from "@angular/forms";
 import {ChattingUserService} from "../../chatting-user/chatting-user-infrastructure/chatting-user.service";
 import {ChattingUser} from "../../chatting-user/chatting-user-infrastructure/chatting-user.model";
 import {HttpErrorResponse} from "@angular/common/http";
-import {Friend, FriendService} from "../../infrastructure/services/friends.service";
+import { FriendService} from "../../infrastructure/services/friends.service";
 import {Path} from "../../../shared/enums/path.enum";
 import {Message, MessageService} from "../../infrastructure/services/messages.service";
 import {formatDate} from "@angular/common";
 import {Store} from "@ngrx/store";
 import {StoreStates} from "../../infrastructure/store/store.store";
-import {GetMessageByFromAndTo, SendMessage} from "../../infrastructure/store/actions/message.action";
-import {MessageInterface} from "../../infrastructure/store/reducers/message.reducer";
-import {take} from "rxjs/operators";
-import {Observable} from "rxjs";
+import { SendMessage} from "../../infrastructure/store/actions/message.action";
+
 import {Title} from "@angular/platform-browser";
+import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
 
 
 @Component({
@@ -25,7 +23,7 @@ import {Title} from "@angular/platform-browser";
 export class MainPageComponent implements OnInit, AfterViewChecked,DoCheck {
 
   @ViewChild('scrollMe',{static:false}) myScrollContainer: ElementRef;
-  userName: string = localStorage.getItem('userName');
+  userName: string = localStorage.getItem(LocalStorage.userName);
   friendImagePath: string = Path.userImagePath;
   friends: ChattingUser[] = [];
   unReadMessages: Message[] = [];
@@ -35,6 +33,7 @@ export class MainPageComponent implements OnInit, AfterViewChecked,DoCheck {
   direction: string;
   chatWindows: Array<ChatWindow> = [];
   d: boolean = false
+  search: string='';
  // messages_observe: Observable<Message[]>;
 
   constructor(private toastr: ToastrService,

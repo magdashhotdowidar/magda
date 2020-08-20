@@ -4,10 +4,12 @@ import com.all.Projectforall.exceptions.ResourceNotFoundException;
 import com.all.Projectforall.models.InvoiceModel;
 import com.all.Projectforall.responses.InvoiceResponse;
 import com.all.Projectforall.services.InvoiceService;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -34,18 +36,31 @@ public class InvoiceController {
         return invoiceService.allInvoices(request.getHeader("theAdmin")).thenApply(ResponseEntity::ok);
     }
 
-    @GetMapping("/{customer}/{date}")
-    public CompletableFuture<ResponseEntity<InvoiceResponse>> getInvoiceByCustomerAndDate(@PathVariable(value = "customer") String customer,
+    @GetMapping("/{invoiceNo}/{date}")
+    public CompletableFuture<ResponseEntity<InvoiceResponse>> getInvoiceByInvoiceNoAndDate(@PathVariable(value = "invoiceNo") int invoiceNo,
                                                                                           @PathVariable(value = "date") String date,
                                                                                           HttpServletRequest request)
             throws ResourceNotFoundException, ParseException {
 
-        CompletableFuture<InvoiceResponse> response = invoiceService.getInvoiceBycustomerAndDate(customer, date, request.getHeader("theAdmin"));
+        CompletableFuture<InvoiceResponse> response = invoiceService.getInvoiceByInvoiceNoAndDate(invoiceNo, date, request.getHeader("theAdmin"));
         return response.thenApply(ResponseEntity::ok);
     }
 
+/*    @GetMapping("/{invoiceNo}/{date}/{time}")
+    public CompletableFuture<ResponseEntity<InvoiceResponse>> getInvoiceByInvoiceNoAndDateAndTime(@PathVariable(value = "invoiceNo") int invoiceNo,
+                                                                                           @PathVariable(value = "date") String date,
+                                                                                           @PathVariable(value = "time") String time,
+                                                                                           HttpServletRequest request)
+            throws ResourceNotFoundException, ParseException {
+
+        CompletableFuture<InvoiceResponse> response = invoiceService.getInvoiceByInvoiceNoAndDateAndTime(invoiceNo, date,time, request.getHeader("theAdmin"));
+        return response.thenApply(ResponseEntity::ok);
+    }*/
+
     @PostMapping("")
-    public CompletableFuture<ResponseEntity<InvoiceModel>> createInvoice(@Valid @RequestBody InvoiceModel invoiceModel, HttpServletRequest request) {
+    public CompletableFuture<ResponseEntity<InvoiceModel>> createInvoice(@Valid @RequestBody InvoiceModel invoiceModel,
+                                                                         HttpServletRequest request)
+            throws IOException, JRException {
         invoiceModel.setThe_admin(request.getHeader("theAdmin"));
         return invoiceService.save(invoiceModel).thenApply(ResponseEntity::ok);
     }
@@ -59,13 +74,13 @@ public class InvoiceController {
     }*/
 
 
-    @DeleteMapping("/{customer}/{date}")
-    public CompletableFuture<Map<String, Boolean>> deleteInvoice(@PathVariable(value = "customer") String customer,
+    @DeleteMapping("/{invoiceNo}/{date}")
+    public CompletableFuture<Map<String, Boolean>> deleteInvoice(@PathVariable(value = "invoiceNo") int invoiceNo,
                                                                  @PathVariable(value = "date") String date,
                                                                  HttpServletRequest request)
             throws ResourceNotFoundException {
 
-        return invoiceService.deleteInvoice(customer, date, request.getHeader("theAdmin"));
+        return invoiceService.deleteInvoice(invoiceNo, date, request.getHeader("theAdmin"));
     }
 
     @DeleteMapping("")
@@ -73,5 +88,10 @@ public class InvoiceController {
             throws ResourceNotFoundException {
 
         return invoiceService.deleteAllInvoices(request.getHeader("theAdmin"));
+    }
+
+    @GetMapping("/chartData")
+    public CompletableFuture<List<Object[]>> chartData(){
+        return invoiceService.chartData();
     }
 }

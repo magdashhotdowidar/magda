@@ -7,6 +7,7 @@ import {formatDate} from "@angular/common";
 import {InvoiceResponse} from "../../infrastructure/models/invoiceResponse.model";
 import {ToastrService} from "ngx-toastr";
 import {ProductService} from "../../infrastructure/services/product.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-search-popup',
@@ -20,19 +21,20 @@ export class SearchPopupComponent implements OnInit {
   allInvoices: Invoice[];
   invoiceProductsDB: ProductsTable[];
   matchAny: boolean;
+  showTime: boolean=false;
   defaultDate: Date;
   moreOptions: boolean;
   showAllInvoicesTable: boolean;
-  customerDB: string;
+  invoiceNODB: number;
   userDB: string;
   dateDB: string;
   show: string;
   total: number;
-  searchByCustomerName:string='';
+  searchByInvoiceNo:number=0;
   searchByDate:string='';
 
   invoiceSearchForm = this.fb.group({
-    customerName: null,
+    invoiceNo: 0,
     date: null
   });
   //sort and pagination
@@ -65,14 +67,14 @@ export class SearchPopupComponent implements OnInit {
   }
 
   getInvoice() {
-    let customer: string = this.invoiceSearchForm.get('customerName').value;
-    let date = formatDate(this.defaultDate, 'yyyy-MM-dd', 'en-US');
+    let invoiceNo: number = this.invoiceSearchForm.get('invoiceNo').value;
+    let date = formatDate(this.defaultDate, 'yyyy-MM-dd | hh:mm a', 'en-US');
 
-    this.invoiceService.getInvoice(customer, date).subscribe((res: InvoiceResponse) => {
+    this.invoiceService.getInvoice(invoiceNo, 	date.split('|')[0].trim()).subscribe((res: InvoiceResponse) => {
         // console.log('THE RETURNED RESPONSE : ', res)
         this.invoicesForOneCustomer = res.invoices;
         if (this.invoicesForOneCustomer != null && this.invoicesForOneCustomer.length > 0) {
-          this.customerDB = this.invoicesForOneCustomer[0].customerName;
+          this.invoiceNODB = this.invoicesForOneCustomer[0].invoiceNo;
           this.userDB = this.invoicesForOneCustomer[0].userName;
           this.dateDB = this.invoicesForOneCustomer[0].date;
         }
@@ -91,12 +93,12 @@ export class SearchPopupComponent implements OnInit {
 
         this.total = this.setTotal(this.invoiceProductsDB);
 
-        if (res.message.match("THE INVOICE FOR CUSTOMER " + customer + " IS FOUNDED"))
+        if (res.message.match("THE INVOICE NO " + invoiceNo + " IS FOUNDED"))
           this.toastr.success(res.message);
         else this.toastr.warning(res.message);
         this.invoiceSearchForm.reset();
       },
-      error => this.toastr.warning("ERROR!!!"))
+      (error:HttpErrorResponse )=> this.toastr.warning(error.message))
   }
 
   getAllInvoices() {
@@ -114,9 +116,9 @@ export class SearchPopupComponent implements OnInit {
 
   deleteInvoice() {
 
-    let customer: string = this.invoiceSearchForm.get('customerName').value;
+    let invoiceNo: number = this.invoiceSearchForm.get('invoiceNo').value;
     let date = formatDate(this.defaultDate, 'yyyy-MM-dd', 'en-US');
-    this.invoiceService.deleteInvoice(customer, date).subscribe(res => {
+    this.invoiceService.deleteInvoice(invoiceNo, date).subscribe(res => {
       this.invoiceSearchForm.reset();
       if (res.deleted = true) this.toastr.success("SUCCESSFULLY DELETION!!");
       this.moreOptions = false;
@@ -131,7 +133,7 @@ export class SearchPopupComponent implements OnInit {
 
   }
 
-  setTotal(products: Product[]): number {
+  setTotal(products: ProductsTable[]): number {
     let total: number = products
       .reduce(function (prev, cur) {
         let t: any = cur.amount * cur.price;
@@ -145,7 +147,7 @@ export class SearchPopupComponent implements OnInit {
   invoiceDetails(i: number) {
     let invoice: Invoice = this.invoicesForOneCustomer[i - 1];
     let productsCount: number = invoice.productModels.length;
-    let customer: string = invoice.customerName;
+    let invoiceNO: number = invoice.invoiceNo;
     let user: string = invoice.userName;
     let date: string = invoice.date;
     let products: string = '[';
@@ -157,7 +159,7 @@ export class SearchPopupComponent implements OnInit {
       products += p.name + ',';
     }
     products += ']';
-    this.show = 'Invoice no(' + i + ')\nCustomer Name(' + customer + ')\nUser Name(' + user + ')\nDate(' + date + ')\nProducts Count(' + productsCount + ')\nProducts(' + products + ')\nThe Total(' + total + ')';
+    this.show = 'Invoice no(' + i + ')\nINVOICE NO(' + invoiceNO + ')\nUser Name(' + user + ')\nDate(' + date + ')\nProducts Count(' + productsCount + ')\nProducts(' + products + ')\nThe Total(' + total + ')';
     // alert(this.show);
 
   }
@@ -166,7 +168,7 @@ export class SearchPopupComponent implements OnInit {
     this.showpopup.emit(false);
   }
 
-  cons(p: Product) {
+  cons(p: ProductsTable) {
     let productdb: Product;
     this.productService.getProduct(p.name).subscribe(res => {
       productdb = res;

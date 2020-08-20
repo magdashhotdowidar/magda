@@ -37,6 +37,7 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {AddChartPopupComponent} from "./add-product/add-chart-popup/add-chart-popup.component";
 import {ChartistModule} from "ng-chartist";
 import {ChartsModule} from "ng2-charts";
+import {BarecodeScannerLivestreamModule} from "ngx-barcode-scanner";
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -78,6 +79,7 @@ export function createTranslateLoader(http: HttpClient) {
     ChartistModule,
     ChartsModule,
     NgbCarouselModule,
+    BarecodeScannerLivestreamModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

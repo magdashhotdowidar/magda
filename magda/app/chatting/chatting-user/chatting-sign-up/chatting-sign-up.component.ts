@@ -5,6 +5,8 @@ import {ToastrService} from 'ngx-toastr'
 import {HttpErrorResponse} from "@angular/common/http";
 import {ChattingUser} from "../chatting-user-infrastructure/chatting-user.model";
 import {ChattingUserService} from "../chatting-user-infrastructure/chatting-user.service";
+import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
+import {Local} from "protractor/built/driverProviders";
 
 @Component({
   selector: 'chatting-sign-up',
@@ -14,14 +16,14 @@ import {ChattingUserService} from "../chatting-user-infrastructure/chatting-user
 export class ChattingSignUpComponent implements OnInit {
   user: ChattingUser = new ChattingUser();
 
-  role: string = localStorage.getItem('role');
+  role: string = localStorage.getItem(LocalStorage.role);
   emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
 
   constructor(private userService: ChattingUserService, private toastr: ToastrService) {
   }
 
   ngOnInit() {
-    this.userService.getUser(localStorage.getItem('userName')).subscribe(data => {
+    this.userService.getUser(localStorage.getItem(LocalStorage.userName)).subscribe(data => {
       this.user = data;
       console.log('the user form DB', this.user)
     })

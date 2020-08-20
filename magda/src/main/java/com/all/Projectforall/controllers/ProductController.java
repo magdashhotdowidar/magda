@@ -4,6 +4,7 @@ import com.all.Projectforall.configuration.FileUpload;
 import com.all.Projectforall.entitys.Product;
 import com.all.Projectforall.exceptions.ResourceNotFoundException;
 import com.all.Projectforall.models.ProductModel;
+import com.all.Projectforall.responses.ProductResponse;
 import com.all.Projectforall.services.ProductService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class ProductController {
     }*/
 
     @GetMapping("/product")
-    public CompletableFuture<CompletableFuture<List<ProductModel>>> getAllProducts(HttpServletRequest request) {
+    public CompletableFuture<CompletableFuture<ProductResponse>> getAllProducts(HttpServletRequest request) {
         return CompletableFuture.completedFuture(pserv.allProducts(request.getHeader("theAdmin")));
     }
 
@@ -45,6 +46,13 @@ public class ProductController {
     public CompletableFuture<ResponseEntity<ProductModel>> getProductByName(@PathVariable(value = "name") String name, HttpServletRequest request)
             throws ExecutionException, InterruptedException {
         ProductModel product = pserv.getProductbyname(name, request.getHeader("theAdmin")).get();
+        return CompletableFuture.completedFuture(ResponseEntity.ok().body(product));
+    }
+
+    @GetMapping("/product/cod/{cod}")
+    public CompletableFuture<ResponseEntity<ProductModel>> getProductByCod(@PathVariable(value = "cod") Long cod, HttpServletRequest request)
+            throws ExecutionException, InterruptedException {
+        ProductModel product = pserv.getProductbyCod(cod, request.getHeader("theAdmin")).get();
         return CompletableFuture.completedFuture(ResponseEntity.ok().body(product));
     }
 

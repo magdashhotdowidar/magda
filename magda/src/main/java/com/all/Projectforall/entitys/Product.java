@@ -29,6 +29,7 @@ public class Product {
     private int amount;
     private double price;
     private String imageName;
+    private long cod;
 
     public Product() {
     }
@@ -47,6 +48,7 @@ public class Product {
     public Product(ProductModel productModel) {
         //  this.name = productModel.getName();
         this.setId(new ProductKey(productModel.getName(),productModel.getThe_admin()));
+        this.cod=productModel.getCod();
         this.brand = productModel.getBrand();
         this.description = productModel.getDescription();
         this.category = productModel.getCategory();
@@ -118,6 +120,14 @@ public class Product {
         this.category = category;
     }
 
+    public long getCod() {
+        return cod;
+    }
+
+    public void setCod(long cod) {
+        this.cod = cod;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -128,6 +138,7 @@ public class Product {
                 ", amount=" + amount +
                 ", price=" + price +
                 ", imageName='" + imageName + '\'' +
+                ", cod=" + cod +
                 '}';
     }
 }
