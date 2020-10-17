@@ -1,6 +1,6 @@
-<div class="modal-dialog modal-dialog-scrollable modal-lg  " role="document">
+<div class="modal-dialog modal-dialog-scrollable modal-lg" ngxDraggableDom="true" role="document" >
   <div class="modal-content">
-    <div class="modal-header" style="background-color:blue ">
+    <div class="modal-header" style="background-color:blue ;cursor: move" >
 
 
       <button [ngStyle]="{color :matchAny?'blue':'yellow'}" [ngClass]="{'btn-warning':matchAny}"
@@ -78,25 +78,25 @@
               <div class="col-md-6">
                 <div class="input-group mb-3">
                   <label for="cus" style="color: blue;background-color:#fbfbfb;font-size: large">INVOICE NO: </label>
-                  <input type="text" class="form-control" id="cus" style="font-size: large" name="invoiceNODB"
+                  <input type="text" class="form-control text-center" id="cus" style="font-size: large" name="invoiceNODB"
                          [(ngModel)]="invoiceNODB" readonly>
                 </div>
                 <div class="input-group mb-3">
                   <label for="d" style="color: blue;background-color:#fbfbfb;font-size: large">INVOICE SELL
                     DATE: </label>
-                  <input type="date" class="form-control" id="d" style="font-size: large" name="dateDB"
+                  <input type="text" class="form-control text-center" id="d" style="font-size: large" name="dateDB"
                          [(ngModel)]="dateDB" readonly>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="input-group mb-3">
                   <label for="u" style="color: blue;background-color:#fbfbfb;font-size: large">USER NAME: </label>
-                  <input type="text" class="form-control" id="u" style="font-size: large" name="userDB"
+                  <input type="text" class="form-control text-center" id="u" style="font-size: large" name="userDB"
                          [(ngModel)]="userDB" readonly>
                 </div>
                 <div class="input-group mb-3">
                   <label for="t" style="color: blue;background-color:#fbfbfb;font-size: large">TOTAL: </label>
-                  <input type="text" class="form-control" id="t" style="font-size: large" name="total"
+                  <input type="text" class="form-control text-center" id="t" style="font-size: large" name="total"
                          [(ngModel)]="total" readonly>
                 </div>
 

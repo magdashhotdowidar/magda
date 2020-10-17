@@ -31,6 +31,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {URLConfigService} from "./shared/services/urlconfig.service";
+import {NgxDraggableDomModule} from "ngx-draggable-dom";
 
 
 const appInitializerFn = (appConfig: URLConfigService) => {
@@ -55,6 +56,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   imports: [
     BrowserModule,
+    NgxDraggableDomModule,
     ModalModule.forRoot(),
     TabsModule.forRoot(),
     TooltipModule.forRoot(),

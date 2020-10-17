@@ -99,6 +99,9 @@
                 <thead>
                 <tr style="color: lime">
                   <th class="th-sm">{{'PROJECT.product.edit.product_image'|translate}}</th>
+                  <th (click)="sort('cod')" class="th-sm">{{'PROJECT.product.edit.product_cod'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
                   <th (click)="sort('name')" class="th-sm">{{'PROJECT.product.edit.product_name'|translate}}
                     <span class="fa fa-sort"
                           [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
@@ -127,6 +130,12 @@
                   </td>
                   <td>
                     <input type="text" class="search-query form-control "
+                           placeholder="{{'PROJECT.product.edit.search.cod'|translate}}"
+                           name="searchName" style="color: blue"
+                           [(ngModel)]="searchByName"/>
+                  </td>
+                  <td>
+                    <input type="text" class="search-query form-control "
                            placeholder="{{'PROJECT.product.edit.search.name'|translate}}"
                            name="searchName" style="color: blue"
                            [(ngModel)]="searchByName"/>
@@ -148,13 +157,13 @@
                     <input type="text" class="search-query form-control "
                            placeholder="{{'PROJECT.product.edit.search.amount'|translate}}"
                            name="searchAmount" style="color: blue"
-                           [(ngModel)]="searchByAmount"/>
+                           [(ngModel)]="searchByName"/>
                   </td>
                   <td>
                     <input type="text" class="search-query form-control "
                            placeholder="{{'PROJECT.product.edit.search.price'|translate}}"
                            name="searchPrice" style="color: blue"
-                           [(ngModel)]="searchByPrice"/>
+                           [(ngModel)]="searchByName"/>
                   </td>
                   <td>
 
@@ -173,6 +182,7 @@
                   style="color:blue ">
                   <td style="width:140px"><img [src]="imgPath+product.imageName" class="embed-responsive" height="50px"
                                                width="30px"></td>
+                  <td style="width:130px">{{product.cod|shorten:11}}</td>
                   <td style="width:130px">{{product.name|shorten:11}}</td>
                   <td style="width:120px">{{product.brand|shorten:8}}</td>
                   <td style="width:130px">{{product.category|shorten:8}}</td>
@@ -200,6 +210,7 @@
                 <tfoot>
                 <tr style="color: lime">
                   <th class="th-sm">{{'PROJECT.product.edit.product_image'|translate}}</th>
+                  <th class="th-sm">{{'PROJECT.product.edit.product_cod'|translate}}</th>
                   <th class="th-sm">{{'PROJECT.product.edit.product_name'|translate}}</th>
                   <th class="th-sm">{{'PROJECT.product.edit.product_brand'|translate}}</th>
                   <th class="th-sm">{{'PROJECT.product.edit.product_category'|translate}}</th>
@@ -212,10 +223,10 @@
               </table>
               <div class="row">
                 <div class="row">
-                  <div class="col-md-8">
+                  <div class="col-md-9">
                     <label style="color: blue">{{'PROJECT.product.edit.items_per_page'|translate}}</label>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-3">
 
                     <select
                       style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px;border-bottom-color: blue"

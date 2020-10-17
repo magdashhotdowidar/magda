@@ -9,6 +9,7 @@ export class PositiveOnlyDirective {
 
   @HostListener('keyup')setToPositive(){
   if (this.ElRef.nativeElement.value<0)this.ElRef.nativeElement.value=this.oldValue;
+  else if (this.ElRef.nativeElement.value>9999999)this.ElRef.nativeElement.value=9999999;
   }
 }
 

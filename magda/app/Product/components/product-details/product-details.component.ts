@@ -19,12 +19,14 @@ export class ProductDetailsComponent implements OnInit {
   name: string;
   product: Product;
   buy: boolean = false;
+  payment:boolean=false;
   user = localStorage.getItem(LocalStorage.userName);
   l:typeof LocalStorage=LocalStorage;
   role=localStorage.getItem(LocalStorage.role);
   path: typeof Path = Path;
   imgPath: string = this.path.productImagePath;
   amount: number;
+  cardNumberPattern:string='/^([0-9]{4}( |\-)){3}[0-4]{4}$/';//'[0-9]{3}-[0-9]{2}-[0-9]{3}';
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -62,6 +64,7 @@ export class ProductDetailsComponent implements OnInit {
           this.cartService.createCartLine(cart).subscribe(data => {
             this.product.amount -= cart.amount
             this.productService.updateProduct(this.product.name, this.product).subscribe(res => {
+
              // this.store.dispatch(new AddCart(cart.user));
               this.router.navigate(['../../cart'], {relativeTo: this.route});
             })

@@ -13,7 +13,7 @@ import {ChartData, InvoiceService} from "../../infrastructure/services/invoice.s
 @Component({
   selector: 'product-bar-chart',
   template: `
-      <div class="modal-dialog modal-dialog-scrollable modal-lg  " role="document">
+      <div class="modal-dialog modal-dialog-scrollable modal-lg" ngxDraggableDom="true" role="document">
           <div class="modal-content">
               <div class="modal-header" style="background-color:navy">
                   <div class="row">

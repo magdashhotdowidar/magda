@@ -2,7 +2,7 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 &lt;!&ndash;&#45;&#45;&#45;&#45; Include the above in your HEAD tag &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
-<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+<nav class="navbar navbar-expand-sm btn-group-sm " >
   <!-- Links -->
   <ul class="navbar-nav col-md-10">
     <li class="nav-item">
@@ -21,13 +21,13 @@
   </ul>
   <ul class="nav navbar-nav navbar-right col-md-2">
     <li class="nav-item">
-      <a > <select class="fa fa-eye"  (change)="setLang()" [(ngModel)]="selectedLang" style="background-color:navy;color:white;font-size: x-large">
+      <a > <select class="fa fa-eye"  (change)="setLang()" [(ngModel)]="selectedLang" style="background-color:white;color:blue;border-color:blue;font-size: x-large">
         <option *ngFor="let lang of translate.getLangs()" [value]="lang">{{lang}}<i class="fa fa-eye" style="color: red"></i></option>
       </select> </a>
     </li>
 
     <li class="dropdown"  >
-      <a (mouseenter)="dropDownOpened=!dropDownOpened" style="cursor: pointer;margin: 20px;color: whitesmoke"  class="dropdown-toggle"
+      <a (mouseenter)="dropDownOpened=!dropDownOpened" style="cursor: pointer;margin: 20px;color: blue"  class="dropdown-toggle"
          appDropdown data-toggle="dropdown" role="button">{{'PROJECT.header.hi'|translate}} - <i style="color: yellow">{{userName|uppercase}} </i><span class="caret"></span></a>
       <ul class="dropdown-menu " [ngClass]="{show:dropDownOpened}">
         <li *ngIf="role==l.ROLE_USER"> <a routerLink="cart">

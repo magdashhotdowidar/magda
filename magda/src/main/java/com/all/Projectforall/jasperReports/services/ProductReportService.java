@@ -27,9 +27,9 @@ public class ProductReportService {
     private final static String imagePath = "src\\main\\resources\\jasper\\images\\";
     private final static String jrxmlFilePath = "classpath:jasper/templates/";
 
-    public String exprotReport(String reportFormat, String user) throws IOException, JRException {
+    public String exprotReport(String reportFormat, String user,String admin) throws IOException, JRException {
 
-        List<ProductModel> products = productRepository.findAllById_TheAdmin("ahmed")
+        List<ProductModel> products = productRepository.findAllById_TheAdmin(admin)
                 .stream().map(product -> new ProductModel(product)).collect(Collectors.toList());
 
         File file = ResourceUtils.getFile(jrxmlFilePath + "products.jrxml");

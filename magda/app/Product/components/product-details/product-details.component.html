@@ -32,12 +32,39 @@
         <div><br>
           <hr style="border-color: blue"/>
           <div *ngIf="buy">
-            <div class="row">
+            <div *ngIf="!payment" class="row">
             <label style="color:magenta">{{'PROJECT.product.sell.enterQuantity'|translate}}</label>
             <input type="number" class="form-control " id="amount" required minlength="1" min="1"
                    data-toggle="tooltip" data-placement="right" title="Enter the Amount"
                    [(ngModel)]="amount" style="font-size:small;width: fit-content;text-align: center"
-                   name="amount" #_i ngModel PositiveOnly></div>
+                   name="amount" #am ngModel PositiveOnly>
+              <button *ngIf="am.value!=0"  (click)="payment=true" class="btn btn-warning">{{'PROJECT.product.sell.buy'|translate}}</button>
+              <button (click)="buy=false" class="btn btn-danger" style="margin: 3px;">{{'PROJECT.product.sell.cancel'|translate}}</button>
+            </div>
+
+            <div *ngIf="payment">
+              <div class="row">
+                <div class="col-md-8">
+                  <label style="color:magenta">Card Number </label>
+                  <input type="text"  [pattern]="cardNumberPattern" PositiveOnly />
+                </div>
+                <div class="col-md-4">
+                  <label style="color:magenta">Expiry</label>
+                  <input type="text" ng-model="number" payments-validate="card" payments-type-model="type" style="width: 80px"/>
+                </div>
+              </div>
+                <div class="row">
+                  <div class="col-md-8">
+                  <label style="color:magenta">NAME-CARD</label>
+                  <input type="text" ng-model="expiry" payments-validate="expiry" />
+                  </div>
+                  <div class="col-md-4">
+                  <label style="color:magenta">CVC</label>
+                  <input type="text" ng-model="cvc" payments-validate="cvc" payments-type-model="type" style="width: 80px"/>
+                </div>
+                </div>
+              <button  (click)="buy=false;payment=false" class="btn btn-danger" style="margin: 3px;">{{'PROJECT.product.sell.cancel'|translate}}</button>
+            </div>
             <hr style="border-color: blue"/>
           </div>
           <button *ngIf="buy" (click)="addToCart()" class="btn btn-warning" style="margin: 3px;">{{'PROJECT.product.sell.add_to_cart'|translate}}</button>

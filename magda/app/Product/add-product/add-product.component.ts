@@ -15,16 +15,11 @@ import {ProductResponse} from "../infrastructure/models/ProductResponse.model";
   styleUrls: ['./add-product.component.css']
 })
 export class AddProductComponent implements OnInit {
-  product: Product = new Product();
   products: Product[];
   searchByName: string = '';
   searchByBrand:string='';
   searchByCategory:string='';
-  searchByAmount: string = '';
-  searchByPrice: string = '';
   searchByAll: string = '';
-  fileEvent: Event = null;
-  selectedFile:File;
   path: typeof Path = Path;
   imgPath: string = this.path.productImagePath;
   showAddProductPopup:boolean=false;
@@ -43,7 +38,7 @@ export class AddProductComponent implements OnInit {
   constructor(private productService: ProductService,
               private router: Router,
               private route: ActivatedRoute,
-              private toastr: ToastrService,
+              private toastr:ToastrService,
               private report:ProductJasperReportService) {}
 
   ngOnInit() {
@@ -73,30 +68,6 @@ export class AddProductComponent implements OnInit {
 
   updateProduct(name: string) {
     this.router.navigate(['../p_update', name], {relativeTo: this.route});
-  }
-
-  save() {
-    const fd=new FormData();
-
-    if (this.fileEvent != null) {
-      this.selectedFile = (<HTMLInputElement>this.fileEvent.target).files[0];
-      fd.append('file',this.selectedFile,this.selectedFile.name);
-      console.log('the selected image',this.selectedFile)
-    }
-
-    this.product.imageName=this.selectedFile.name;
-    fd.append('product',JSON.stringify( this.product));
-
-    this.productService.createProduct(fd)
-      .subscribe(data => {
-        this.reloadData();
-       console.log(data);
-        this.toastr.success("SUCCESSFULLY SAVED");
-      }, error => {
-        this.toastr.warning("ERROR!!!");
-        console.log(error)
-      });
-    this.product = new Product();
   }
 
   generateProductReport(){

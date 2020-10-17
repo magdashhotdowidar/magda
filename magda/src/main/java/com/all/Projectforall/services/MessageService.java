@@ -44,7 +44,7 @@ public class MessageService {
 
     public void setRead(String from, String to) {
 
-        List<Message> messages = m_repo.findByMessageFromAndMessageTo(from, to);
+        List<Message> messages = m_repo.findByMessageFromAndMessageToAndRead(from, to,false);
         messages.forEach(message -> {message.setRead(true);});
         m_repo.saveAll(messages);
     }

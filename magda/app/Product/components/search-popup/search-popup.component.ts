@@ -102,6 +102,9 @@ export class SearchPopupComponent implements OnInit {
   }
 
   getAllInvoices() {
+    this.allInvoices=[];
+    this.searchByInvoiceNo=0;
+    this.searchByDate='';
     this.invoiceService.getAllInvoices().subscribe(
       res => {
         this.showAllInvoicesTable = true;

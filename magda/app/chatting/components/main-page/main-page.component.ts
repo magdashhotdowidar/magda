@@ -54,7 +54,7 @@ export class MainPageComponent implements OnInit, AfterViewChecked,DoCheck {
   loadFriends() {
     this.friendService.getAllUserFriends(this.userName).subscribe((data: ChattingUser[]) => {
         this.friends = data;
-        console.log(this.friends)
+       // console.log(this.friends)
       },
       (error: HttpErrorResponse) => alert(error.message))
   }

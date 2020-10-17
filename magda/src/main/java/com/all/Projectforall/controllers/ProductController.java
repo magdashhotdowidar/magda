@@ -38,8 +38,8 @@ public class ProductController {
     }*/
 
     @GetMapping("/product")
-    public CompletableFuture<CompletableFuture<ProductResponse>> getAllProducts(HttpServletRequest request) {
-        return CompletableFuture.completedFuture(pserv.allProducts(request.getHeader("theAdmin")));
+    public CompletableFuture<ProductResponse> getAllProducts(HttpServletRequest request) {
+        return pserv.allProducts(request.getHeader("theAdmin"));
     }
 
     @GetMapping("/product/{name}")

@@ -16,7 +16,9 @@ import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
   styleUrls: ['./personal-page.component.css']
 })
 export class PersonalPageComponent implements OnInit {
-
+//common friend it is very easy getAllUserFriends for userName and as well the same for the visitor and loop through userName friends if visitor friends contains
+//  the friend. identify a array variable of type string and add the friend name then in the interpolation of common friends replace the 9 with the array length
+// completely like the apple tree ex
   userName = localStorage.getItem(LocalStorage.userName);
   user: ChattingUser;
   path: typeof Path = Path;
@@ -55,16 +57,18 @@ export class PersonalPageComponent implements OnInit {
 
   setShowRemoveFriend() {
     this.friendService.getAllUserFriends(this.userName).subscribe((data: ChattingUser[]) => {
+      console.log("data1:",data.length,data)
         for (let friend of data) {
           if (this.user.username == friend.username) this.showRemoveFriend = true;
         };
-        this.friendService.getAllUserFriends(this.user.username).subscribe((data: ChattingUser[]) => {
+   /*     this.friendService.getAllUserFriends(this.user.username).subscribe((data: ChattingUser[]) => {
+            console.log("data2:",data.length,data)
             for (let friend of data) {
               if (this.user.username == friend.username) this.showRemoveFriend = true;
             };
 
           },
-          (error: HttpErrorResponse) => alert(error.message))
+          (error: HttpErrorResponse) => alert(error.message))*/
       },
       (error: HttpErrorResponse) => alert(error.message))
   }
@@ -137,7 +141,7 @@ export class PersonalPageComponent implements OnInit {
 
   setShowRequestSent() {
     this.friendRequestService.getRequestByFromAndTo(this.userName, this.user.username).subscribe((data: FriendRequest[]) => {
-        console.log('dddaaaaaa : ', data)
+      //  console.log('dddaaaaaa : ', data)
         if (data.length != 0) {
           this.showRequestSent = true;
         }

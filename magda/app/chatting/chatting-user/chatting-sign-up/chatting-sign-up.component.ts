@@ -25,7 +25,7 @@ export class ChattingSignUpComponent implements OnInit {
   ngOnInit() {
     this.userService.getUser(localStorage.getItem(LocalStorage.userName)).subscribe(data => {
       this.user = data;
-      console.log('the user form DB', this.user)
+     // console.log('the user form DB', this.user)
     })
     // this.resetForm();
   }
@@ -46,13 +46,13 @@ export class ChattingSignUpComponent implements OnInit {
     this.user.gender = form.value.gender;
     this.user.backgroundImage = '';
     this.user.personalImage = '';
-    console.log('this.user', this.user)
+    //console.log('this.user', this.user)
 
     const fd = new FormData();
     fd.append('updatedUser', JSON.stringify(this.user));
     this.userService.updateUser(fd)
       .subscribe((data: ChattingUser) => {
-          console.log('updated user', data)
+        //  console.log('updated user', data)
           if (data) {
             this.resetForm(form);
             this.toastr.success('User registration successful');

@@ -38,6 +38,7 @@ import {AddChartPopupComponent} from "./add-product/add-chart-popup/add-chart-po
 import {ChartistModule} from "ng-chartist";
 import {ChartsModule} from "ng2-charts";
 import {BarecodeScannerLivestreamModule} from "ngx-barcode-scanner";
+import {NgxDraggableDomModule} from "ngx-draggable-dom";
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -68,7 +69,7 @@ export function createTranslateLoader(http: HttpClient) {
     CommonModule,
     ProductRoutingModule,
     FormsModule,
-    StoreModule.forFeature('carts',productReducer),
+    StoreModule.forFeature('carts', productReducer),
     EffectsModule.forFeature([ProductEffect]),
     HttpClientModule,
     ReactiveFormsModule,
@@ -86,7 +87,8 @@ export function createTranslateLoader(http: HttpClient) {
         useFactory: createTranslateLoader,
         deps: [HttpClient]
       }
-    })
+    }),
+    NgxDraggableDomModule
 
   ],
   providers: [ CanDeactivateGuard,AuthGuard,AuthorizeGuard]

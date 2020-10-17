@@ -11,6 +11,7 @@ import {Friend, FriendService} from "../../infrastructure/services/friends.servi
 import {ToastrService} from "ngx-toastr";
 import {Message, MessageService} from "../../infrastructure/services/messages.service";
 import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
+import {na} from "../../../user/sign-in/sign-in.component";
 
 
 @Component({
@@ -25,14 +26,14 @@ export class ChattingHeaderComponent implements OnInit {
 
   selectedLang: string = 'ar'
   userName: string = localStorage.getItem(LocalStorage.userName);
-  mainPath: string = '/multichoice.com/' + localStorage.getItem(LocalStorage.admin) + '/' + Coding.front_home;
+  mainPath: string = '/' + na + '/' + Coding.front_home;
   role: string = localStorage.getItem(LocalStorage.role);
-  l:typeof LocalStorage=LocalStorage;
-  roleAdmin:string=this.l.ROLE_ADMIN;
+  l: typeof LocalStorage = LocalStorage;
+  roleAdmin: string = this.l.ROLE_ADMIN;
 
   usersForSearch: ChattingUser[] = [];
   friendRequests: FriendRequest[] = [];
-  messages:Message[]=[];
+  messages: Message[] = [];
 
   activated: boolean = false;
   dorpDownSearchInput: boolean = false;
@@ -41,14 +42,14 @@ export class ChattingHeaderComponent implements OnInit {
   dropDownOpened2: boolean = false;
   dropDownOpened3: boolean = false;
   friendRequestShowed: boolean = false;
-  messagesShowed:boolean=false;
+  messagesShowed: boolean = false;
 
 
   constructor(private router: Router,
               private userService: UserService,
               private friendRequestService: FriendRequestService,
               private friendService: FriendService,
-              private messageService:MessageService,
+              private messageService: MessageService,
               private chattingUserService: ChattingUserService,
               private translate: TranslateService,
               private toastr: ToastrService) {
@@ -76,15 +77,16 @@ export class ChattingHeaderComponent implements OnInit {
 
   getUserByNameOrEmail(nameOrEmail: string) {
 
-    if (nameOrEmail != '' || nameOrEmail != null || nameOrEmail != undefined)
+    if (nameOrEmail != '' || nameOrEmail != null || nameOrEmail != undefined || nameOrEmail.length > 0)
       this.chattingUserService.getUsersByNameOrEmail(nameOrEmail).subscribe(
         data => {
           this.usersForSearch = data;
           this.dorpDownSearchInput = true;
-          console.log(this.usersForSearch);
+          // console.log(this.usersForSearch);
         },
-        (error: HttpErrorResponse) => alert(error.message))
-  }
+        (error: HttpErrorResponse) =>{ if (nameOrEmail==''){}else alert(error.message)})
+    }
+
 
   getFriendRquests() {
     this.friendRequestService.getRequestByTo(this.userName).subscribe(data => {
@@ -92,8 +94,9 @@ export class ChattingHeaderComponent implements OnInit {
       },
       (error: HttpErrorResponse) => alert(error.message))
   }
-  getMessages(){
-    this.messageService.getUnReadMessages(this.userName).subscribe(data=>this.messages=data,
+
+  getMessages() {
+    this.messageService.getUnReadMessages(this.userName).subscribe(data => this.messages = data,
       (error: HttpErrorResponse) => alert(error.message))
   }
 
@@ -132,7 +135,7 @@ export class ChattingHeaderComponent implements OnInit {
     let me: string = friendRequest.to;
     this.friendRequestService.deleteFriendRequest(friendName, me).subscribe(data => {
         this.toastr.success(friendName + ' request canceled');
-        this.dropDownOpened1=false;
+        this.dropDownOpened1 = false;
       },
       (error: HttpErrorResponse) => alert(error.message))
   }

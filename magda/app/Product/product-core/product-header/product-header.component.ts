@@ -6,6 +6,7 @@ import {Cart} from "../../infrastructure/models/Cart";
 import {UserService} from "../../../user/user-infrastructure/user.service";
 import {Coding} from "../../../shared/enums/coding.enum";
 import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
+import {na} from "../../../user/sign-in/sign-in.component";
 
 
 
@@ -20,7 +21,7 @@ export class ProductHeaderComponent implements OnInit {
   l:typeof LocalStorage=LocalStorage;
   selectedLang:string='ar'
   userName:string=localStorage.getItem(LocalStorage.userName);
-  mainPath:string='/multichoice.com/'+localStorage.getItem(LocalStorage.admin)+'/'+Coding.front_home;
+  mainPath:string='/'+na+'/'+Coding.front_home;
   role:string=localStorage.getItem(LocalStorage.role);
   activated: boolean = false;
   dropDownOpened:boolean=false;
