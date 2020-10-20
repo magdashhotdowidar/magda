@@ -13,8 +13,7 @@ export const appRoutes: Routes = [
     path: na,canActivateChild:[AuthGuard], children: [
       {path: '', component: FrontHomeComponent},
       {path: Coding.front_home,component:FrontHomeComponent},
-      {path: Coding.product, loadChildren: () => import('./product/product.module').then(m => m.ProductModule)},
-      {path: Coding.chatting, loadChildren: () => import('./chatting/chatting.module').then(m => m.ChattingModule)}
+      {path: Coding.product, loadChildren: () => import('./product/product.module').then(m => m.ProductModule)}
     ]
   }
   ,

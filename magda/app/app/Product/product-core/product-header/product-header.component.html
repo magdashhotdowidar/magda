@@ -1,0 +1,59 @@
+<!--<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+&lt;!&ndash;&#45;&#45;&#45;&#45; Include the above in your HEAD tag &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+<nav class="navbar navbar-expand-sm btn-group-sm " >
+  <!-- Links -->
+  <ul class="navbar-nav col-md-10">
+    <li class="nav-item">
+      <a [routerLink]="mainPath" class="nav-link" routerLinkActive="active">{{'PROJECT.header.main_page'|translate}}</a>
+    </li>
+    <li *ngIf="role==l.ROLE_USER||role==l.ROLE_ADMIN" class="nav-item">
+      <a (click)="showimag()" routerLink="slider" class="nav-link" routerLinkActive="active">{{'PROJECT.header.online_shopping'|translate}}</a>
+    </li>
+    <li *ngIf="role==l.ROLE_ADMIN" class="nav-item">
+      <a (click)="showimag()" routerLink="add" class="nav-link" routerLinkActive="active">{{'PROJECT.header.product_management'|translate}}</a>
+    </li>
+
+    <li *ngIf="role==l.ROLE_SELLER||role==l.ROLE_ADMIN"class="nav-item">
+      <a routerLink="sell" (click)="showimag()" class="nav-link" routerLinkActive="active">{{'PROJECT.header.traditional_shopping'|translate}}</a>
+    </li>
+  </ul>
+  <ul class="nav navbar-nav navbar-right col-md-2">
+    <li class="nav-item">
+      <a > <select class="fa fa-eye"  (change)="setLang()" [(ngModel)]="selectedLang" style="background-color:white;color:blue;border-color:blue;font-size: x-large">
+        <option *ngFor="let lang of translate.getLangs()" [value]="lang">{{lang}}<i class="fa fa-eye" style="color: red"></i></option>
+      </select> </a>
+    </li>
+
+    <li class="dropdown"  >
+      <a (mouseenter)="dropDownOpened=!dropDownOpened" style="cursor: pointer;margin: 20px;color: blue"  class="dropdown-toggle"
+         appDropdown data-toggle="dropdown" role="button">{{'PROJECT.header.hi'|translate}} - <i style="color: yellow">{{userName|uppercase}} </i><span class="caret"></span></a>
+      <ul class="dropdown-menu " [ngClass]="{show:dropDownOpened}">
+        <li *ngIf="role==l.ROLE_USER"> <a routerLink="cart">
+          <i class="fa fa-shopping-cart"></i>
+          <i class="badge" style="color: red">{{cartLineCount}}</i> - &#8377;{{total}}
+        </a> </li>
+        <div *ngIf="role==l.ROLE_ADMIN" class="dropdown-divider"></div>
+        <a *ngIf="role==l.ROLE_ADMIN" STYLE="color: blue" class="nav-link" routerLink='/signup' routerLinkActive='active'>Sign Up</a>
+        <div class="dropdown-divider"></div>
+        <li><a style="cursor: pointer;color:blue" (click)="Logout()">Logout</a></li>
+
+      </ul>
+    </li>
+<!--    <li class="dropdown " appDropdown>
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Dropdown button
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" style="cursor: pointer;margin: 20px;color: whitesmoke" (click)="Logout()">Logout</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+        <li> <h4 >{{userName}}</h4></li>
+      </ul>
+    </li>-->
+
+  </ul>
+</nav>
+
+

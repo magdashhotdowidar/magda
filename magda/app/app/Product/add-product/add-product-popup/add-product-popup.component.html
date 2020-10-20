@@ -1,0 +1,146 @@
+<main>
+  <section>
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" ngxDraggableDom="true" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color:blue ">
+          <h6 style="color: white;font-size: x-large">{{'PROJECT.breadcrumb.add_product'|translate}}</h6>
+          <button type="button" (click)="close()" style="background-color: red" data-dismiss="modal" aria-label="Close"
+                  id="employeePopupClose">
+            <i class="fa fa-close" aria-hidden="true" style="color:yellow;font-size:x-large "></i>
+          </button>
+        </div>
+        <div class="modal-body" style="background-color: white;min-height:fit-content">
+          <div>
+            <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+              <div class="container">
+                <div class="row" style="margin-bottom: 3px">
+                  <div class="col-md-5">
+                    <label style="color: blue;font-size:x-large">{{'PROJECT.product.edit.product_cod'|translate}}: </label>
+                  </div>
+                  <div class="col-md-7">
+                    <input type="number" class="form-control" id="cod" required minlength="1" min="1" maxlength="6" max="999999"
+                           data-toggle="tooltip" [(ngModel)]="product.cod"
+                           data-placement="right" title="Enter The Cod" placeholder="{{'PROJECT.product.edit.product_cod'|translate}}"
+                           style="font-size: x-large"
+                           OnlyNumber="true" PositiveOnly name="cod" ngModel>
+                  </div>
+                </div>
+                <div class="row" style="margin-bottom: 3px">
+                  <div class="col-md-5">
+                    <label style="color: blue;font-size:x-large">{{'PROJECT.product.edit.product_name'|translate}}: </label>
+                  </div>
+                  <div class="col-md-7">
+                    <input type="text" placeholder="{{'PROJECT.product.edit.product_name'|translate}}" name="Pname" class="form-control" ngModel
+                           [(ngModel)]="product.name"
+                           required>
+                  </div>
+                </div>
+                <div class="row" style="margin-bottom: 3px">
+                  <div class="col-md-5">
+                    <label style="color: blue;font-size:x-large">{{'PROJECT.product.edit.product_brand'|translate}} : </label>
+                  </div>
+                  <div class="col-md-7">
+                    <input type="text" placeholder="{{'PROJECT.product.edit.product_brand'|translate}}" name="pbrand" class="form-control" ngModel
+                           [(ngModel)]="product.brand"
+                           required>
+                  </div>
+                </div>
+                <div class="row" style="margin-bottom: 3px">
+                  <div class="col-md-5">
+                    <label style="color: blue;font-size:x-large">{{'PROJECT.product.edit.product_description'|translate}} : </label>
+                  </div>
+                  <div class="col-md-7">
+            <textarea rows="2" placeholder="{{'PROJECT.product.edit.product_description'|translate}}" name="desc" class="form-control" ngModel
+                      [(ngModel)]="product.description"
+                      required></textarea>
+                  </div>
+                </div>
+                <div class="row" style="margin-bottom: 3px">
+                  <div class="col-md-5">
+                    <label style="color: blue;font-size:x-large">{{'PROJECT.product.edit.product_price'|translate}} : </label>
+                  </div>
+                  <div class="col-md-7">
+                    <input type="number" class="form-control" id="price" required minlength="1" min="1" PositiveOnly
+                           data-toggle="tooltip" [(ngModel)]="product.price"
+                           data-placement="right" title="Enter The Unit price" placeholder="{{'PROJECT.product.edit.product_price'|translate}}"
+                           style="font-size: x-large"
+                           OnlyNumber="true" name="price" ngModel>
+                  </div>
+                </div>
+                <div class="row" style="margin-bottom: 3px">
+                  <div class="col-md-5">
+                    <label style="color: blue;font-size:x-large">{{'PROJECT.product.edit.product_amount'|translate}}: </label>
+                  </div>
+                  <div class="col-md-7">
+                    <input type="number" class="form-control" id="amount" required minlength="1" min="1" PositiveOnly
+                           data-toggle="tooltip" [(ngModel)]="product.amount"
+                           data-placement="right" title="Enter The Available Quantity" placeholder="{{'PROJECT.product.edit.product_amount'|translate}}"
+                           style="font-size: x-large"
+                           OnlyNumber="true" name="amount" ngModel>
+                  </div>
+
+                </div>
+                <div class="row" style="margin-bottom: 3px">
+                  <div class="col-md-5">
+                    <label style="color: blue;font-size:x-large">{{'PROJECT.product.edit.select_CP'|translate}} : </label>
+                  </div>
+                  <div class="col-md-7">
+                    <div class="row" style="margin: 0px;padding: 0px;">
+                      <div  style="margin:0px 1px;padding: 0px;">
+                          <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="right"  style="cursor: pointer"
+                                  title="{{'PROJECT.product.edit.tap.select_category'|translate}}">
+                            <select style="font-size: small;background-color:blue;color: white;cursor: pointer;height: 25px"
+                                    class="form-control form-control-sm"
+                                    (change)="selectedValue=$event.target.value" name="selectedValue"
+                                    [(ngModel)]="selectedValue"
+                                    ngModel required>
+                              <option style="color: white"
+                                      [value]="'categories'">{{'PROJECT.product.edit.tap.select_category'|translate}}</option>
+                              <option style="color: white; font-size: small" *ngFor="let category of categories_names" [value]="category">{{ category }}</option>
+                            </select>
+                          </button>
+
+                      </div>
+                      <div  style="margin:0px 1px;padding: 0px">
+                          <button type="button" class="btn btn-primary" (click)="show_category_popup=true"
+                                  style="cursor: pointer"
+                                  data-toggle="modal" data-target="#CategoryPopUp"><i class="fa fa-eye">{{'PROJECT.product.edit.add_category'|translate}}</i>
+                          </button>
+                      </div>
+                      <div  style="margin:0px 1px;padding: 0px;" data-toggle="tooltip" data-placement="right"
+                           title="{{'PROJECT.product.edit.tap.select_image'|translate}}">
+                        <div class="input-group form-group">
+                          <input type="file" #fileInput (change)="fileEvent=$event" style="display: none" ngModel required
+                                 name="fil">
+                          <button type="button" (click)="fileInput.click()" style="background-color: blue;color: red">
+                      <span class="input-group-text" style="background-color: blue;border-color: blue"><i
+                        class="fa fa-file" style="font-size: large;color:white;border-color: blue"> {{'PROJECT.product.edit.tap.select_image'|translate}}</i></span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr style="border-color: blue"/>
+              <div class="row ">
+                <div class="col-md-5"></div>
+                <div class="col-md-7">
+                  <button type="button" (click)="onSubmit(f)" class="btn "
+                          style="text-align: center;color:white;background-color:red;cursor: pointer" [disabled]="!f.valid">
+                    <i class="fa fa-eye"></i>{{'PROJECT.product.edit.save'|translate}}<i class="fa fa-eye"></i></button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer" style="background-color: blue"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal fa fa" id="CategoryPopUp" tabindex="-1" role="dialog" *ngIf="show_category_popup"
+     aria-labelledby="successLabel" aria-hidden="true">
+  <add-category-popup (show-popup)="show_category_popup=$event" (new-category)="addNewCategory($event)"></add-category-popup>
+</div>

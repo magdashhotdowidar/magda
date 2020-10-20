@@ -1,0 +1,204 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+#add-post{
+  border: 1px solid blue;
+  color: blue;
+  margin: 0 5px;
+  width: 800px;
+}
+button>i{
+  size: A3;
+  background-color: white;
+  color: blue;
+
+}
+.post{
+  background-color: white;
+  border:1px solid blue;
+}
+/* Button used to open the chat form - fixed at the bottom of the page */
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  /*right: 28px;*/
+  width: 280px;
+}
+
+/* The popup chat - hidden by default */
+.chat-popup {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  margin: 10px 10px 2px ;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+   max-width: 300px;
+   height: 365px;
+   padding: 4px;
+   border: 1px solid chartreuse;
+   bottom: 3px;
+   background-color:#444444;
+ }
+.form-container-show {
+  max-width: 290px;
+  height: 200px;
+  max-height: 200px;
+  padding: 2px;
+  border: 1px solid chartreuse;
+  bottom: 3px;
+  background-color:black;
+}
+
+.right-direction {
+  right: 270px;
+}
+
+.left-direction {
+  left: 270px;
+}
+
+/* Full-width textarea */
+.form-container textarea {
+  width: 100%;
+  padding: 1px;
+  margin: 5px 0 0 0;
+  border: none;
+  background: #f1f1f1;
+  resize: none;
+  /*min-height: 100px;*/
+}
+
+/* When the textarea gets focus, do something */
+.form-container textarea:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/send button */
+/*.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  !*padding: 16px 20px;*!
+  border: none;
+  cursor: pointer;
+  width: 100%;
+ !* margin-bottom:10px;*!
+  opacity: 0.8;
+}*/
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+ng-chat-title, .ng-chat-title:hover {
+  position: relative;
+  z-index: 2;
+  height: 30px;
+  line-height: 30px;
+  font-size: .9em;
+  padding: 0 10px;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.ng-chat-participant-status {
+  display: inline-block;
+  border-radius: 25px;
+  width: 8px;
+  height: 8px;
+  margin-top: 10px;
+}
+
+.ng-chat-participant-status.online {
+  background-color: chartreuse;
+}
+
+.ng-chat-participant-status.busy {
+  background-color: #f91c1e;
+}
+
+#ng-chat-people {
+  position: fixed;
+  width: 240px;
+  height: 360px;
+  border-width: 1px;
+  border-style: solid;
+  margin-right: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .25);
+  border-bottom: 1px solid #444444;
+  bottom: 3px;
+
+}
+
+#ng-chat-users li {
+  clear: both;
+  margin-bottom: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  max-height: 30px;
+}
+
+li {
+  display: list-item;
+  width: 220px;
+  text-align: -webkit-match-parent;
+}
+
+#ng-chat-search_friend {
+  display: block;
+  padding: 7px 10px;
+  margin: 10px auto 0;
+  width: 230px;
+  font-size: .9em;
+  -webkit-appearance: searchfield;
+}
+
+.dark-theme {
+  background-color: #444;
+  border: 1px solid #444;
+  color: #fff;
+}
+
+#ng-chat-users.offset-search {
+/*  top: 84px;*/
+}
+
+#ng-chat-users {
+  padding: 0 10px;
+  list-style: none;
+  margin: 0;
+  overflow: auto;
+ /* position: absolute;*/
+  top: 42px;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#ng-chat-users li .ng-chat-friends-list-container {
+  display: inline-block;
+  width: 100%;
+}

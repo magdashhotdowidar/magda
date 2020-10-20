@@ -17,18 +17,7 @@ import {LocalStorage} from "../shared/enums/local-storage-coding.enum";
 const routes: Routes = [
   {
     path: '', component: ProductHomeComponent, children: [
-      {path: 'slider', component: ImageSliderComponent},
-      {
-        path: 'sell', component: CreateProductComponent,
-        canActivate: [AuthGuard, AuthorizeGuard],
-        data: {OiIyMDIxLTAxLTA: [LocalStorage.ROLE_ADMIN, LocalStorage.ROLE_SELLER]},
-        canDeactivate: [CanDeactivateGuard]
-      },
-      {
-        path: 'cart', component: CartComponent,
-        canActivate: [AuthGuard, AuthorizeGuard],
-        data: {OiIyMDIxLTAxLTA: [LocalStorage.ROLE_ADMIN, LocalStorage.ROLE_USER]}
-      },
+      
       {
         path: 'add', component: AddProductComponent,
         canActivate: [AuthGuard, AuthorizeGuard],
