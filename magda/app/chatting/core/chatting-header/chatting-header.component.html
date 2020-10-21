@@ -1,0 +1,128 @@
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <!-- Links -->
+  <ul class="navbar-nav col-md-4">
+    <li class="nav-item">
+      <a [routerLink]="mainPath" class="nav-link" style="color: lime" routerLinkActive="active">MAIN PAGE</a>
+    </li>
+    <li class="nav-item">
+      <a (click)="showimag()" routerLink="mainPage" class="nav-link" routerLinkActive="active">Main Page</a>
+    </li>
+    <li class="nav-item">
+      <a (click)="showimag()"
+         [routerLink]="['personalPage',userName]" class="nav-link" routerLinkActive="active">Personal PAGE</a>
+    </li>
+    <!-- <li *ngIf="role=='ROLE_SELLER'||role=='ROLE_ADMIN'" class="nav-item">
+       <a (click)="showimag()" routerLink="slider" class="nav-link" routerLinkActive="active">Online Shopping</a>
+     </li>-->
+
+  </ul>
+
+  <ul class="navbar-nav col-md-3">
+    <li class="dropdown">
+      <input (mouseenter)="dorpDownSearchInput=!dorpDownSearchInput" (keyup)="getUserByNameOrEmail(search.value)"
+             class="dropdown-toggle form-control mr-sm-2" data-toggle="dropdown" #search
+              type="search" placeholder="Search" aria-label="Search">
+      <ul class="dropdown-menu " [ngClass]="{show:dorpDownSearchInput}">
+        <li *ngFor="let friend of usersForSearch;let i=index" class="text-center">
+          <a style="color:blue;" target="_blank"
+             [routerLink]="['personalPage',search.value]"
+             (click)="closeInputDropDown()">{{ friend.username}}</a>
+        </li>
+      </ul>
+    </li>
+    <button style="background-color:white;border: 1px solid blue;color: blue;width: 50px"
+            (click)="getUserByNameOrEmail(search.value)"><i class="fa fa-search"></i></button>
+  </ul>
+
+  <ul class="nav navbar-nav navbar-right col-md-3">
+
+
+    <li class="dropdown">
+      <a (click)="dropDownOpened1=!dropDownOpened1;friendRequestShowed=true" style="cursor: pointer;margin: 10px;color: white"
+         class="dropdown-toggle"
+         data-toggle="dropdown" role="button"><i style="color: white;font-size: x-large" class="fa fa-users" ></i>
+        <span *ngIf="friendRequests.length>0&&!friendRequestShowed" style="background-color: red" class="caret">{{friendRequests.length}}</span></a>
+      <ul class="dropdown-menu " [ngClass]="{show:dropDownOpened1}">
+
+        <div class="row" *ngFor="let friendRequest of friendRequests">
+          <div class="col-md-6">
+            <button type="button" (click)="addFriend(friendRequest)" style="background-color: blue;color:white" class="btn btn-warning">{{friendRequest.from}}</button>
+          </div>
+          <div class="col-md-6">
+            <button type="button" (click)="cancelFriendRequest(friendRequest)" style="background-color: navy;color:white" class="btn btn-warning">cancel</button>
+          </div>
+        </div>
+
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <a (click)="dropDownOpened2=!dropDownOpened2;messagesShowed=true" style="cursor: pointer;margin: 0;color: white"
+         class="dropdown-toggle"
+         data-toggle="dropdown" role="button"><i class="fa fa-comment"
+                                                 style="color: white;font-size: x-large"> </i>
+        <span *ngIf="messages.length>0&&!messagesShowed" style="background-color: red" class="caret">{{messages.length}}</span></a>
+      <ul class="dropdown-menu " [ngClass]="{show:dropDownOpened2}">
+        <div  *ngFor="let message of messages" style="background-color:blue;border: 1px solid white;color:white">
+          <div>
+            {{'message: '+ message.message}}
+          </div>
+          <div >
+           {{'from: '+ message.messageFrom }}
+          </div>
+          <div  style="font-size: xx-small" >
+            {{'('+ message.date+')'}}
+          </div>
+        </div>
+
+
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <a (click)="dropDownOpened3=!dropDownOpened3" style="cursor: pointer;margin: 10px;color:white"
+         class="dropdown-toggle"
+         data-toggle="dropdown" role="button"><i style="color: white;font-size: x-large" class="fa fa-bell"> </i><span
+        class="caret"></span></a>
+      <ul class="dropdown-menu " [ngClass]="{show:dropDownOpened3}">
+
+        <div *ngIf="role==roleAdmin" class="dropdown-divider"></div>
+        <a *ngIf="role==roleAdmin" STYLE="color: blue" class="nav-link" routerLink='/signup'
+           routerLinkActive='active'>Sign Up</a>
+        <div class="dropdown-divider"></div>
+        <li><a style="cursor: pointer;color:blue" (click)="Logout()">Logout</a></li>
+
+      </ul>
+    </li>
+
+  </ul>
+
+  <ul class="nav navbar-nav navbar-right col-md-2">
+    <li class="nav-item">
+      <a> <select class="fa fa-eye" (change)="setLang()" [(ngModel)]="selectedLang"
+                  style="background-color:black;color:white;font-size: x-large">
+        <option *ngFor="let lang of translate.getLangs()" [value]="lang">{{lang}}<i class="fa fa-eye"
+                                                                                    style="color: red"></i></option>
+      </select> </a>
+    </li>
+
+    <li class="dropdown">
+      <a (click)="dropDownOpened=!dropDownOpened" style="cursor: pointer;margin: 20px 20px 0;color: whitesmoke"
+         class="dropdown-toggle"
+         appDropdown data-toggle="dropdown" role="button">Hi - <i style="color: yellow">{{userName|uppercase}} </i><span
+        class="caret"></span></a>
+      <ul class="dropdown-menu " [ngClass]="{show:dropDownOpened}">
+
+        <div *ngIf="role==roleAdmin" class="dropdown-divider"></div>
+        <a *ngIf="role==roleAdmin" STYLE="color: blue" class="nav-link" routerLink='/signup'
+           routerLinkActive='active'>Sign Up</a>
+        <div class="dropdown-divider"></div>
+        <li><a style="cursor: pointer;color:blue" (click)="Logout()">Logout</a></li>
+
+      </ul>
+    </li>
+
+  </ul>
+</nav>
+
+

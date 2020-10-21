@@ -56,9 +56,10 @@ public class JwtAuthenticationController {
         final MyUser user = userRepo.findByUsername(userName).get();
         final String role = user.getAuthorities().get(0).getAuthority();
         final String userAdmin = user.getTheUserAdmin();
+        final String userImage=user.getPersonalImage();
         final int count = user.getVisitsCount();
         System.out.println("authenticate token: " + token);
-        return ResponseEntity.ok(new JwtResponse(token, userName, role, userAdmin, count));
+        return ResponseEntity.ok(new JwtResponse(token, userName, role, userAdmin,userImage, count));
     }
 
     private void authenticate(String username, String password) throws Exception {

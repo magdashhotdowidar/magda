@@ -8,5 +8,6 @@ export enum LocalStorage {
   roleSeller='RGF0ZSI6IjIwMjAtMDEtMDQiL',
   ROLE_ADMIN='BYEFGEpG9oZGcfL',
   ROLE_USER='QQDDA1KZXRQ',
-  ROLE_SELLER='JkZzlpFdiHijoVRdW'
+  ROLE_SELLER='JkZzlpFdiHijoVRdW',
+  userImage='6IjIwMjAtMDE'
 }

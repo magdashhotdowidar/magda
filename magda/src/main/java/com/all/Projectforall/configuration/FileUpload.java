@@ -25,10 +25,8 @@ public class FileUpload {
         logger.info("the real path" + REAL_path);
         logger.info("the abs path : " + ABS_path);
 
-        if (imageFor == "product") {
-
-            String PRODUCT_ABS_path = ABS_path + "products\\";
-            String PRODUCT_REAL_path = REAL_path + "products\\";
+            String PRODUCT_ABS_path = ABS_path + imageFor+"\\";
+            String PRODUCT_REAL_path = REAL_path +imageFor+ "\\";
 
             if (!new File(PRODUCT_ABS_path).exists()) new File(PRODUCT_ABS_path).mkdirs();
             if (!new File(PRODUCT_REAL_path).exists()) new File(PRODUCT_REAL_path).mkdirs();
@@ -42,45 +40,14 @@ public class FileUpload {
                 Path copyLocation2 = Paths
                         .get(PRODUCT_REAL_path + File.separator + StringUtils.cleanPath(file.getOriginalFilename()));
                 Files.copy(file.getInputStream(), copyLocation2, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException ex) {
+                logger.error(ex.getMessage());
+            }
+    }
 
                /* //project directory upload
                 file.transferTo(new File(PRODUCT_ABS_path + name));
 
                 //server upload
                 file.transferTo(new File(PRODUCT_REAL_path + name));*/
-
-            } catch (IOException ex) {
-                logger.error(ex.getMessage());
-            }
-
-        } else if (imageFor == "user") {
-
-            String USER_ABS_path = ABS_path + "users\\";
-            String USER_REAL_path = REAL_path + "users\\";
-
-            if (!new File(USER_ABS_path).exists()) new File(USER_ABS_path).mkdirs();
-            if (!new File(USER_REAL_path).exists()) new File(USER_REAL_path).mkdirs();
-            try {
-
-                //project directory upload
-                Path copyLocation = Paths
-                        .get(USER_ABS_path + File.separator + StringUtils.cleanPath(file.getOriginalFilename()));
-                Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
-
-                //server upload
-                Path copyLocation2 = Paths
-                        .get(USER_REAL_path + File.separator + StringUtils.cleanPath(file.getOriginalFilename()));
-                Files.copy(file.getInputStream(), copyLocation2, StandardCopyOption.REPLACE_EXISTING);
-                /*//project directory upload
-                file.transferTo(new File(USER_ABS_path + name));
-
-                //server upload
-                file.transferTo(new File(USER_REAL_path + name));*/
-
-            } catch (IOException ex) {
-                logger.error(ex.getMessage());
-            }
-
-        }
-    }
 }

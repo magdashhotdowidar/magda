@@ -15,21 +15,21 @@ import {ChartData, InvoiceService} from "../../infrastructure/services/invoice.s
   template: `
       <div class="modal-dialog modal-dialog-scrollable modal-lg" ngxDraggableDom="true" role="document">
           <div class="modal-content">
-              <div class="modal-header" style="background-color:navy">
+              <div class="modal-header" style="background-color:white;color:blue">
                   <div class="row">
                       <label style="background-color: darkmagenta;padding:10px 10px;color:orangered;border: 3px solid white;border-radius:50%;cursor:pointer;font-size: large">{{'PROJECT.breadcrumb.chart'|translate}}</label>
                       <a (click)="loadProductChart()"> {{'PROJECT.breadcrumb.products_chart'|translate}}</a>
                       <a (click)="loadCategoryChart()"> {{'PROJECT.breadcrumb.categories_chart'|translate}}</a></div>
-                  <div (change)="setChart()" class="custom-radio" *ngFor="let formChart of chartForms" style="color: white;font-size: large">
+                  <div (change)="setChart()" class="custom-radio" *ngFor="let formChart of chartForms" style="color: blue;font-size: large">
                       <label>
                           <input type="radio" [(ngModel)]="chartType" [value]="formChart"/>{{formChart}}
                       </label>
                   </div>
 
-                  <button type="button" (click)="close()" style="background-color: red" data-dismiss="modal"
+                  <button type="button" (click)="close()" style="background-color:blue" data-dismiss="modal"
                           aria-label="Close"
                           id="chartPopupClose">
-                      <i class="fa fa-close" aria-hidden="true" style="color:yellow;font-size:x-large "></i>
+                      <i class="fa fa-close" aria-hidden="true" style="color:red;font-size:x-large "></i>
                   </button>
               </div>
               <div class="modal-body" style="background-color: white;min-height:fit-content">

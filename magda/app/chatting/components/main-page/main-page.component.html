@@ -1,0 +1,118 @@
+<div class="row">
+  <!-------------------------------------------friends part--------------------------------------->
+  <div class="col-md-2">
+    <div [ngStyle]="{height:openFriendsWindow?'480px':'33px'}" id="ng-chat-people"
+         class=" dark-theme primary-outline-color primary-background ">
+      <a (click)="openFriendsWindow=!openFriendsWindow" class="ng-chat-title secondary-background shadowed"><span
+        style="color:white;margin-left: 5px;margin-right: 5px"> Friends </span></a><!---->
+
+      <!----><input class="friends-search-bar " id="ng-chat-search_friend" type="search" [(ngModel)]="search"
+                    placeholder="Search"><!---->
+      <ul id="ng-chat-users" class="offset-search" *ngFor="let friend of friends|friendsFilter :search">
+        <li>
+          <div class="ng-chat-friends-list-container" (click)="add(friend.username)"><!----><!---->
+            <div class="row">
+              <div class="col-md-4">
+                <img alt="" class="avatar" height="30" width="30" [src]="friendImagePath+friend.personalImage">
+              </div>
+              <div class="col-md-6" style="background-color: white">
+                <strong style="color:blue;margin: 0;width:100%;padding:0 "
+                        [title]="friend.username">{{friend.username}}</strong>
+                <!----><span *ngIf="unReadMessages.length!=0" style="color:orangered;margin-left: 5px;margin-right: 5px"
+                             data-toggle="tooltip" data-placement="right" [title]="friend.username+' un read messages'"
+                             class="ng-chat-unread-messages-count unread-messages-counter-container primary-text">{{unReadMessages.length}}</span>
+                <span style="margin: 0 4px" class="ng-chat-participant-status online"></span>
+              </div>
+            </div>
+
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-------------------------------------------------posts part-------------------------------->
+  <div class="col-md-8 pre-scrollable" style="border-left: 1px solid blue;border-right: 1px solid blue;width:300px;min-height:900px;margin: 0 3px">
+    <div class="row" style="border-bottom:1px solid blue">
+      <div class="form-group mx-sm-3 mb-2">
+        <div class="form-group mx-sm-3 mb-2">
+          <div class="input-group mb-3">
+            <div class="input-group mb-3">
+              <textarea id="add-post" class="form-control" [(ngModel)]="post.message" placeholder="add post"></textarea>
+              <div class="input-group-append">
+                <input type="file" #fileInput (change)="fileEvent=$event" style="display: none" ngModel required name="fil">
+                <button type="button" (click)="fileInput.click()" class="post" data-toggle="tooltip" data-placement="right" title="'add picture'">
+                  <i class="fa fa-picture-o" aria-hidden="true"></i>
+                </button>
+
+                <button type="button" (click)="savePost()" class="post" style="margin: 0 2px" data-toggle="tooltip" data-placement="right" title="post">
+                  <i class="fa fa-send-o" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="min-height:900px" class="text-center" style="margin:0 200px">
+      <div class="text-center " *ngFor="let post of posts" style="border-bottom:1px solid blue;padding:15px 0;margin:10px 0">
+
+          <div class="row" >
+            <div class="col-md-4">
+              <img alt="" class="avatar" height="30" width="30" [src]="friendImagePath+post.userPicName" style="border-radius: 50%">
+              <strong style="color:blue;margin: 0;width:fit-content;margin: 0 5px " [title]="post.user">{{post.user}}</strong>
+            </div>
+            <div class="col-md-4" style="background-color: white">
+              <strong style="color:greenyellow;margin: 0;width:fit-content;padding:8px " [title]="post.date">{{post.date}}</strong>
+            </div>
+          </div>
+
+        <div class="row" style="color: blue;margin: 0 3px">
+          <p>{{post.message|shorten:post.length}}</p>
+          <a *ngIf="post.length<post.message.length" (click)="post.length=post.message.length" style="color: lawngreen;cursor: pointer">see more</a>
+        </div>
+        <div >=
+          <img alt="" class="embed-responsive" height="320" style="max-width: 600px" [src]="friendImagePath+post.picName">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2">
+
+  </div>
+  <!-------------------------------chat windows part------------------------------------------->
+  <div *ngIf="chatWindows.length>0&&openChatWindow"
+       [ngClass]="{'right-direction':direction=='rtl','left-direction':direction=='ltr'}"
+       class=" chat-popup">
+    <div class="row">
+
+      <form #_i="ngForm" *ngFor="let chatWindow of chatWindows ;let i=index" class="form-container "
+            [appMinimize]="minimizeChatWindow" (ngSubmit)="send(i)">
+        <div class="row">
+          <div class="col-md-8">
+            <button (click)="minimizeChatWindow=!minimizeChatWindow" type="button"
+                    style="width: 225px;height:100%;background-color:#444444;color: white "
+                    class="btn ">{{chatWindow.windowName}}
+            </button>
+          </div>
+          <div class="col-md-4">
+            <button (click)="closeWindow(i)" style="background-color: red;color:blue" type="button"
+                    class="btn btn-warning">Close
+            </button>
+          </div>
+        </div>
+        <div #scrollMe class="form-container-show pre-scrollable" style="overflow:-moz-scrollbars-vertical ">
+          <div class="text-center " data-toggle="tooltip" data-placement="right" [title]="message.date"
+               [ngStyle]="{color:message.messageFrom!=userName?'yellow':'blue'}"
+               *ngFor="let message of chatWindow.chat">{{message.message }}</div>
+        </div>
+        <textarea rows="3" placeholder="Type message.." name="message" ngModel [(ngModel)]="chatWindow.message"
+                  required></textarea>
+
+        <button type="submit" class="btn" style="color:white;background-color:lime">Send</button>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+

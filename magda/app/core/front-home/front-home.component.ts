@@ -36,7 +36,14 @@ export class FrontHomeComponent implements OnInit,OnDestroy {
           else this.router.navigate(['../'+Coding.product],{relativeTo:this.route})
         }
         break;
-     
+      case 'chatting':
+      /*  this.router.navigateByUrl('chatting');*/
+      {
+        if(this.router.url.split('/').length==3)
+          this.router.navigate([Coding.chatting],{relativeTo:this.route})
+        else this.router.navigate(['../'+Coding.chatting],{relativeTo:this.route})
+      }
+        break;
       default:
         break;
     }

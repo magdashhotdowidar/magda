@@ -27,6 +27,7 @@ public class FriendService {
     private Usersandauthoritiesrepos user_repo;
 
     public CompletableFuture< List<Authusermodel>>allUserFriends(String userName) {
+        //it was possible to create one method findByUserNameOrFriendName(String userOrEmail) but I did 2 method to make swap
         List<Friend> list1 = f_repo.findByUserName(userName);
         List<Friend> list2 = f_repo.findByFriendName(userName);
         list2.forEach(friend -> {
@@ -39,7 +40,20 @@ public class FriendService {
            return  user_repo.findByUsername( friend.getFriendName()).get();
         }).map(Authusermodel::new).collect(Collectors.toList());
         return CompletableFuture.completedFuture(friendsDetails);
+    }
 
+    public  List<String>allUserFriendsNames(String userName) {
+        //it was possible to create one method findByUserNameOrFriendName(String userOrEmail) but I did 2 method to make swap
+        List<Friend> list1 = f_repo.findByUserName(userName);
+        List<Friend> list2 = f_repo.findByFriendName(userName);
+        list2.forEach(friend -> {
+            String tem="";
+            tem=friend.getUserName();
+            friend.setUserName(friend.getFriendName());
+            friend.setFriendName(tem); });
+        list1.addAll(list2);
+        List<String> friendsDetails= list1.stream().map(friend ->friend.getFriendName()).collect(Collectors.toList());
+        return friendsDetails;
     }
 
     public CompletableFuture< FriendModel> getFriendByUserNameAndFriendName(String userName, String friendName) {

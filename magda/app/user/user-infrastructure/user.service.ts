@@ -69,6 +69,7 @@ export class AuthenticationResponse {
     public jwtUserName: string,
     public role: string,
     public theUserAdmin: string,
+    public userImage:string,
     public visitsCount:number
   ) {}
 

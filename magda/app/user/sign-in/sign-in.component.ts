@@ -35,6 +35,7 @@ export class SignInComponent implements OnInit {
         localStorage.setItem(this.l.admin, data.theUserAdmin)
         localStorage.setItem(this.l.token, tokenappendbearer);
         localStorage.setItem(this.l.userName, data.jwtUserName);
+        localStorage.setItem(this.l.userImage,data.userImage);
         localStorage.setItem(this.l.role, data.role);
         if (data.visitsCount == null || data.visitsCount == 0) data.visitsCount = 1;else data.visitsCount++;
         this.toastr.info('VISIT NO ->' + data.visitsCount);

@@ -9,13 +9,15 @@ public class JwtResponse implements Serializable {
     private final String jwtUserName;
     private final String role;
     private final String theUserAdmin;
+    private final String userImage;
     private final int visitsCount;
 
-    public JwtResponse(String jwttoken,String jwtUserName,String role,String theUserAdmin,int count) {
+    public JwtResponse(String jwttoken,String jwtUserName,String role,String theUserAdmin,String userImage,int count) {
         this.jwttoken = jwttoken;
         this.jwtUserName=jwtUserName;
         this.role=role;
         this.theUserAdmin=theUserAdmin;
+        this.userImage=userImage;
         this.visitsCount=count;
     }
 
@@ -28,6 +30,7 @@ public class JwtResponse implements Serializable {
     public String getTheUserAdmin() {
         return theUserAdmin;
     }
+    public String getUserImage() { return userImage; }
     public String getRole() {
         return role;
     }
