@@ -29,14 +29,12 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck {
   userName: string = localStorage.getItem(LocalStorage.userName);
   userImage: string = localStorage.getItem(LocalStorage.userImage);
   friendImagePath: string = Path.userImagePath;
+  postImagePath:string=Path.postImagePath;
   fileEvent: Event = null;
   selectedFile: File;
   friends: ChattingUser[] = [];
   post: Post = new Post();
-  posts: Post[] = []  /*[new Post('dddddddd','ahmed','1.jpg','1.jpg','',11),
-                new Post('ffffffffffff','ahmed','2.jpg','2.jpg','',11),
-                new Post('gggggggg','ahmed','غغ.jpg','غغ.jpg','',11),
-                new Post('wwwwwwwwwwww','ahmed','car.jpg','car.jpg','',11)];*/
+  posts: Post[] = []
   unReadMessages: Message[] = [];
   openChatWindow: boolean = true;
   minimizeChatWindow: boolean = false;
@@ -79,7 +77,10 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck {
   }
 
   loadPublishedPosts() {
-    this.postService.getUserFriendsPosts(this.userName).subscribe((data: Post[]) => this.posts = data,
+    this.postService.getUserFriendsPosts(this.userName).subscribe((data: Post[]) => {
+      for(let post of data)post.length=30;
+        this.posts = data
+      },
       (err: HttpErrorResponse) => alert(err.message))
   }
 
@@ -144,16 +145,17 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck {
 
     fd.append('post', JSON.stringify(this.post));
 
-    this.fileEvent=null;
-    this.selectedFile=null;
+    this.fileEvent = null;
+    this.selectedFile = null;
 
-    this.postService.savePost(fd).subscribe(data => this.toastr.success('posted successfully'+this.userImage),
+    this.postService.savePost(fd).subscribe(data => this.toastr.success('posted successfully'),
       (error: HttpErrorResponse) => alert(error.message))
 
   }
 }
+
 ////////////////////////////////////////////
-  export class ChatWindow {
+export class ChatWindow {
   chat: Message[] = [];
   message: string
   showWindow: boolean

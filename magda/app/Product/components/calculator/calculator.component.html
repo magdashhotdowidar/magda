@@ -1,0 +1,39 @@
+<div  style="direction: ltr;position:absolute;z-index: 2">
+    <button *ngIf="!calculator" (click)="calculator=true" ><i class="fa fa-calculator" style="font-size: xx-large"></i></button>
+    <div *ngIf="calculator" class="card">
+      <div class="card-body">
+        <div class="row">
+          <output [value]="all"></output>
+        </div>
+        <div class="row">
+          <button style="width:86px" class="clear" (click)="all=''">Clear</button>
+          <button class="clear" (click)="setSign()">+/-</button>
+          <button (click)="setOff()" class="off">off</button>
+        </div>
+        <div class="row">
+          <button (click)="setAll('7')">7</button>
+          <button (click)="setAll('8')">8</button>
+          <button (click)="setAll('9')">9</button>
+          <button class="op-color" (click)="setOpe('+')">+</button>
+        </div>
+        <div class="row">
+          <button (click)="setAll('4')">4</button>
+          <button (click)="setAll('5')">5</button>
+          <button (click)="setAll('6')">6</button>
+          <button class="op-color" (click)="setOpe('-')">-</button>
+        </div>
+        <div class="row">
+          <button (click)="setAll('1')">1</button>
+          <button (click)="setAll('2')">2</button>
+          <button (click)="setAll('3')">3</button>
+          <button class="op-color" (click)="setOpe('*')">X</button>
+        </div>
+        <div class="row">
+          <button class="equal" (click)="setEqual()">=</button>
+          <button class="equal" (click)="setAll('0')">0</button>
+          <button class="equal" (click)="setAll('.')">.</button>
+          <button class="op-color" (click)="setOpe('/')">/</button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -32,6 +32,7 @@ import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {URLConfigService} from "./shared/services/urlconfig.service";
 import {NgxDraggableDomModule} from "ngx-draggable-dom";
+import { BuildByramidComponent } from './core/games/build-byramid/build-byramid.component';
 
 
 const appInitializerFn = (appConfig: URLConfigService) => {
@@ -52,7 +53,8 @@ export function createTranslateLoader(http: HttpClient) {
     UserComponent,
     SignInComponent,
     FrontHomeComponent,
-    FrontHeaderComponent
+    FrontHeaderComponent,
+    BuildByramidComponent
   ],
   imports: [
     BrowserModule,

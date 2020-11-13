@@ -38,7 +38,7 @@ button>i{
 /* The popup chat - hidden by default */
 .chat-popup {
   display: block;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   margin: 10px 10px 2px ;
   z-index: 9;

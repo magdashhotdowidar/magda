@@ -25,6 +25,7 @@ export class PersonalPageComponent implements OnInit {
   path: typeof Path = Path;
   imgPath: string = this.path.userImagePath;
   friendImagePath: string = Path.userImagePath;
+  postImagePath:string=Path.postImagePath;
   personalEvent: Event = null;
   backgroundEvent: Event = null;
   selectedFile: File;

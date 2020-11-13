@@ -104,8 +104,8 @@
           <p>{{post.message|shorten:post.length}}</p>
           <a *ngIf="post.length<post.message.length" (click)="post.length=post.message.length" style="color: lawngreen;cursor: pointer">see more</a>
         </div>
-        <div >=
-          <img alt="" class="embed-responsive" height="320" style="max-width: 600px" [src]="friendImagePath+post.picName">
+        <div >
+          <img alt="" class="embed-responsive" height="320" style="max-width: 600px" [src]="postImagePath+post.picName">
         </div>
       </div>
     </div>

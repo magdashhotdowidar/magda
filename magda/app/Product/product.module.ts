@@ -39,6 +39,7 @@ import {ChartistModule} from "ng-chartist";
 import {ChartsModule} from "ng2-charts";
 import {BarecodeScannerLivestreamModule} from "ngx-barcode-scanner";
 import {NgxDraggableDomModule} from "ngx-draggable-dom";
+import { CalculatorComponent } from './components/calculator/calculator.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -63,7 +64,8 @@ export function createTranslateLoader(http: HttpClient) {
     CartComponent,
     PositiveOnlyDirective,
     OnlyNumber,
-    ShortenPipe
+    ShortenPipe,
+    CalculatorComponent
   ],
   imports: [
     CommonModule,

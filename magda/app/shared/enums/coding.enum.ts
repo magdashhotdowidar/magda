@@ -5,5 +5,6 @@ export enum Coding {
   front_home='o',
   product='p',
   chatting='c',
+  pyramid='pyramid',
 
 }

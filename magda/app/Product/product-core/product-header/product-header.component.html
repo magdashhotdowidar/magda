@@ -1,10 +1,7 @@
-<!--<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-&lt;!&ndash;&#45;&#45;&#45;&#45; Include the above in your HEAD tag &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+
 <nav class="navbar navbar-expand-sm btn-group-sm " >
   <!-- Links -->
-  <ul class="navbar-nav col-md-10">
+  <ul class="navbar-nav col-md-7">
     <li class="nav-item">
       <a [routerLink]="mainPath" class="nav-link" routerLinkActive="active">{{'PROJECT.header.main_page'|translate}}</a>
     </li>
@@ -19,6 +16,7 @@
       <a routerLink="sell" (click)="showimag()" class="nav-link" routerLinkActive="active">{{'PROJECT.header.traditional_shopping'|translate}}</a>
     </li>
   </ul>
+
   <ul class="nav navbar-nav navbar-right col-md-2">
     <li class="nav-item">
       <a > <select class="fa fa-eye"  (change)="setLang()" [(ngModel)]="selectedLang" style="background-color:white;color:blue;border-color:blue;font-size: x-large">
@@ -53,6 +51,9 @@
       </ul>
     </li>-->
 
+  </ul>
+  <ul class="nav navbar-nav navbar-right col-md-3">
+    <li class="nav-item"><a><app-calculator></app-calculator></a></li>
   </ul>
 </nav>
 

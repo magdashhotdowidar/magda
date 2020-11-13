@@ -5,6 +5,7 @@ import {SignUpComponent} from './user/sign-up/sign-up.component';
 import {na, SignInComponent} from './user/sign-in/sign-in.component';
 import {AuthGuard} from "./auth/auth.guard";
 import {Coding} from "./shared/enums/coding.enum";
+import {BuildByramidComponent} from "./core/games/build-byramid/build-byramid.component";
 
 
 
@@ -13,6 +14,7 @@ export const appRoutes: Routes = [
     path: na,canActivateChild:[AuthGuard], children: [
       {path: '', component: FrontHomeComponent},
       {path: Coding.front_home,component:FrontHomeComponent},
+      {path:Coding.pyramid,component: BuildByramidComponent},
       {path: Coding.product, loadChildren: () => import('./product/product.module').then(m => m.ProductModule)},
       {path: Coding.chatting, loadChildren: () => import('./chatting/chatting.module').then(m => m.ChattingModule)}
     ]

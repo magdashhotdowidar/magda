@@ -1,0 +1,32 @@
+<div class="container" style="margin:0px">
+  <div class="row" style="margin: 0px 400px">
+    <div>
+      <div class="row" style="width: 600px;margin: 0px;padding: 16px">
+        <!--<div ><img [src]="imagePath+'ahmed.jpg'" class="embed-responsive" ></div>-->
+        <div class="row">
+          <input type="number" class="form-control text-center" id="amount"
+                 [(ngModel)]="height" style="font-size: large;color:blue">
+        </div>
+        <button type="button" (click)="buildPyramid()" class="btn btn-success">
+          <i class="fa fa-eye" aria-hidden="true"></i></button>
+        <button type="button" (click)="buildPyramidWithNoShadow()" class="btn btn-primary">
+          <i class="fa fa-bed" aria-hidden="true"></i></button>
+      </div>
+      <div class="card pre-scrollable" style="width:800px; min-height:750px ;margin: 0px 0px;padding: 0px;
+            background-color:green;border-color: #FFC312">
+        <div class="card-body">
+          <div class="row">
+            <output [value]="rowCount"></output>
+            <output [value]="stonesCount"></output>
+          </div>
+          <div class="tab-content">
+            <div class="text-center" [ngStyle]="{color:i<((height/2)-1)||!Shadow?'yellow':'black'}" style="font-size: xx-large"
+                 *ngFor="let r of holeShape;let i=index">{{r}}</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
