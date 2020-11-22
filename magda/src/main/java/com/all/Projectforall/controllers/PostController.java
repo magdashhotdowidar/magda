@@ -50,12 +50,16 @@ public class PostController {
                                                       HttpServletRequest request)
             throws ResourceNotFoundException, ExecutionException, InterruptedException {
 
-        if (!file.getOriginalFilename().equals(""))
+        if (file !=null||!file.getOriginalFilename().equals(""))
             FileUpload.UPloadImage(request, file, file.getOriginalFilename(), "post");
 
         PostModel post = new Gson().fromJson(SPost, PostModel.class);
-
         return p_service.save(post);
+    }
+
+    @PostMapping("/comment")
+    public CompletableFuture<PostModel>saveComment(@Valid @RequestBody PostModel postModel){
+        return p_service.save(postModel);
     }
 
 }

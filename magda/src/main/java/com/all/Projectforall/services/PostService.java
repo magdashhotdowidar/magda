@@ -1,6 +1,7 @@
 package com.all.Projectforall.services;
 
 
+import com.all.Projectforall.entitys.Comment;
 import com.all.Projectforall.entitys.Post;
 import com.all.Projectforall.models.PostModel;
 import com.all.Projectforall.repos.PostRepository;
@@ -29,14 +30,18 @@ public class PostService {
 
     public CompletableFuture<List<PostModel>> getAllUserFriendsRecentPosts(String publisher) {
         List<PostModel> posts = p_repo.findAllUserFriendsPosts(f_service.allUserFriendsNames(publisher))
-                               .stream().map(PostModel::new).collect(Collectors.toList());
+                .stream().map(PostModel::new).collect(Collectors.toList());
         Collections.sort(posts);
         return CompletableFuture.completedFuture(posts);
     }
 
 
-    public CompletableFuture<PostModel> save(PostModel post) {
-        return CompletableFuture.completedFuture(new PostModel(p_repo.save(new Post(post))));
+    public CompletableFuture<PostModel> save(PostModel postModel) {
+        Post post = new Post(postModel);
+        postModel.getComments().forEach(commentModel -> {
+            post.add_Comment(new Comment(commentModel));
+        });
+        return CompletableFuture.completedFuture(new PostModel(p_repo.save(post)));
 
     }
 

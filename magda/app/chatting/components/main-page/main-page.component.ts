@@ -13,7 +13,7 @@ import {SendMessage} from "../../infrastructure/store/actions/message.action";
 
 import {Title} from "@angular/platform-browser";
 import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
-import {Post, PostService} from "../../infrastructure/services/posts.service";
+import {Post, PostService,Comment} from "../../infrastructure/services/posts.service";
 import {Product} from "../../../Product/infrastructure/models/product";
 
 
@@ -29,11 +29,13 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck {
   userName: string = localStorage.getItem(LocalStorage.userName);
   userImage: string = localStorage.getItem(LocalStorage.userImage);
   friendImagePath: string = Path.userImagePath;
-  postImagePath:string=Path.postImagePath;
+  postImagePath: string = Path.postImagePath;
   fileEvent: Event = null;
   selectedFile: File;
   friends: ChattingUser[] = [];
   post: Post = new Post();
+  comment:string;
+  commentsNo:number=2;
   posts: Post[] = []
   unReadMessages: Message[] = [];
   openChatWindow: boolean = true;
@@ -78,7 +80,10 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck {
 
   loadPublishedPosts() {
     this.postService.getUserFriendsPosts(this.userName).subscribe((data: Post[]) => {
-      for(let post of data)post.length=30;
+        for (let post of data) {
+          post.length = 30;
+          for(let comment of post.comments)comment.length=30;
+        }
         this.posts = data
       },
       (err: HttpErrorResponse) => alert(err.message))
@@ -138,6 +143,8 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck {
       this.selectedFile = (<HTMLInputElement>this.fileEvent.target).files[0];
       fd.append('file', this.selectedFile, this.selectedFile.name);
     }
+
+    if (this.post.comments == null) this.post.comments = [];
     this.post.user = this.userName;
     this.post.date = this.date;
     this.post.userPicName = this.userImage;
@@ -152,6 +159,19 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck {
       (error: HttpErrorResponse) => alert(error.message))
 
   }
+
+  saveComment(post:Post) {
+
+    if(post.comments==null)post.comments=[];
+
+    post.comments.push(new Comment(this.comment,this.userName,this.userImage,this.date))
+    this.comment='';
+
+    this.postService.saveComment(post).subscribe(data => this.toastr.success('posted successfully'),
+      (error: HttpErrorResponse) => alert(error.message))
+
+  }
+
 }
 
 ////////////////////////////////////////////

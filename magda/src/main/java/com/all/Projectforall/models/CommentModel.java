@@ -1,40 +1,27 @@
 package com.all.Projectforall.models;
 
-import com.all.Projectforall.entitys.Message;
+import com.all.Projectforall.entitys.Comment;
 import com.all.Projectforall.entitys.Post;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-public class PostModel implements Comparable<PostModel> {
+public class CommentModel implements Comparable<CommentModel> {
     private int id;
     private String message;
     private String date;
     private String user;
-    private String picName;
     private String userPicName;
-    private List<CommentModel> comments;
 
-    public PostModel() {
+    public CommentModel() {
     }
 
-    public PostModel(Post post) {
+    public CommentModel(Comment post) {
      this.id=post.getId();
      this.message=post.getMessage();
      this.date=post.getDate();
      this.user=post.getPublisher();
-     this.picName=post.getPicName();
      this.userPicName=post.getUserPicName();
-        if (!post.getComments().isEmpty()) {
-            this.comments = post.getComments().
-                    stream().map(comment ->
-                    new CommentModel(comment)
-            ).collect(Collectors.toList());
-        }
     }
 
-    public int compareTo(PostModel me ){
+    public int compareTo(CommentModel me ){
         if(id==me.id)
             return 0;
         else if(id>me.id)
@@ -75,29 +62,12 @@ public class PostModel implements Comparable<PostModel> {
         this.user = user;
     }
 
-    public String getPicName() {
-        return picName;
-    }
-
-    public void setPicName(String picName) {
-        this.picName = picName;
-    }
-
     public String getUserPicName() {
         return userPicName;
     }
 
     public void setUserPicName(String userPicName) {
         this.userPicName = userPicName;
-    }
-
-    public List<CommentModel> getComments() {
-        if(comments==null)comments=new ArrayList<>();
-        return comments;
-    }
-
-    public void setComments(List<CommentModel> commentModelList) {
-        this.comments = commentModelList;
     }
 
     @Override
@@ -107,9 +77,7 @@ public class PostModel implements Comparable<PostModel> {
                 ", message='" + message + '\'' +
                 ", date='" + date + '\'' +
                 ", user='" + user + '\'' +
-                ", picName='" + picName + '\'' +
                 ", userPicName='" + userPicName + '\'' +
-                ", comments=" + comments +
                 '}';
     }
 }

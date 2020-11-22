@@ -28,6 +28,7 @@ import {EffectsModule} from "@ngrx/effects";
 import {MessageEffect} from "./infrastructure/store/effects/message.effect";
 import {FriendsFilterPipe} from "./infrastructure/pipes/friends-filter.pipe";
 import {ShortenPipe} from "./infrastructure/pipes/shorten.pipe";
+import {ShortenِِArrayPipe} from "./infrastructure/pipes/shortenArray.pipe";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -46,7 +47,8 @@ export function createTranslateLoader(http: HttpClient) {
     DropdownDirective,
     FriendsFilterPipe,
     PersonalPageComponent,
-    ShortenPipe
+    ShortenPipe,
+    ShortenِِArrayPipe
   ],
   imports: [
     CommonModule,

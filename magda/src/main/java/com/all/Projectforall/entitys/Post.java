@@ -5,6 +5,8 @@ import com.all.Projectforall.models.MessageModel;
 import com.all.Projectforall.models.PostModel;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -23,6 +25,17 @@ public class Post {
     private String publisher;
     private String picName;
     private String userPicName;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private List<Comment>comments;
+
+    public void add_Comment(Comment comment) {
+        if (comment != null) {
+            if (comments == null) comments = new ArrayList<>();
+            comment.setPost(this);//set the foreign key
+            comments.add(comment);
+        }
+    }
 
     public Post() {
     }
@@ -85,6 +98,14 @@ public class Post {
         this.userPicName = userPicName;
     }
 
+    public List<Comment> getComments() {
+        if(comments==null)comments=new ArrayList<>();
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
     @Override
     public String toString() {
         return "Post{" +

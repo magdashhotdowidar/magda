@@ -31,7 +31,8 @@
     </div>
   </div>
   <!-------------------------------------------------posts part-------------------------------->
-  <div class="col-md-8 pre-scrollable" style="border-left: 1px solid blue;border-right: 1px solid blue;width:200px;min-height:740px;margin: 0 3px">
+  <div class="col-md-8 pre-scrollable"
+       style="border-left: 1px solid blue;border-right: 1px solid blue;width:200px;min-height:740px;margin: 0 3px">
     <div class="row" style="border-bottom:1px solid blue">
       <div class="form-group mx-sm-3 mb-2">
         <div class="form-group mx-sm-3 mb-2">
@@ -39,12 +40,15 @@
             <div class="input-group mb-3">
               <textarea id="add-post" class="form-control" [(ngModel)]="post.message" placeholder="add post"></textarea>
               <div class="input-group-append">
-                <input type="file" #fileInput (change)="fileEvent=$event" style="display: none" ngModel required name="fil">
-                <button type="button" (click)="fileInput.click()" class="post" data-toggle="tooltip" data-placement="right" title="'add picture'">
+                <input type="file" #fileInput (change)="fileEvent=$event" style="display: none" ngModel required
+                       name="fil">
+                <button type="button" (click)="fileInput.click()" class="post" data-toggle="tooltip"
+                        data-placement="right" title="'add picture'">
                   <i class="fa fa-picture-o" aria-hidden="true"></i>
                 </button>
 
-                <button type="button" (click)="savePost()" class="post" style="margin: 0 2px" data-toggle="tooltip" data-placement="right" title="post">
+                <button type="button" (click)="savePost()" class="post" style="margin: 0 2px" data-toggle="tooltip"
+                        data-placement="right" title="post">
                   <i class="fa fa-send-o" aria-hidden="true"></i>
                 </button>
               </div>
@@ -54,28 +58,66 @@
       </div>
     </div>
     <div style="min-height:900px" class="text-center" style="margin:0 100px">
-      <div class="text-center " *ngFor="let post of posts" style="border-bottom:1px solid blue;padding:15px 0;margin:10px 0">
+      <div class="text-center " *ngFor="let post of posts"
+           style="border-bottom:1px solid blue;padding:15px 0;margin:10px 0">
 
-          <div class="row" >
-            <div class="col-md-4">
-              <img alt="" class="avatar" height="30" width="30" [src]="friendImagePath+post.userPicName" style="border-radius: 50%">
-              <strong style="color:blue;margin: 0;width:fit-content;margin: 0 5px " [title]="post.user">{{post.user}}</strong>
-            </div>
-            <div class="col-md-4" style="background-color: white">
-              <strong style="color:greenyellow;margin: 0;width:fit-content;padding:8px " [title]="post.date">{{post.date}}</strong>
-            </div>
+        <div class="row">
+          <img alt="" class="avatar" height="30" width="30" [src]="friendImagePath+post.userPicName"
+               style="border-radius: 50%">
+          <strong style="color:blue;margin: 0;width:fit-content;margin: 0 5px "
+                  [title]="post.user">{{post.user}}</strong>
+          <div style="background-color: white">
+            <strong style="color:greenyellow;margin: 0;width:fit-content;padding:8px "
+                    [title]="post.date">{{post.date}}</strong>
           </div>
+        </div>
 
         <div class="row" style="color: blue;margin: 0 3px">
           <p>{{post.message|shorten:post.length}}</p>
-          <a *ngIf="post.length<post.message.length" (click)="post.length=post.message.length" style="color: lawngreen;cursor: pointer">see more</a>
+          <a *ngIf="post.length<post.message.length" (click)="post.length=post.message.length"
+             style="color: lawngreen;cursor: pointer">see more</a>
         </div>
-        <div >
-          <img alt="" class="embed-responsive" height="320" style="max-width: 600px" [src]="postImagePath+post.picName">
+        <div style="margin-bottom: 3px">
+          <img alt="" class="embed-responsive" height="320" style="max-width: 660px" [src]="postImagePath+post.picName">
         </div>
+
+        <!-------------------------------------------------comments part-------------------------------->
+        <div class="row">
+          <img alt="" class="avatar" height="30" width="30" [src]="friendImagePath+userImage"
+               style="border-radius: 50%">
+
+          <textarea rows="1" class="form-control add-comment" [(ngModel)]="comment" placeholder="add comment"
+                    style="width: 600px"></textarea>
+
+          <button type="button" (click)="saveComment(post)" class="post" style="margin: 0 2px" data-toggle="tooltip"
+                  data-placement="right" title="post">
+            <i class="fa fa-send-o" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <div class="text-center " *ngFor="let comment of post.comments|shortenArray:commentsNo">
+
+          <div class="row">
+            <img alt="" class="avatar" height="30" width="30" [src]="friendImagePath+comment.userPicName"
+                 style="border-radius: 50%">
+            <strong style="color:blue;margin: 0;width:fit-content;margin: 0 5px "
+                    [title]="comment.user">{{comment.user}}</strong>
+            <div style="background-color: white">
+              <strong style="color:greenyellow;margin: 0;width:fit-content;padding:8px "
+                      [title]="comment.date">{{comment.date}}</strong>
+            </div>
+          </div>
+
+          <div class="row" style="color: blue;margin: 0 1px">
+            <p>{{comment.message|shorten:comment.length}}</p>
+            <a *ngIf="comment.length<comment.message.length" (click)="comment.length=comment.message.length"
+               style="color: lawngreen;cursor: pointer">see more</a>
+          </div>
+        </div>
+        <a *ngIf="post.comments.length>commentsNo" (click)="commentsNo =commentsNo+2"
+           style="color: lawngreen;cursor: pointer">see more comments</a>
       </div>
     </div>
-
   </div>
   <div class="col-md-2">
 

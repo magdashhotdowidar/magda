@@ -5,7 +5,7 @@ body {
 * {
   box-sizing: border-box;
 }
-#add-post{
+#add-post,.add-comment{
   border: 1px solid blue;
   color: blue;
   margin: 0 5px;
