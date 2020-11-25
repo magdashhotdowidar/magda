@@ -12,6 +12,7 @@ import {ToastrService} from "ngx-toastr";
 import {Message, MessageService} from "../../infrastructure/services/messages.service";
 import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
 import {na} from "../../../user/sign-in/sign-in.component";
+import {PostService} from "../../infrastructure/services/posts.service";
 
 
 @Component({
@@ -50,6 +51,7 @@ export class ChattingHeaderComponent implements OnInit {
               private friendRequestService: FriendRequestService,
               private friendService: FriendService,
               private messageService: MessageService,
+              private postService:PostService,
               private chattingUserService: ChattingUserService,
               private translate: TranslateService,
               private toastr: ToastrService) {

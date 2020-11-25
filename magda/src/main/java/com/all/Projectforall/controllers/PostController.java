@@ -2,6 +2,7 @@ package com.all.Projectforall.controllers;
 
 import com.all.Projectforall.configuration.FileUpload;
 import com.all.Projectforall.exceptions.ResourceNotFoundException;
+import com.all.Projectforall.models.NotificationModel;
 import com.all.Projectforall.models.PostModel;
 import com.all.Projectforall.services.PostService;
 import com.google.gson.Gson;
@@ -44,6 +45,13 @@ public class PostController {
         return posts.thenApply(ResponseEntity::ok);
     }
 
+    @GetMapping("/notification/{from}")
+    public CompletableFuture<ResponseEntity<List<NotificationModel>>> getUserFriendsNotification(@PathVariable(value = "from") String from) {
+
+        CompletableFuture<List<NotificationModel>> posts = p_service.getAllUserFriendsRecentNotifications(from);
+        return posts.thenApply(ResponseEntity::ok);
+    }
+
     @PostMapping()
     public CompletableFuture<PostModel> createProduct(@RequestParam(value = "file", required = false) MultipartFile file,
                                                       @RequestParam(value = "post", required = false) String SPost,
@@ -60,6 +68,11 @@ public class PostController {
     @PostMapping("/comment")
     public CompletableFuture<PostModel>saveComment(@Valid @RequestBody PostModel postModel){
         return p_service.save(postModel);
+    }
+
+    @PostMapping("/notification")
+    public CompletableFuture<NotificationModel>saveNotification(@Valid @RequestBody NotificationModel notification){
+        return p_service.saveNotification(notification);
     }
 
 }

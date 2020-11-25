@@ -9,6 +9,7 @@ public class CommentModel implements Comparable<CommentModel> {
     private String date;
     private String user;
     private String userPicName;
+    private int length;
 
     public CommentModel() {
     }
@@ -19,6 +20,7 @@ public class CommentModel implements Comparable<CommentModel> {
      this.date=post.getDate();
      this.user=post.getPublisher();
      this.userPicName=post.getUserPicName();
+     this.length=post.getLength();
     }
 
     public int compareTo(CommentModel me ){
@@ -70,14 +72,23 @@ public class CommentModel implements Comparable<CommentModel> {
         this.userPicName = userPicName;
     }
 
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
     @Override
     public String toString() {
-        return "PostModel{" +
+        return "CommentModel{" +
                 "id=" + id +
                 ", message='" + message + '\'' +
                 ", date='" + date + '\'' +
                 ", user='" + user + '\'' +
                 ", userPicName='" + userPicName + '\'' +
+                ", length=" + length +
                 '}';
     }
 }

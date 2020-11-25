@@ -26,12 +26,19 @@ export class PostService {
     return this.http.get(`${this.baseUrl}/${user}`);
   }
 
+  getUserFriendsNotification(user: string) {
+    return this.http.get(`${this.baseUrl}/notification/${user}`);
+  }
 
   savePost(fd: FormData) {
     return this.http.post(`${this.baseUrl}`, fd);
   }
   saveComment(post:Post) {
     return this.http.post(`${this.baseUrl}/comment`, post);
+  }
+
+  saveNotification(notification:Notification) {
+    return this.http.post(`${this.baseUrl}/notification`, notification);
   }
 
 }
@@ -46,7 +53,9 @@ export class Post {
     public userPicName?: string,
     public date?: string,
     public length?: number,
-    public comments?: Comment[]
+    public comments?: Comment[],
+    public notification?:Notification,
+    public likes?:number
   ) {}
 }
 
@@ -59,12 +68,19 @@ export class Comment {
   public date?: string;
   public length?: number
 
-  constructor( message?: string, user?: string, userPicName?: string, date?: string) {
+  constructor( message?: string, user?: string, userPicName?: string, date?: string,length?:number) {
     this.message = message;
     this.user = user;
     this.userPicName = userPicName;
     this.date = date;
-    this.length = 30;
+    this.length = length;
   }
+}
+
+//----------------------------------
+export class Notification{
+  constructor(public id:number,
+              public publisher:string,
+              public message:string){}
 }
 

@@ -16,6 +16,8 @@ public class Comment {
     private String message;
     @Column(name = "message_date")
     private String date;
+    @Column(name = "comment_length")
+    private int length;
     private String publisher;
     private String userPicName;
 
@@ -32,6 +34,7 @@ public class Comment {
         this.date=post.getDate();
         this.publisher=post.getUser();
         this.userPicName=post.getUserPicName();
+        this.length=post.getLength();
 
     }
 
@@ -83,7 +86,13 @@ public class Comment {
         this.userPicName = userPicName;
     }
 
+    public int getLength() {
+        return length;
+    }
 
+    public void setLength(int length) {
+        this.length = length;
+    }
 
     @Override
     public String toString() {
@@ -91,8 +100,10 @@ public class Comment {
                 "id=" + id +
                 ", message='" + message + '\'' +
                 ", date='" + date + '\'' +
+                ", length=" + length +
                 ", publisher='" + publisher + '\'' +
                 ", userPicName='" + userPicName + '\'' +
+                ", post=" + post +
                 '}';
     }
 }

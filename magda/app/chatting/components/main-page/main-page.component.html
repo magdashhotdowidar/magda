@@ -58,7 +58,7 @@
       </div>
     </div>
     <div style="min-height:900px" class="text-center" style="margin:0 100px">
-      <div class="text-center " *ngFor="let post of posts"
+      <div class="text-center " *ngFor="let post of posts|orderBy:'id':true"
            style="border-bottom:1px solid blue;padding:15px 0;margin:10px 0">
 
         <div class="row">
@@ -82,20 +82,34 @@
         </div>
 
         <!-------------------------------------------------comments part-------------------------------->
+
+        <div  class="row" style="border-bottom:1px solid blue;padding:4px 0;margin:4px 0">
+          <div class="col-md-4 text-justify"><i class="fa fa-hand-o-left" style="color: blue;cursor: pointer"
+                                                (click)="saveComment(post,'updatePostLikes')"
+                                                data-toggle="tooltip" data-placement="right" [title]="'add like'"></i>
+            <i *ngIf="post.likes>0" style="color: orangered">{{post.likes}}</i></div>
+          <div class="col-md-4 text-justify"><i (click)="add_comment.focus()" class="fa fa-commenting-o" style="color: blue;cursor: pointer"
+                                                data-toggle="tooltip" data-placement="right" [title]="'add comment'"></i></div>
+          <div *ngIf="post.comments.length>1" class="col-md-4 text-justify" style="color: blue">
+            {{(commentsNo>post.comments.length)? post.comments.length:commentsNo}}_{{post.comments.length}}</div>
+
+        </div>
+
         <div class="row">
           <img alt="" class="avatar" height="30" width="30" [src]="friendImagePath+userImage"
                style="border-radius: 50%">
 
-          <textarea rows="1" class="form-control add-comment" [(ngModel)]="comment" placeholder="add comment"
+          <textarea rows="1" class="form-control add-comment" [(ngModel)]="comment" placeholder="add comment" #add_comment
                     style="width: 600px"></textarea>
 
-          <button type="button" (click)="saveComment(post)" class="post" style="margin: 0 2px" data-toggle="tooltip"
+          <button type="button" (click)="saveComment(post,'comment')" class="post" style="margin: 0 2px" data-toggle="tooltip"
                   data-placement="right" title="post">
             <i class="fa fa-send-o" aria-hidden="true"></i>
           </button>
         </div>
 
-        <div class="text-center " *ngFor="let comment of post.comments|shortenArray:commentsNo">
+        <div class="text-center " *ngFor="let comment of post.comments|orderBy:'id':true
+                                                                      |shortenArray:commentsNo">
 
           <div class="row">
             <img alt="" class="avatar" height="30" width="30" [src]="friendImagePath+comment.userPicName"

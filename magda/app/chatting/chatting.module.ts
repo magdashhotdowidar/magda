@@ -29,6 +29,7 @@ import {MessageEffect} from "./infrastructure/store/effects/message.effect";
 import {FriendsFilterPipe} from "./infrastructure/pipes/friends-filter.pipe";
 import {ShortenPipe} from "./infrastructure/pipes/shorten.pipe";
 import {ShortenِِArrayPipe} from "./infrastructure/pipes/shortenArray.pipe";
+import {Ng2OrderModule} from "ng2-order-pipe";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -60,8 +61,9 @@ export function createTranslateLoader(http: HttpClient) {
     ReactiveFormsModule,
     LoadingBarModule,
     NgbModule,
+    Ng2OrderModule,
     NgbCarouselModule,
-    StoreModule.forFeature('messages',messageReducer),
+    StoreModule.forFeature('messages', messageReducer),
     EffectsModule.forFeature([MessageEffect]),
     TranslateModule.forChild({
       loader: {
@@ -69,7 +71,8 @@ export function createTranslateLoader(http: HttpClient) {
         useFactory: createTranslateLoader,
         deps: [HttpClient]
       }
-    })
+    }),
+    Ng2OrderModule
 
   ],
   providers: [ CanDeactivateGuard,ChattingUserService, AuthGuard,

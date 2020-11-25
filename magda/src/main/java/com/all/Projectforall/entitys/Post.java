@@ -19,12 +19,16 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String message;
+    private int likes;
+    @Column(name = "post_length")
+    private int length;
     @Column(name = "message_date")
     private String date;
+    private String message;
     private String publisher;
     private String picName;
     private String userPicName;
+
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private List<Comment>comments;
@@ -47,6 +51,8 @@ public class Post {
         this.publisher=post.getUser();
         this.picName=post.getPicName();
         this.userPicName=post.getUserPicName();
+        this.length=post.getLength();
+        this.likes=post.getLikes();
 
     }
 
@@ -101,6 +107,22 @@ public class Post {
     public List<Comment> getComments() {
         if(comments==null)comments=new ArrayList<>();
         return comments;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 
     public void setComments(List<Comment> comments) {

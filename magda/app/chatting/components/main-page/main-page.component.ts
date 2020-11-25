@@ -13,8 +13,9 @@ import {SendMessage} from "../../infrastructure/store/actions/message.action";
 
 import {Title} from "@angular/platform-browser";
 import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
-import {Post, PostService,Comment} from "../../infrastructure/services/posts.service";
+import {Post, PostService,Comment,Notification} from "../../infrastructure/services/posts.service";
 import {Product} from "../../../Product/infrastructure/models/product";
+import {updateContainerClass} from "ngx-bootstrap/positioning/utils";
 
 
 @Component({
@@ -80,10 +81,10 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck {
 
   loadPublishedPosts() {
     this.postService.getUserFriendsPosts(this.userName).subscribe((data: Post[]) => {
-        for (let post of data) {
+       /* for (let post of data) {
           post.length = 30;
           for(let comment of post.comments)comment.length=30;
-        }
+        }*/
         this.posts = data
       },
       (err: HttpErrorResponse) => alert(err.message))
@@ -146,12 +147,16 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck {
 
     if (this.post.comments == null) this.post.comments = [];
     this.post.user = this.userName;
+    this.date= formatDate(new Date(), 'yyyy-MM-dd | hh:mm:ss', 'en-US');
     this.post.date = this.date;
     this.post.userPicName = this.userImage;
     this.post.picName = this.selectedFile.name;
-
+    this.post.length=30;
+    let notificationMessage:string=(this.post.message.length>15)?this.userName+' posted '+
+      this.post.message.substring(0,15)+'...':this.userName+' posted '+this.post.message;
+    this.post.notification=new Notification(0,this.userName,notificationMessage);
     fd.append('post', JSON.stringify(this.post));
-
+    this.post=new Post();
     this.fileEvent = null;
     this.selectedFile = null;
 
@@ -160,12 +165,23 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck {
 
   }
 
-  saveComment(post:Post) {
+  saveComment(post:Post,saveCommentOrUpdateLikes:string) {
+if (saveCommentOrUpdateLikes=='comment') {
+  if (post.comments == null) post.comments = [];
+  let notificationMessage:string=(post.message.length>15)?this.userName+' commented on '
+    +post.message.substring(0,15)+'...':this.userName+' commented on '+post.message;
+  post.notification=new Notification(0,this.userName,notificationMessage);
+  this.date = formatDate(new Date(), 'yyyy-MM-dd | hh:mm:ss', 'en-US');
+  post.comments.push(new Comment(this.comment, this.userName, this.userImage, this.date, 30))
+  /*post.comments.reverse();*/
+  this.comment = '';
+}
 
-    if(post.comments==null)post.comments=[];
-
-    post.comments.push(new Comment(this.comment,this.userName,this.userImage,this.date))
-    this.comment='';
+if(saveCommentOrUpdateLikes=='updatePostLikes'){
+  let notificationMessage:string=(post.message.length>15)?this.userName+' admired with '
+    +post.message.substring(0,15)+'...':this.userName+' admired with '+post.message;
+  post.notification=new Notification(0,this.userName,notificationMessage);
+  post.likes+=1;}
 
     this.postService.saveComment(post).subscribe(data => this.toastr.success('posted successfully'),
       (error: HttpErrorResponse) => alert(error.message))
