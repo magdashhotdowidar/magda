@@ -12,7 +12,7 @@ import {ToastrService} from "ngx-toastr";
 import {Message, MessageService} from "../../infrastructure/services/messages.service";
 import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
 import {na} from "../../../user/sign-in/sign-in.component";
-import {PostService} from "../../infrastructure/services/posts.service";
+import {PostService,Notification} from "../../infrastructure/services/posts.service";
 
 
 @Component({
@@ -35,6 +35,7 @@ export class ChattingHeaderComponent implements OnInit {
   usersForSearch: ChattingUser[] = [];
   friendRequests: FriendRequest[] = [];
   messages: Message[] = [];
+  notifications:Notification[]=[];
 
   activated: boolean = false;
   dorpDownSearchInput: boolean = false;
@@ -44,6 +45,7 @@ export class ChattingHeaderComponent implements OnInit {
   dropDownOpened3: boolean = false;
   friendRequestShowed: boolean = false;
   messagesShowed: boolean = false;
+  notificationsShowed: boolean=false;
 
 
   constructor(private router: Router,
@@ -62,6 +64,7 @@ export class ChattingHeaderComponent implements OnInit {
     this.setLang();
     this.getFriendRquests();
     this.getMessages();
+    this.getNotifications();
   }
 
   setLang() {
@@ -99,6 +102,11 @@ export class ChattingHeaderComponent implements OnInit {
 
   getMessages() {
     this.messageService.getUnReadMessages(this.userName).subscribe(data => this.messages = data,
+      (error: HttpErrorResponse) => alert(error.message))
+  }
+
+  getNotifications() {
+    this.postService.getUserFriendsNotification(this.userName).subscribe(data => this.notifications = data,
       (error: HttpErrorResponse) => alert(error.message))
   }
 

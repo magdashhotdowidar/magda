@@ -1,0 +1,18 @@
+.card{
+  margin-top:10rem;
+  margin-left: 5px;
+  width: 600px;
+}
+.card-body{
+  border-radius: .25rem;
+  hieght: 100%;
+  margin-bottom: 2rem;
+}
+li{
+  height: 100%;
+}
+.row{
+  width: 650px;
+  margin: 4px 0;
+}
+

@@ -66,6 +66,13 @@ export class FrontHeaderComponent implements OnInit {
         else this.router.navigate(['../'+Coding.pyramid],{relativeTo:this.route})
       }
         break;
+      case 'test_chat':
+      {
+        if(this.router.url.split('/').length==3)
+          this.router.navigate([Coding.test_chat],{relativeTo:this.route})
+        else this.router.navigate(['../'+Coding.test_chat],{relativeTo:this.route})
+      }
+        break;
       default:
         break;
     }

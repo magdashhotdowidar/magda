@@ -6,5 +6,6 @@ export enum Coding {
   product='p',
   chatting='c',
   pyramid='pyramid',
+  test_chat='test_chat'
 
 }

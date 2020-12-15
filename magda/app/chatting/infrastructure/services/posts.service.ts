@@ -26,8 +26,8 @@ export class PostService {
     return this.http.get(`${this.baseUrl}/${user}`);
   }
 
-  getUserFriendsNotification(user: string) {
-    return this.http.get(`${this.baseUrl}/notification/${user}`);
+  getUserFriendsNotification(user: string):Observable<Notification[]> {
+    return this.http.get<Notification[]>(`${this.baseUrl}/notification/${user}`);
   }
 
   savePost(fd: FormData) {

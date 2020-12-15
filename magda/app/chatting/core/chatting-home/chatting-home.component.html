@@ -1,7 +1,6 @@
 <main [ngStyle]="{direction:direc?'rtl':'ltr'}">
   <ngx-loading-bar color="red"></ngx-loading-bar>
   <chatting-header (showing)="setimag($event)" (right_direction)="direc=$event"></chatting-header>
-  <br/>
 
   <div *ngIf="showimg" style="background-color:white " >
 <main-page></main-page>

@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, DoCheck, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, DoCheck, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ToastrService} from "ngx-toastr";
 import {ChattingUserService} from "../../chatting-user/chatting-user-infrastructure/chatting-user.service";
 import {ChattingUser} from "../../chatting-user/chatting-user-infrastructure/chatting-user.model";
@@ -16,6 +16,7 @@ import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
 import {Post, PostService,Comment,Notification} from "../../infrastructure/services/posts.service";
 import {Product} from "../../../Product/infrastructure/models/product";
 import {updateContainerClass} from "ngx-bootstrap/positioning/utils";
+import {WebSocketChattingService} from "../../infrastructure/services/web-socket-chatting.service";
 
 
 @Component({
@@ -23,7 +24,7 @@ import {updateContainerClass} from "ngx-bootstrap/positioning/utils";
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.css']
 })
-export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck {
+export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck,OnDestroy {
 
   @ViewChild('scrollMe', {static: false}) myScrollContainer: ElementRef;
   date: string = formatDate(new Date(), 'yyyy-MM-dd | hh:mm:ss', 'en-US');
@@ -31,6 +32,7 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck {
   userImage: string = localStorage.getItem(LocalStorage.userImage);
   friendImagePath: string = Path.userImagePath;
   postImagePath: string = Path.postImagePath;
+  backgroundImagePath:string=Path.backgroundPath;
   fileEvent: Event = null;
   selectedFile: File;
   friends: ChattingUser[] = [];
@@ -55,7 +57,8 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck {
               private messageService: MessageService,
               private postService: PostService,
               private title: Title,
-              private store: Store<StoreStates>) {
+              private store: Store<StoreStates>,
+              private webSocket:WebSocketChattingService) {
 
   }
 
@@ -64,6 +67,7 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck {
     this.loadFriends();
     this.loadUnreadMessages();
     this.loadPublishedPosts();
+    this.webSocket.openWebSocket('real');
   }
 
   loadFriends() {
@@ -128,14 +132,28 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck {
   }
 
   send(i: number) {
-    let m: Message = new Message(this.chatWindows[i].message, this.userName, this.chatWindows[i].windowName, this.date, false)
+    if (this.chatWindows[i].message != null && this.chatWindows[i].message != ''&&this.chatWindows[i].message.length>0) {
+      let m: Message = new Message(this.chatWindows[i].message, this.userName, this.chatWindows[i].windowName, this.date, false)
+      this.webSocket.sendRealMessage(m);
 
-    this.store.dispatch(new SendMessage(m))
-    this.store.subscribe((data: StoreStates) => {
-      this.chatWindows[i].message = '';
-      if (data.messages != null)
-        this.chatWindows[i].chat = data.messages
-    })
+      this.messageService.sendMessage(m).subscribe(data => {
+          let messages: Message[] = this.webSocket.messagesReal;
+
+          this.chatWindows[i].message = '';
+          if (messages != null)
+            this.chatWindows[i].chat=messages;
+         // this.chatWindows[i].chat=[...this.chatWindows[i].chat,...messages];
+        },
+        (error: HttpErrorResponse) => alert(error.message));
+
+      /* this.store.dispatch(new SendMessage(m))
+       this.store.subscribe((data: StoreStates) => {
+         this.chatWindows[i].message = '';
+         if (data.messages != null) {
+           this.chatWindows[i].chat = data.messages;
+         }
+       })*/
+    }
   }
 
   savePost() {
@@ -186,6 +204,9 @@ if(saveCommentOrUpdateLikes=='updatePostLikes'){
     this.postService.saveComment(post).subscribe(data => this.toastr.success('posted successfully'),
       (error: HttpErrorResponse) => alert(error.message))
 
+  }
+  ngOnDestroy(): void {
+    this.webSocket.closeWebSocket();
   }
 
 }

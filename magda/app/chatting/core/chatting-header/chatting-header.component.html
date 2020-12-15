@@ -74,24 +74,21 @@
             {{'('+ message.date+')'}}
           </div>
         </div>
-
-
       </ul>
     </li>
 
     <li class="dropdown">
-      <a (click)="dropDownOpened3=!dropDownOpened3" style="cursor: pointer;margin: 10px;color:white"
+      <a (click)="dropDownOpened3=!dropDownOpened3;notificationsShowed=true" style="cursor: pointer;margin: 0;color: white"
          class="dropdown-toggle"
-         data-toggle="dropdown" role="button"><i style="color: white;font-size: x-large" class="fa fa-bell"> </i><span
-        class="caret"></span></a>
+         data-toggle="dropdown" role="button"><i class="fa fa-bell"
+                                                 style="color: white;font-size: x-large"> </i>
+        <span *ngIf="notifications.length>0&&!notificationsShowed" style="background-color: red" class="caret">{{notifications.length}}</span></a>
       <ul class="dropdown-menu " [ngClass]="{show:dropDownOpened3}">
-
-        <div *ngIf="role==roleAdmin" class="dropdown-divider"></div>
-        <a *ngIf="role==roleAdmin" STYLE="color: blue" class="nav-link" routerLink='/signup'
-           routerLinkActive='active'>Sign Up</a>
-        <div class="dropdown-divider"></div>
-        <li><a style="cursor: pointer;color:blue" (click)="Logout()">Logout</a></li>
-
+        <div  *ngFor="let notification of notifications" style="background-color:blue;border: 1px solid white;color:white">
+          <div>
+            {{notification.message}}
+          </div>
+        </div>
       </ul>
     </li>
 

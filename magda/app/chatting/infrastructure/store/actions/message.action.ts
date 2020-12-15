@@ -17,35 +17,25 @@ export class ErrorAlert {
 
 export class SetAllFromToMessages implements Action {
   readonly type = Set_Returned_All_Messages_By_From_To;
-
-  constructor(public payload: Message[]) {
-  }
+  constructor(public payload: Message[]) {}
 }
 
 export class SendMessage implements Action {
   readonly type = SEND;
-
-  constructor(public payload: Message) {
-  }
+  constructor(public payload: Message) {}
 }
 
 export class GetMessageByFromAndTo implements Action {
   readonly type = GET_BY_FROM_TO;
-
-  constructor(public payload: { from: string, to: string }) {
-  }
+  constructor(public payload: { from: string, to: string }) {}
 }
 /*export class SetUnReadMessages implements Action {
   readonly type = Set_Un_ReadMessages;
-
-  constructor(public payload: Message[]) {
-  }
+  constructor(public payload: Message[]) {}
 }
 export class GetUnReadMessages implements Action {
   readonly type = Get_Un_ReadMessages;
-
-  constructor(public payload: string) {
-  }
+  constructor(public payload: string) { }
 }*/
 
 export type MessageAction =

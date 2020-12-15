@@ -26,6 +26,7 @@ export class PersonalPageComponent implements OnInit {
   imgPath: string = this.path.userImagePath;
   friendImagePath: string = Path.userImagePath;
   postImagePath:string=Path.postImagePath;
+  backgroundImagePath:string=Path.backgroundPath;
   personalEvent: Event = null;
   backgroundEvent: Event = null;
   selectedFile: File;
@@ -33,7 +34,9 @@ export class PersonalPageComponent implements OnInit {
   visitor: boolean = false;
   showRemoveFriend: boolean = false;
   showRequestSent: boolean = false;
+  showFriends:boolean=false;
   posts:Post[]=[];
+  friends: ChattingUser[] = [];
 
   constructor(private  userService: ChattingUserService,
               private friendRequestService: FriendRequestService,
@@ -92,6 +95,24 @@ export class PersonalPageComponent implements OnInit {
   loadUserPosts(){
     this.postService.getUserPosts(this.userName).subscribe((data:Post[])=>this.posts=data,
       (error:HttpErrorResponse)=>alert(error.message))
+  }
+getFriends(){
+    this.friends=[];
+    this.showFriends=!this.showFriends;
+    for(let i=0;i<31;i++){
+      let user:ChattingUser=new ChattingUser();
+      user.username=i+'Ahmed Saber Amin El Barbari';
+      user.personalImage='1.jpg'
+      this.friends.push(user);
+    }
+}
+  loadFriends() {
+    this.showFriends=!this.showFriends;
+    this.friendService.getAllUserFriends(this.userName).subscribe((data: ChattingUser[]) => {
+        this.friends = data;
+        // console.log(this.friends)
+      },
+      (error: HttpErrorResponse) => alert(error.message))
   }
 
   updateUser() {

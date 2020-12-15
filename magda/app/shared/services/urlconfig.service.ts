@@ -28,6 +28,8 @@ export class URLConfigService {
         return environment.chURL;
       case Modules.U:
         return environment.uURL;
+        case Modules.CH_WEBSOCKET:
+          return environment.chWebSocketURL;
     }
   }
 
