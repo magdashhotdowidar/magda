@@ -30,6 +30,8 @@ import {FriendsFilterPipe} from "./infrastructure/pipes/friends-filter.pipe";
 import {ShortenPipe} from "./infrastructure/pipes/shorten.pipe";
 import {ShortenِِArrayPipe} from "./infrastructure/pipes/shortenArray.pipe";
 import {Ng2OrderModule} from "ng2-order-pipe";
+import { CameraComponent } from './components/main-page/camera/camera.component';
+import {WebcamModule} from "ngx-webcam";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -49,7 +51,8 @@ export function createTranslateLoader(http: HttpClient) {
     FriendsFilterPipe,
     PersonalPageComponent,
     ShortenPipe,
-    ShortenِِArrayPipe
+    ShortenِِArrayPipe,
+    CameraComponent
   ],
   imports: [
     CommonModule,
@@ -61,6 +64,7 @@ export function createTranslateLoader(http: HttpClient) {
     ReactiveFormsModule,
     LoadingBarModule,
     NgbModule,
+    WebcamModule,
     Ng2OrderModule,
     NgbCarouselModule,
     StoreModule.forFeature('messages', messageReducer),

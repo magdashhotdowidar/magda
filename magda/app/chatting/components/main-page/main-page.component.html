@@ -1,6 +1,10 @@
+<!---------------------------camera part--------------------------->
+<div class="container" style="z-index: 12;position: fixed">
+  <app-camera (getPicture)="handleImage($event)" [showWebcam]="openCamera" [takePicture]="takePicture"></app-camera>
+</div>
 <div class="row" style="height: 785px;margin:0px 1px">
   <!-------------------------------------------friends part--------------------------------------->
-  <div class="col-md-2" >
+  <div class="col-md-2">
     <div><img alt="" class="avatar" height="280" width="200" [src]="backgroundImagePath+'a1.gif'"></div>
 
     <div [ngStyle]="{height:openFriendsWindow?'480px':'33px'}" id="ng-chat-people"
@@ -83,16 +87,18 @@
           <img alt="" class="embed-responsive" height="320" style="max-width: 660px" [src]="postImagePath+post.picName">
         </div>
 
-<!---------------------------------------------------comments part------------------------------------------------------------------>
-        <div  class="row" style="border-bottom:1px solid blue;padding:4px 0;margin:4px 0">
+        <!---------------------------------------------------comments part------------------------------------------------------------------>
+        <div class="row" style="border-bottom:1px solid blue;padding:4px 0;margin:4px 0">
           <div class="col-md-4 text-justify"><i class="fa fa-hand-o-left" style="color: blue;cursor: pointer"
                                                 (click)="saveComment(post,'updatePostLikes')"
                                                 data-toggle="tooltip" data-placement="right" [title]="'add like'"></i>
             <i *ngIf="post.likes>0" style="color: orangered">{{post.likes}}</i></div>
-          <div class="col-md-4 text-justify"><i (click)="add_comment.focus()" class="fa fa-commenting-o" style="color: blue;cursor: pointer"
-                                                data-toggle="tooltip" data-placement="right" [title]="'add comment'"></i></div>
+          <div class="col-md-4 text-justify"><i (click)="add_comment.focus()" class="fa fa-commenting-o"
+                                                style="color: blue;cursor: pointer"
+                                                data-toggle="tooltip" data-placement="right"
+                                                [title]="'add comment'"></i></div>
           <div *ngIf="post.comments.length>1" class="col-md-4 text-justify" style="color: blue">
-            {{(commentsNo>post.comments.length)? post.comments.length:commentsNo}}_{{post.comments.length}}</div>
+            {{(commentsNo > post.comments.length) ? post.comments.length : commentsNo}}_{{post.comments.length}}</div>
 
         </div>
 
@@ -100,10 +106,12 @@
           <img alt="" class="avatar" height="30" width="30" [src]="friendImagePath+userImage"
                style="border-radius: 50%">
 
-          <textarea rows="1" class="form-control add-comment" [(ngModel)]="comment" placeholder="add comment" #add_comment
+          <textarea rows="1" class="form-control add-comment" [(ngModel)]="comment" placeholder="add comment"
+                    #add_comment
                     style="width: 600px"></textarea>
 
-          <button type="button" (click)="saveComment(post,'comment')" class="post" style="margin: 0 2px" data-toggle="tooltip"
+          <button type="button" (click)="saveComment(post,'comment')" class="post" style="margin: 0 2px"
+                  data-toggle="tooltip"
                   data-placement="right" title="post">
             <i class="fa fa-send-o" aria-hidden="true"></i>
           </button>
@@ -136,46 +144,54 @@
   </div>
   <div class="col-md-1" style="border: 1px solid red">
     <div><img alt="" class="avatar" height="380" width="80" [src]="backgroundImagePath+'a1.gif'"></div>
-   <div><img alt="" class="avatar" height="380" width="80" [src]="backgroundImagePath+'a5.gif'"></div>
+    <div><img alt="" class="avatar" height="380" width="80" [src]="backgroundImagePath+'a5.gif'"></div>
   </div>
   <div class="col-md-2" style="border: 1px solid yellow">
     <div><img alt="" class="avatar" height="380" width="200" [src]="backgroundImagePath+'hi.gif'"></div>
     <div><img alt="" class="avatar" height="380" width="200" [src]="backgroundImagePath+'f4.gif'"></div>
   </div>
 </div>
-  <!-------------------------------chat windows part------------------------------------------->
-  <div *ngIf="chatWindows.length>0&&openChatWindow"
-       [ngClass]="{'right-direction':direction=='rtl','left-direction':direction=='ltr'}"
-       class=" chat-popup">
-    <div class="row">
+<!-------------------------------chat windows part------------------------------------------->
+<div *ngIf="chatWindows.length>0&&openChatWindow"
+     [ngClass]="{'right-direction':direction=='rtl','left-direction':direction=='ltr'}"
+     class=" chat-popup">
+  <div class="row">
 
-      <form #_i="ngForm" *ngFor="let chatWindow of chatWindows ;let i=index" class="form-container "
-            [appMinimize]="minimizeChatWindow" (ngSubmit)="send(i)">
-        <div class="row">
-          <div class="col-md-8">
-            <button (click)="minimizeChatWindow=!minimizeChatWindow" type="button"
-                    style="width: 225px;height:100%;background-color:#444444;color: white "
-                    class="btn ">{{chatWindow.windowName}}
-            </button>
-          </div>
-          <div class="col-md-4">
-            <button (click)="closeWindow(i)" style="background-color: red;color:blue" type="button"
-                    class="btn btn-warning">Close
-            </button>
-          </div>
+    <form #_i="ngForm" *ngFor="let chatWindow of chatWindows ;let i=index" class="form-container "
+          [appMinimize]="minimizeChatWindow" (ngSubmit)="send(i)">
+      <div class="row">
+        <div class="col-md-8">
+          <button (click)="minimizeChatWindow=!minimizeChatWindow" type="button"
+                  style="width: 225px;height:100%;background-color:#444444;color: white "
+                  class="btn ">{{chatWindow.windowName}}
+          </button>
         </div>
-        <div #scrollMe class="form-container-show pre-scrollable" style="overflow:-moz-scrollbars-vertical ">
-          <div class="text-center " data-toggle="tooltip" data-placement="right" [title]="message.date"
-               [ngStyle]="{color:message.messageFrom!=userName?'yellow':'blue'}"
-               *ngFor="let message of chatWindow.chat">{{message.message }}</div>
+        <div class="col-md-4">
+          <button (click)="closeWindow(i)" style="background-color: red;color:blue" type="button"
+                  class="btn btn-warning">Close
+          </button>
         </div>
-        <textarea rows="3" placeholder="Type message.." name="message" ngModel [(ngModel)]="chatWindow.message"
-                  required></textarea>
+      </div>
+      <div #scrollMe class="form-container-show pre-scrollable" style="overflow:-moz-scrollbars-vertical ">
+        <div class="text-center " data-toggle="tooltip" data-placement="right" [title]="message.date"
+             [ngStyle]="{color:message.messageFrom!=userName?'yellow':'blue'}"
+             *ngFor="let message of chatWindow.chat">
+          <p>{{message.message }}</p>
+          <br *ngIf="webcamImage">
+          <img *ngIf="webcamImage" [src]="webcamImage.imageAsDataUrl" style="height: 80px;width: 100px"/>
+        </div>
+      </div>
+      <textarea rows="3" placeholder="Type message.." name="message" ngModel [(ngModel)]="chatWindow.message"
+                required></textarea>
+      <button class="bg_none"><i class="fa fa-film"></i></button>
+      <button *ngIf="!openCamera" (click)="openCamera=!openCamera" class="bg_none"><i class="fa fa-camera"></i></button>
+      <button *ngIf="openCamera" (click)="takepictureMethod()" class="bg_none"><i class="fa fa-camera-retro"></i></button>
+      <button class="bg_none"><i class="fa fa-paperclip"></i></button>
+      <button class="bg_none pull-right"><i class="fa fa-thumbs-up"></i></button>
+      <button type="submit" class="btn" style="color:white;background-color:lime">Send</button>
+    </form>
 
-        <button type="submit" class="btn" style="color:white;background-color:lime">Send</button>
-      </form>
-
-    </div>
   </div>
+</div>
 
 

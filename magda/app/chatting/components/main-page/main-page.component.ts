@@ -1,4 +1,14 @@
-import {AfterViewChecked, Component, DoCheck, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  DoCheck,
+  ElementRef, EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+  Renderer2,
+  ViewChild
+} from '@angular/core';
 import {ToastrService} from "ngx-toastr";
 import {ChattingUserService} from "../../chatting-user/chatting-user-infrastructure/chatting-user.service";
 import {ChattingUser} from "../../chatting-user/chatting-user-infrastructure/chatting-user.model";
@@ -17,6 +27,7 @@ import {Post, PostService,Comment,Notification} from "../../infrastructure/servi
 import {Product} from "../../../Product/infrastructure/models/product";
 import {updateContainerClass} from "ngx-bootstrap/positioning/utils";
 import {WebSocketChattingService} from "../../infrastructure/services/web-socket-chatting.service";
+import {WebcamImage} from "ngx-webcam";
 
 
 @Component({
@@ -48,6 +59,9 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck,OnDe
   chatWindows: Array<ChatWindow> = [];
   d: boolean = false
   search: string = '';
+  openCamera:boolean=false;
+  webcamImage: WebcamImage = null;
+  takePicture: boolean=false;
 
   // messages_observe: Observable<Message[]>;
 
@@ -204,6 +218,13 @@ if(saveCommentOrUpdateLikes=='updatePostLikes'){
     this.postService.saveComment(post).subscribe(data => this.toastr.success('posted successfully'),
       (error: HttpErrorResponse) => alert(error.message))
 
+  }
+  takepictureMethod(){
+    this.takePicture=true;
+    this.openCamera=false;
+  }
+  handleImage(webcamImage: WebcamImage) {
+    this.webcamImage = webcamImage;
   }
   ngOnDestroy(): void {
     this.webSocket.closeWebSocket();

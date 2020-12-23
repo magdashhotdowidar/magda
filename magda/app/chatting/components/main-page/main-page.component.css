@@ -202,3 +202,25 @@ li {
   display: inline-block;
   width: 100%;
 }
+.bg_none i {
+  border: 1px solid #ff6701;
+  border-radius: 25px;
+  color: #ff6701;
+  font-size: 17px;
+  height: 33px;
+  line-height: 30px;
+  width: 33px;
+}
+.bg_none:hover i {
+  border: 1px solid #000;
+  border-radius: 25px;
+  color: #000;
+  font-size: 17px;
+  height: 33px;
+  line-height: 30px;
+  width: 33px;
+}
+.bg_none {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: medium none;
+}
