@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface NotificationRepository extends JpaRepository<Notification,Long> {
 
-    @Query(value = "select * from notifications where publisher in(:list)",nativeQuery = true)
+    @Query(value = "select * from notifications where publisher in(:list) order by id desc ",nativeQuery = true)
     List<Notification>findAllUserFriendsNotifications(@Param("list")List<String> userFriendsNames);
 }

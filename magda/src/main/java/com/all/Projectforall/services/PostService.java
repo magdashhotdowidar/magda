@@ -52,7 +52,10 @@ public class PostService {
     public CompletableFuture<List<NotificationModel>> getAllUserFriendsRecentNotifications(String publisher) {
         List<NotificationModel>notifications=notificationRepository.findAllUserFriendsNotifications(f_service.allUserFriendsNames(publisher))
                 .stream().map(NotificationModel::new).collect(Collectors.toList());
+        if(!notifications.isEmpty()&&notifications.size()>=2)
+        return CompletableFuture.completedFuture(notifications.subList(0,notifications.size()/2));
         return CompletableFuture.completedFuture(notifications);
+
     }
 
 

@@ -1,6 +1,5 @@
 package com.all.Projectforall.models;
 
-import com.all.Projectforall.entitys.Cart;
 import com.all.Projectforall.entitys.Message;
 
 public class MessageModel implements Comparable<MessageModel> {
@@ -9,6 +8,7 @@ public class MessageModel implements Comparable<MessageModel> {
     private String date;
     private String messageFrom;
     private String messageTo;
+    private String imageName;
     private boolean read;
 
     public MessageModel() {
@@ -21,6 +21,7 @@ public class MessageModel implements Comparable<MessageModel> {
         this.messageFrom = message.getMessageFrom();
         this.messageTo = message.getMessageTo();
         this.read = message.isRead();
+        this.imageName=message.getImageName();
     }
     public int compareTo(MessageModel me ){
         if(id==me.id)
@@ -79,6 +80,14 @@ public class MessageModel implements Comparable<MessageModel> {
         this.read = read;
     }
 
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
     @Override
     public String toString() {
         return "MessageModel{" +
@@ -87,6 +96,7 @@ public class MessageModel implements Comparable<MessageModel> {
                 ", date='" + date + '\'' +
                 ", messageFrom='" + messageFrom + '\'' +
                 ", messageTo='" + messageTo + '\'' +
+                ", imageName='" + imageName + '\'' +
                 ", read=" + read +
                 '}';
     }

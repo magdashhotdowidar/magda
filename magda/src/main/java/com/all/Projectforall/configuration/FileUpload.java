@@ -33,12 +33,12 @@ public class FileUpload {
             try {
                 //project directory upload
                 Path copyLocation = Paths
-                        .get(PRODUCT_ABS_path + File.separator + StringUtils.cleanPath(file.getOriginalFilename()));
+                        .get(PRODUCT_ABS_path + File.separator + StringUtils.cleanPath(name));
                 Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
 
                 //server upload
                 Path copyLocation2 = Paths
-                        .get(PRODUCT_REAL_path + File.separator + StringUtils.cleanPath(file.getOriginalFilename()));
+                        .get(PRODUCT_REAL_path + File.separator + StringUtils.cleanPath(name));
                 Files.copy(file.getInputStream(), copyLocation2, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException ex) {
                 logger.error(ex.getMessage());

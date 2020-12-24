@@ -10,6 +10,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {ToastrService} from "ngx-toastr";
+import b64toBlob from 'b64-to-blob';
 import {ChattingUserService} from "../../chatting-user/chatting-user-infrastructure/chatting-user.service";
 import {ChattingUser} from "../../chatting-user/chatting-user-infrastructure/chatting-user.model";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -23,7 +24,7 @@ import {SendMessage} from "../../infrastructure/store/actions/message.action";
 
 import {Title} from "@angular/platform-browser";
 import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
-import {Post, PostService,Comment,Notification} from "../../infrastructure/services/posts.service";
+import {Post, PostService, Comment, Notification} from "../../infrastructure/services/posts.service";
 import {Product} from "../../../Product/infrastructure/models/product";
 import {updateContainerClass} from "ngx-bootstrap/positioning/utils";
 import {WebSocketChattingService} from "../../infrastructure/services/web-socket-chatting.service";
@@ -35,7 +36,7 @@ import {WebcamImage} from "ngx-webcam";
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.css']
 })
-export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck,OnDestroy {
+export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck, OnDestroy {
 
   @ViewChild('scrollMe', {static: false}) myScrollContainer: ElementRef;
   date: string = formatDate(new Date(), 'yyyy-MM-dd | hh:mm:ss', 'en-US');
@@ -43,13 +44,14 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck,OnDe
   userImage: string = localStorage.getItem(LocalStorage.userImage);
   friendImagePath: string = Path.userImagePath;
   postImagePath: string = Path.postImagePath;
-  backgroundImagePath:string=Path.backgroundPath;
+  chatImagePath:string=Path.chatImagePath;
+  backgroundImagePath: string = Path.backgroundPath;
   fileEvent: Event = null;
   selectedFile: File;
   friends: ChattingUser[] = [];
   post: Post = new Post();
-  comment:string;
-  commentsNo:number=2;
+  comment: string;
+  commentsNo: number = 2;
   posts: Post[] = []
   unReadMessages: Message[] = [];
   openChatWindow: boolean = true;
@@ -59,9 +61,9 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck,OnDe
   chatWindows: Array<ChatWindow> = [];
   d: boolean = false
   search: string = '';
-  openCamera:boolean=false;
+  openCamera: boolean = false;
   webcamImage: WebcamImage = null;
-  takePicture: boolean=false;
+  takePicture: boolean = false;
 
   // messages_observe: Observable<Message[]>;
 
@@ -72,7 +74,7 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck,OnDe
               private postService: PostService,
               private title: Title,
               private store: Store<StoreStates>,
-              private webSocket:WebSocketChattingService) {
+              private webSocket: WebSocketChattingService) {
 
   }
 
@@ -99,10 +101,10 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck,OnDe
 
   loadPublishedPosts() {
     this.postService.getUserFriendsPosts(this.userName).subscribe((data: Post[]) => {
-       /* for (let post of data) {
-          post.length = 30;
-          for(let comment of post.comments)comment.length=30;
-        }*/
+        /* for (let post of data) {
+           post.length = 30;
+           for(let comment of post.comments)comment.length=30;
+         }*/
         this.posts = data
       },
       (err: HttpErrorResponse) => alert(err.message))
@@ -116,7 +118,7 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck,OnDe
     }
     if (this.chatWindows.length < 3 && !contain)
       this.messageService.getMessagesByFromAndTo(this.userName, name).subscribe((data: Message[]) => {
-          if (data.length == 0) data.push(new Message('Hi ' + this.userName, this.userName, '', '', false));
+          if (data.length == 0) data.push(new Message('Hi ' + this.userName, this.userName, '', '','', false));
           this.chatWindows.push(new ChatWindow(name, data, '', true));
           this.messageService.setReadToTrue(name, this.userName).subscribe(data => this.unReadMessages = []);
         },
@@ -146,17 +148,27 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck,OnDe
   }
 
   send(i: number) {
-    if (this.chatWindows[i].message != null && this.chatWindows[i].message != ''&&this.chatWindows[i].message.length>0) {
-      let m: Message = new Message(this.chatWindows[i].message, this.userName, this.chatWindows[i].windowName, this.date, false)
+    if (this.chatWindows[i].message != null && this.chatWindows[i].message != '' && this.chatWindows[i].message.length > 0) {
+      let m: Message = new Message(this.chatWindows[i].message, this.userName, this.chatWindows[i].windowName, this.date,'', false)
+      const fd = new FormData();
       this.webSocket.sendRealMessage(m);
-
-      this.messageService.sendMessage(m).subscribe(data => {
+      if(this.webcamImage!=null) {
+        let contentTypeAndBase64Url: string[] = [];
+        contentTypeAndBase64Url = this.webcamImage.imageAsDataUrl.split(';')
+        const contentType: string = contentTypeAndBase64Url[0].split(':')[1];
+        const realData: string = contentTypeAndBase64Url[1].split(',')[1];
+        const blob = b64toBlob(realData, contentType);
+        fd.append('image', blob);
+        this.webcamImage=null;
+      }
+      fd.append('message',JSON.stringify(m));
+      this.messageService.sendMessage(fd).subscribe(data => {
           let messages: Message[] = this.webSocket.messagesReal;
 
           this.chatWindows[i].message = '';
           if (messages != null)
-            this.chatWindows[i].chat=messages;
-         // this.chatWindows[i].chat=[...this.chatWindows[i].chat,...messages];
+            this.chatWindows[i].chat = messages;
+          // this.chatWindows[i].chat=[...this.chatWindows[i].chat,...messages];
         },
         (error: HttpErrorResponse) => alert(error.message));
 
@@ -179,16 +191,16 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck,OnDe
 
     if (this.post.comments == null) this.post.comments = [];
     this.post.user = this.userName;
-    this.date= formatDate(new Date(), 'yyyy-MM-dd | hh:mm:ss', 'en-US');
+    this.date = formatDate(new Date(), 'yyyy-MM-dd | hh:mm:ss', 'en-US');
     this.post.date = this.date;
     this.post.userPicName = this.userImage;
     this.post.picName = this.selectedFile.name;
-    this.post.length=30;
-    let notificationMessage:string=(this.post.message.length>15)?this.userName+' posted '+
-      this.post.message.substring(0,15)+'...':this.userName+' posted '+this.post.message;
-    this.post.notification=new Notification(0,this.userName,notificationMessage);
+    this.post.length = 30;
+    let notificationMessage: string = (this.post.message.length > 15) ? this.userName + ' posted ' +
+      this.post.message.substring(0, 15) + '...' : this.userName + ' posted ' + this.post.message;
+    this.post.notification = new Notification(0, this.userName, notificationMessage);
     fd.append('post', JSON.stringify(this.post));
-    this.post=new Post();
+    this.post = new Post();
     this.fileEvent = null;
     this.selectedFile = null;
 
@@ -197,35 +209,39 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck,OnDe
 
   }
 
-  saveComment(post:Post,saveCommentOrUpdateLikes:string) {
-if (saveCommentOrUpdateLikes=='comment') {
-  if (post.comments == null) post.comments = [];
-  let notificationMessage:string=(post.message.length>15)?this.userName+' commented on '
-    +post.message.substring(0,15)+'...':this.userName+' commented on '+post.message;
-  post.notification=new Notification(0,this.userName,notificationMessage);
-  this.date = formatDate(new Date(), 'yyyy-MM-dd | hh:mm:ss', 'en-US');
-  post.comments.push(new Comment(this.comment, this.userName, this.userImage, this.date, 30))
-  /*post.comments.reverse();*/
-  this.comment = '';
-}
+  saveComment(post: Post, saveCommentOrUpdateLikes: string) {
+    if (saveCommentOrUpdateLikes == 'comment') {
+      if (post.comments == null) post.comments = [];
+      let notificationMessage: string = (post.message.length > 15) ? this.userName + ' commented on '
+        + post.message.substring(0, 15) + '...' : this.userName + ' commented on ' + post.message;
+      post.notification = new Notification(0, this.userName, notificationMessage);
+      this.date = formatDate(new Date(), 'yyyy-MM-dd | hh:mm:ss', 'en-US');
+      post.comments.push(new Comment(this.comment, this.userName, this.userImage, this.date, 30))
+      /*post.comments.reverse();*/
+      this.comment = '';
+    }
 
-if(saveCommentOrUpdateLikes=='updatePostLikes'){
-  let notificationMessage:string=(post.message.length>15)?this.userName+' admired with '
-    +post.message.substring(0,15)+'...':this.userName+' admired with '+post.message;
-  post.notification=new Notification(0,this.userName,notificationMessage);
-  post.likes+=1;}
+    if (saveCommentOrUpdateLikes == 'updatePostLikes') {
+      let notificationMessage: string = (post.message.length > 15) ? this.userName + ' admired with '
+        + post.message.substring(0, 15) + '...' : this.userName + ' admired with ' + post.message;
+      post.notification = new Notification(0, this.userName, notificationMessage);
+      post.likes += 1;
+    }
 
     this.postService.saveComment(post).subscribe(data => this.toastr.success('posted successfully'),
       (error: HttpErrorResponse) => alert(error.message))
 
   }
-  takepictureMethod(){
-    this.takePicture=true;
-    this.openCamera=false;
+
+  takepictureMethod() {
+    this.takePicture = true;
+    this.openCamera = false;
   }
+
   handleImage(webcamImage: WebcamImage) {
     this.webcamImage = webcamImage;
   }
+
   ngOnDestroy(): void {
     this.webSocket.closeWebSocket();
   }

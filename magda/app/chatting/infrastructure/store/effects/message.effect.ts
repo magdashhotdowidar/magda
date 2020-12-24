@@ -14,7 +14,7 @@ export class MessageEffect {
 
   @Effect()
   sendMessage$ = this.actions.pipe(
-    ofType(FromMessageAction.SEND),
+    /*ofType(FromMessageAction.SEND),
     //  tap(()=>alert('aaa')) ,
     // take(1),
     switchMap((action: FromMessageAction.SendMessage) =>
@@ -34,7 +34,8 @@ export class MessageEffect {
         // alert(data[8].message)
         return new FromMessageAction.SetAllFromToMessages(data)
       }))
-    })/*,
+    })*/
+    /*,
     switchMap((action: FromMessageAction.SetAllFromToMessages) => {
       let to = action.payload[0].messageTo;
       return this.messageService.getUnReadMessages(to).pipe(map((data: Message[]) => {

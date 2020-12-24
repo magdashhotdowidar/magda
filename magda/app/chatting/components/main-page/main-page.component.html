@@ -177,8 +177,8 @@
              [ngStyle]="{color:message.messageFrom!=userName?'yellow':'blue'}"
              *ngFor="let message of chatWindow.chat">
           <p>{{message.message }}</p>
-          <br *ngIf="webcamImage">
-          <img *ngIf="webcamImage" [src]="webcamImage.imageAsDataUrl" style="height: 80px;width: 100px"/>
+          <br *ngIf="message.imageName.length>0" >
+          <img *ngIf="message.imageName.length>0" [src]="chatImagePath+message.imageName" style="height: 80px;width: 100px"/>
         </div>
       </div>
       <textarea rows="3" placeholder="Type message.." name="message" ngModel [(ngModel)]="chatWindow.message"

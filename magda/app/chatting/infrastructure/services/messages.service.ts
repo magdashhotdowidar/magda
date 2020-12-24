@@ -25,8 +25,11 @@ export class MessageService {
     return this.http.get<Message[]>(`${this.baseUrl}/unRead/${to}`);
   }
 
-  sendMessage(message: Message) {
+  /*sendMessage(message: Message) {
     return this.http.post(`${this.baseUrl}`, message);
+  }*/
+  sendMessage(fd: FormData) {
+    return this.http.post(`${this.baseUrl}`, fd);
   }
 
   setReadToTrue(from: string, to: string) {
@@ -42,9 +45,9 @@ export class Message {
     public messageFrom?: string,
     public messageTo?: string,
     public date?: string,
+    public imageName?:string,
     public read?: boolean
-  ) {
-  }
+  ) {}
 
 }
 

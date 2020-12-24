@@ -22,6 +22,7 @@ public class Message {
     private String date;
     private String messageFrom;
     private String messageTo;
+    private String imageName;
     private boolean read;
 
     public Message() {
@@ -33,6 +34,7 @@ public class Message {
         this.messageFrom=message.getMessageFrom();
         this.messageTo=message.getMessageTo();
         this.read=message.isRead();
+        this.imageName=message.getImageName();
     }
 
     public int getId() {
@@ -83,6 +85,14 @@ public class Message {
         this.read = read;
     }
 
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -91,6 +101,7 @@ public class Message {
                 ", date='" + date + '\'' +
                 ", messageFrom='" + messageFrom + '\'' +
                 ", messageTo='" + messageTo + '\'' +
+                ", imageName='" + imageName + '\'' +
                 ", read=" + read +
                 '}';
     }
