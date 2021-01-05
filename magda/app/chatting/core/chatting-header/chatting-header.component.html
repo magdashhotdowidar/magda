@@ -2,6 +2,9 @@
   <!-- Links -->
   <ul class="navbar-nav col-md-4">
     <li class="nav-item">
+    <img alt="" class="avatar" height="30" width="30" [src]="ASaberWordAr" style="border-radius: 50%">
+    </li>
+    <li class="nav-item">
       <a [routerLink]="mainPath" class="nav-link" style="color: lime" routerLinkActive="active">MAIN PAGE</a>
     </li>
     <li class="nav-item">
@@ -18,7 +21,7 @@
   </ul>
 
   <ul class="navbar-nav col-md-3">
-    <li class="dropdown">
+    <li class=" row dropdown" style="width: fit-content">
       <input (mouseenter)="dorpDownSearchInput=!dorpDownSearchInput" (keyup)="getUserByNameOrEmail(search.value)"
              class="dropdown-toggle form-control mr-sm-2" data-toggle="dropdown" #search
               type="search" placeholder="Search" aria-label="Search">
@@ -106,8 +109,11 @@
     <li class="dropdown">
       <a (click)="dropDownOpened=!dropDownOpened" style="cursor: pointer;margin: 20px 20px 0;color: whitesmoke"
          class="dropdown-toggle"
-         appDropdown data-toggle="dropdown" role="button">Hi - <i style="color: yellow">{{userName|uppercase}} </i><span
-        class="caret"></span></a>
+         appDropdown data-toggle="dropdown" role="button">
+        <img alt="" class="avatar" height="30" width="30" [src]="userImagePath+userImage" style="border-radius: 50%">
+        Hi -<i style="color: yellow">{{userName|uppercase}}</i><span class="caret"></span>
+
+      </a>
       <ul class="dropdown-menu " [ngClass]="{show:dropDownOpened}">
 
         <div *ngIf="role==roleAdmin" class="dropdown-divider"></div>

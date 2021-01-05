@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/message")
-public  class MessageController {
+public class MessageController {
 
     @Autowired
     private MessageService m_service;
@@ -28,15 +28,15 @@ public  class MessageController {
     }*/
 
     @GetMapping("/{from}/{to}")
-    public CompletableFuture< ResponseEntity<List<MessageModel>>> getMessagesByFromAndTo(@PathVariable(value = "from") String fromA,
-                                                                                         @PathVariable(value = "to") String toB) {
+    public CompletableFuture<ResponseEntity<List<MessageModel>>> getMessagesByFromAndTo(@PathVariable(value = "from") String fromA,
+                                                                                        @PathVariable(value = "to") String toB) {
 
         CompletableFuture<List<MessageModel>> messages = m_service.getMessagesByFromAndTo(fromA, toB);
         return messages.thenApply(ResponseEntity::ok);
     }
 
     @GetMapping("/unRead/{to}")
-    public CompletableFuture< ResponseEntity<List<MessageModel>>> getUnReadMessages(@PathVariable(value = "to") String toB) {
+    public CompletableFuture<ResponseEntity<List<MessageModel>>> getUnReadMessages(@PathVariable(value = "to") String toB) {
 
         CompletableFuture<List<MessageModel>> messages = m_service.getUnReadMessages(toB);
         System.out.println("UnRead Messages" + messages);
@@ -48,22 +48,22 @@ public  class MessageController {
         return m_service.save(message);
     }*/
 
-  @PostMapping()
-  public CompletableFuture< MessageModel> createProduct(@RequestParam(value = "image", required = false) MultipartFile image,
-                                                        @RequestParam(value = "message", required = false) String SMassage,
-                                                        HttpServletRequest request) {
+    @PostMapping()
+    public CompletableFuture<MessageModel> createProduct(@RequestParam(value = "image", required = false) MultipartFile image,
+                                                         @RequestParam(value = "message", required = false) String SMassage,
+                                                         HttpServletRequest request) {
 
-      MessageModel message = new Gson().fromJson(SMassage, MessageModel.class);
-      if (image !=null||!image.getOriginalFilename().equals("")) {
-          message.setImageName(UUID.randomUUID().toString().substring(26).toUpperCase());
-          FileUpload.UPloadImage(request, image, message.getImageName(), "ChatImages");
-      }
+        MessageModel message = new Gson().fromJson(SMassage, MessageModel.class);
+        if (image != null && !image.getOriginalFilename().equals("")) {
+            message.setImageName(UUID.randomUUID().toString().substring(26).toUpperCase());
+            FileUpload.UPloadImage(request, image, message.getImageName(), "ChatImages");
+        }else message.setImageName("");
 
-      return m_service.save(message);
-  }
+        return m_service.save(message);
+    }
 
     @GetMapping("/{from}/{to}/read")
-    public  void updateProduct(@PathVariable(value = "from") String from,
+    public void updateProduct(@PathVariable(value = "from") String from,
                               @PathVariable(value = "to") String to) {
 
         m_service.setRead(from, to);

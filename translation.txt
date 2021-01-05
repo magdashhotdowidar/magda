@@ -212,7 +212,7 @@ It is a specification that provides انها مواصفات توفر
 There are three notions of the JVM: specification, implementation, and instance-concepts=notions
 هناك ثلاثة مفاهيم لـ JVM: المواصفات والتطبيق والمثال.
 The JVM performs the following main tasksيقوم JVM بتنفيذ المهام الرئيسية التالية
-The principles for creating Java programming were كانت مبادئ إنشاء برمجة Java
+The principles for creating Java programming were كانت مبادئ إنشاء برمجة جافا
 gathered to اجمع ل
 an acronym مختصر
 is a methodology that simplifies software development and maintenance by providing some rules. 
@@ -257,7 +257,7 @@ Your response has been recorded.لقد تم تسجيل ردك.
 campمعسكر-campus حرم جامعي-
 ملاحيmaritime, marine
 Don't Miss our Orientation Session @ Arab Academy - Smart Village campus on 17th of September, 2019 at 5 PM to apply and 
-register in the conference Hall on the 2nd(2nd=second) floor Join the Prestigious AASTMT
+register in the conference Hall on the 2nd(2nd=second) floor Join the Prestigious course
 Join now College of Archaeology and Cultural Heritage- Arab Academy for Science, Technology and Maritime Transport (Aswan Campus)
 Live and Study in Charming Aswan
 Enjoy a Smashing Student Life Experience
@@ -265,8 +265,7 @@ Study to have a Wonderful Career working on International Projects in Culture He
 Enjoy 50% Discount on fees(فييز), apply now:
 Get in touch on
 campus on
-لا تفوت جلسة توجيهنا في الأكاديمية العربية - حرم القرية الذكية في 17 سبتمبر 2019 في الساعة 5 مساءً للتسجيل والتسجيل في قاعة المؤتمرات بالطابق الثاني
-انضم إلى AASTMT المرموقة
+لا تفوت جلسة توجيهنا في الأكاديمية العربية - حرم القرية الذكية في 17 سبتمبر 2019 في الساعة 5 مساءً للتسجيل والتسجيل في قاعة المؤتمرات بالطابق الثاني انضم إلى الدورة المرموقة
 انضم الآن كلية الآثار والتراث الثقافي - الأكاديمية العربية للعلوم والتكنولوجيا والنقل البحري (حرم أسوان)
 عش وادرس في أسوان الساحرة
 استمتع بتجربة تحطيم الحياة الطلابية

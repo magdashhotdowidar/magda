@@ -46,7 +46,8 @@ export class Message {
     public messageTo?: string,
     public date?: string,
     public imageName?:string,
-    public read?: boolean
+    public read?: boolean,
+    public likes?:number
   ) {}
 
 }

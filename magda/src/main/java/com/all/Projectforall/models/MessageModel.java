@@ -4,6 +4,7 @@ import com.all.Projectforall.entitys.Message;
 
 public class MessageModel implements Comparable<MessageModel> {
     private int id;
+    private int likes;
     private String message;
     private String date;
     private String messageFrom;
@@ -22,6 +23,7 @@ public class MessageModel implements Comparable<MessageModel> {
         this.messageTo = message.getMessageTo();
         this.read = message.isRead();
         this.imageName=message.getImageName();
+        this.likes=message.getLikes();
     }
     public int compareTo(MessageModel me ){
         if(id==me.id)
@@ -86,6 +88,14 @@ public class MessageModel implements Comparable<MessageModel> {
 
     public void setImageName(String imageName) {
         this.imageName = imageName;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 
     @Override

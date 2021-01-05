@@ -111,7 +111,7 @@ public class JwtAuthenticationController {
             throws ResourceNotFoundException {
 
         if (!file.getOriginalFilename().equals(""))
-            FileUpload.UPloadImage(request, file, file.getOriginalFilename(), "user");
+            FileUpload.UPloadImage(request, file, file.getOriginalFilename(), "users");
 
         Authusermodel userDetails = new Gson().fromJson(StrUser, Authusermodel.class);
 

@@ -64,6 +64,7 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck, OnD
   openCamera: boolean = false;
   webcamImage: WebcamImage = null;
   takePicture: boolean = false;
+  chatLikes:number=0;
 
   // messages_observe: Observable<Message[]>;
 
@@ -118,7 +119,7 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck, OnD
     }
     if (this.chatWindows.length < 3 && !contain)
       this.messageService.getMessagesByFromAndTo(this.userName, name).subscribe((data: Message[]) => {
-          if (data.length == 0) data.push(new Message('Hi ' + this.userName, this.userName, '', '','', false));
+          if (data.length == 0) data.push(new Message('Hi ' + this.userName, this.userName, '', '','', false,0));
           this.chatWindows.push(new ChatWindow(name, data, '', true));
           this.messageService.setReadToTrue(name, this.userName).subscribe(data => this.unReadMessages = []);
         },
@@ -149,9 +150,8 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck, OnD
 
   send(i: number) {
     if (this.chatWindows[i].message != null && this.chatWindows[i].message != '' && this.chatWindows[i].message.length > 0) {
-      let m: Message = new Message(this.chatWindows[i].message, this.userName, this.chatWindows[i].windowName, this.date,'', false)
+      let m: Message = new Message(this.chatWindows[i].message, this.userName, this.chatWindows[i].windowName, this.date,'', false,0)
       const fd = new FormData();
-      this.webSocket.sendRealMessage(m);
       if(this.webcamImage!=null) {
         let contentTypeAndBase64Url: string[] = [];
         contentTypeAndBase64Url = this.webcamImage.imageAsDataUrl.split(';')
@@ -161,6 +161,9 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck, OnD
         fd.append('image', blob);
         this.webcamImage=null;
       }
+      m.likes=this.chatLikes;
+      this.chatLikes=0;
+      this.webSocket.sendRealMessage(m);
       fd.append('message',JSON.stringify(m));
       this.messageService.sendMessage(fd).subscribe(data => {
           let messages: Message[] = this.webSocket.messagesReal;
@@ -180,6 +183,9 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck, OnD
          }
        })*/
     }
+  }
+  arrayOne(n: number): any[] {
+    return Array(n);
   }
 
   savePost() {

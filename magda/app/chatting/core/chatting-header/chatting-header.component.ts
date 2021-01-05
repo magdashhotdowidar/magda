@@ -13,6 +13,7 @@ import {Message, MessageService} from "../../infrastructure/services/messages.se
 import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
 import {na} from "../../../user/sign-in/sign-in.component";
 import {PostService,Notification} from "../../infrastructure/services/posts.service";
+import {Path} from "../../../shared/enums/path.enum";
 
 
 @Component({
@@ -27,6 +28,9 @@ export class ChattingHeaderComponent implements OnInit {
 
   selectedLang: string = 'ar'
   userName: string = localStorage.getItem(LocalStorage.userName);
+  userImage:string= localStorage.getItem(LocalStorage.userImage);
+  userImagePath:string=Path.userImagePath;
+  ASaberWordAr:string=Path.ASaberWordArt;
   mainPath: string = '/' + na + '/' + Coding.front_home;
   role: string = localStorage.getItem(LocalStorage.role);
   l: typeof LocalStorage = LocalStorage;

@@ -17,6 +17,7 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private int likes;
     private String message;
     @Column(name = "message_date")
     private String date;
@@ -35,6 +36,7 @@ public class Message {
         this.messageTo=message.getMessageTo();
         this.read=message.isRead();
         this.imageName=message.getImageName();
+        this.likes=message.getLikes();
     }
 
     public int getId() {
@@ -91,6 +93,14 @@ public class Message {
 
     public void setImageName(String imageName) {
         this.imageName = imageName;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 
     @Override
