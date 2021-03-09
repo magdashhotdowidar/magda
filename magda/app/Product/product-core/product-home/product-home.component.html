@@ -2,7 +2,7 @@
 <main [ngStyle]="{direction:direc?'rtl':'ltr'}">
     <product-header (showing)="setimag($event)" (right_direction)="direc=$event"></product-header>
     <br/>
-    <ngx-loading-bar color="red"></ngx-loading-bar>
+    <!--<ngx-loading-bar color="red"></ngx-loading-bar>-->
 
     <div *ngIf="showimg" style="background-color:white " >
       <!--<h2 style="text-align: center; color: red">{{title}}</h2>-->

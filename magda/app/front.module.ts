@@ -34,6 +34,7 @@ import {URLConfigService} from "./shared/services/urlconfig.service";
 import {NgxDraggableDomModule} from "ngx-draggable-dom";
 import { BuildByramidComponent } from './core/games/build-byramid/build-byramid.component';
 import { TestChatComponent } from './core/games/test-chat/test-chat.component';
+import { SetBackgroundColorDirective } from './shared/directives/set-background-color.directive';
 
 
 const appInitializerFn = (appConfig: URLConfigService) => {
@@ -56,7 +57,8 @@ export function createTranslateLoader(http: HttpClient) {
     FrontHomeComponent,
     FrontHeaderComponent,
     BuildByramidComponent,
-    TestChatComponent
+    TestChatComponent,
+    SetBackgroundColorDirective
   ],
   imports: [
     BrowserModule,

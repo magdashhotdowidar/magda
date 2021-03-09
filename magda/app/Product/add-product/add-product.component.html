@@ -16,6 +16,8 @@
               <li class="breadcrumb-item" style="font-size: large;">   <a routerLink="../slider" style="padding:0px 5px"
                                                                        routerLinkActive="active"> {{'PROJECT.breadcrumb.view_product'|translate}}</a>
               </li>
+              <li class="breadcrumb-item" style="font-size: large;">   <a style="padding:0px 5px;color: chartreuse;cursor: pointer " (click)="testTable=!testTable">{{testTable?'View Products Table':'TestTable'}}</a>
+              </li>
               <li class="breadcrumb-item"> <a (click)="showAddProductPopup=true"
                                              style="background-color: white;cursor: pointer;padding:0px 5px" data-toggle="modal"
                                              data-target="#employeePopUp">
@@ -80,7 +82,7 @@
         </div>
       </div>
       <!--<hr style="border-color: blue">-->
-      <div class="row">
+      <div *ngIf="!testTable" class="row">
         <div class="col-md-12">
           <div class="panel panel-primary">
             <!--         <div class="panel-heading">
@@ -261,8 +263,8 @@
      aria-labelledby="successLabel" aria-hidden="true">
   <product-bar-chart (show-popup)="showChartPopup=$event" ></product-bar-chart>
 </div>
-
-
-
+<div *ngIf="testTable">
+  <creat-table [table]="myTable"></creat-table>
+</div>
 
 

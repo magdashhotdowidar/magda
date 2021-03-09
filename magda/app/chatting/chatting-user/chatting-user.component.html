@@ -1,7 +1,24 @@
-<div class="container" >
+<header>
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <!-- Links -->
+    <ul class="navbar-nav col-md-4">
+      <li class="nav-item">
+        <img alt="" class="avatar" height="30" width="30" [src]="ASaberWordAr" style="border-radius: 50%">
+      </li>
+      <li class="nav-item">
+        <a [routerLink]="mainPath" class="nav-link" style="color: lime" routerLinkActive="active">MAIN PAGE</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+<div >
   <div class="row">
-    <div class="col s8 offset-s2">
-      <div class="card  " style="width:500px; height: 600px ;background-color: lime">
+    <div class="col-md-2">
+      <div><img alt="" class="avatar" height="680" width="200" [src]="backgroundImagePath+'a1.gif'"></div>
+    <!--<div class="col s8 offset-s2">-->
+    </div>
+    <div class="col-md-4" style="border: 1px solid blue;margin-top: 3px">
+      <div class="card  " style="width:500px; height: 680px ;background-color: lime">
         <div class="card-header" style="background-color: white">
         <div class="card-header-tabs">
           <ul class="nav nav-tabs" role="tablist">
@@ -34,6 +51,13 @@
         </div>
       </div>
 
+    </div>
+    <div class="col-md-4" style="border: 1px solid blue;margin-top: 3px">
+      <div style="margin-top: 3px;"><img alt="" class="avatar" height="680" width="500" [src]="userImagePath+userImage"></div>
+    </div>
+    <div class="col-md-2">
+      <div><img alt="" class="avatar" height="680" width="200" [src]="backgroundImagePath+'a5.gif'"></div>
+      <!--<div class="col s8 offset-s2">-->
     </div>
   </div>
 </div>

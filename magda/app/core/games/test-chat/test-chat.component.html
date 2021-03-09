@@ -1,11 +1,14 @@
 <header>
-  <nav class="navbar-dark navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Chat app</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#n"><span
-      class="navbar-toggler-icon"></span></button>
-    <div class="collapse navbar-collapse" id="n">
-      <ul class="navbar-nav mr-auto"></ul>
-    </div>
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <!-- Links -->
+    <ul class="navbar-nav col-md-4">
+      <li class="nav-item">
+        <img alt="" class="avatar" height="30" width="30" [src]="ASaberWordAr" style="border-radius: 50%">
+      </li>
+      <li class="nav-item">
+        <a [routerLink]="mainPath" class="nav-link" style="color: lime" routerLinkActive="active">MAIN PAGE</a>
+      </li>
+    </ul>
   </nav>
 </header>
 

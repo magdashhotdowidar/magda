@@ -1,5 +1,7 @@
 import {Component, DoCheck, OnChanges, OnInit} from '@angular/core';
 import {Path} from "../../../shared/enums/path.enum";
+import {na} from "../../../user/sign-in/sign-in.component";
+import {Coding} from "../../../shared/enums/coding.enum";
 
 @Component({
   selector: 'app-build-byramid',
@@ -9,6 +11,8 @@ import {Path} from "../../../shared/enums/path.enum";
 export class BuildByramidComponent implements OnInit {
 
   imagePath: string = Path.productImagePath;
+  ASaberWordAr:string=Path.ASaberWordArt;
+  mainPath: string = '/' + na + '/' + Coding.front_home;
   height: number = 15;
   middleOfTheHeight: number;
   theShape: string = '';

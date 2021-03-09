@@ -8,6 +8,7 @@ import {Category} from "../infrastructure/models/category";
 import {ProductJasperReportService} from "../infrastructure/services/product-jasper-report.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ProductResponse} from "../infrastructure/models/ProductResponse.model";
+import {column, MyTable, TableSortClasses} from "../components/creat-table/creat-table.component";
 
 @Component({
   selector: 'add-product',
@@ -15,7 +16,8 @@ import {ProductResponse} from "../infrastructure/models/ProductResponse.model";
   styleUrls: ['./add-product.component.css']
 })
 export class AddProductComponent implements OnInit {
-  products: Product[];
+  myTable:MyTable<Product>=new MyTable<Product>();
+  products: Product[]=[];
   searchByName: string = '';
   searchByBrand:string='';
   searchByCategory:string='';
@@ -24,6 +26,7 @@ export class AddProductComponent implements OnInit {
   imgPath: string = this.path.productImagePath;
   showAddProductPopup:boolean=false;
   showChartPopup:boolean=false;
+  testTable:boolean=false;
   items:number[]=[5,10,15,20,50];
   itemsPerPage:number=5;
   p: number = 1;//initializing the currentPage which is p to 1
@@ -46,7 +49,14 @@ export class AddProductComponent implements OnInit {
   }
 
   reloadData() {
-    this.productService.getproductList().subscribe((date:ProductResponse )=> this.products = date.products);
+    this.productService.getproductList().subscribe((date:ProductResponse )=> {
+      this.products = date.products;
+      this.myTable.tableArray=date.products;
+      this.myTable.columns=[new column('cod','PROJECT.product.edit.product_cod',TableSortClasses.alphaAsc),
+                            new column('name','PROJECT.product.edit.product_name',TableSortClasses.amountAsc),
+                            new column('brand','PROJECT.product.edit.product_brand',TableSortClasses.numericAsc)
+                           ]
+    });
   }
   addNewProduct(event: Product) {
     this.products.push(event);

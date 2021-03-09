@@ -40,6 +40,7 @@ import {ChartsModule} from "ng2-charts";
 import {BarecodeScannerLivestreamModule} from "ngx-barcode-scanner";
 import {NgxDraggableDomModule} from "ngx-draggable-dom";
 import { CalculatorComponent } from './components/calculator/calculator.component';
+import { CreatTableComponent } from './components/creat-table/creat-table.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -65,7 +66,8 @@ export function createTranslateLoader(http: HttpClient) {
     PositiveOnlyDirective,
     OnlyNumber,
     ShortenPipe,
-    CalculatorComponent
+    CalculatorComponent,
+    CreatTableComponent
   ],
   imports: [
     CommonModule,

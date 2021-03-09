@@ -1,0 +1,100 @@
+<div class="container">
+  <hr style="border: 1px solid blue"/>
+  <form #f="ngForm" (ngSubmit)="addColumn(f)" >
+    <div class="row">
+    <div class="col-md-5 input-group mb-3">
+    <label for="cname" style="cursor: pointer;color: blue;font-size: large">Enter Column name</label>
+      <div class="input-group-append">
+    <input id="cname"  type="text" class="form-control text-center"
+           placeholder="{{'column property name'}}" ngModel
+           name="colName" style="color: blue" />
+      </div></div>
+    <div class="col-md-5 input-group mb-3">
+    <label for="ctrans" style="cursor: pointer;color: blue;font-size: large">Enter Column Translation</label>
+      <div class="input-group-append">
+    <input id="ctrans" type="text" class="form-control text-center"
+           placeholder="{{' column translate path'}}" ngModel
+           name="colTrans" style="color: blue" />
+      </div></div>
+    <button  class="btn btn-outline-primary"
+            data-toggle="tooltip" data-placement="right"
+            title="{{'add'}}"><i
+      class="fa fa-eye"> add </i>
+    </button>
+      <button type="button" class="btn btn-outline-warning" style="color: red" (click)="deleteColumn(f)"
+               data-toggle="tooltip" data-placement="right"
+               title="{{'delete'}}"><i
+        class="fa fa-eye"> delete </i>
+      </button>
+    </div>
+  </form>
+  <hr style="border: 1px solid blue"/>
+  <input type="text" class="search-query form-control "
+         placeholder="{{'PROJECT.product.edit.search.all'|translate}}"
+         name="searchAll" style="color: blue;text-align: center"
+         [(ngModel)]="searchByAll"/>
+
+  <table class="table table-striped table-bordered table-sm" cellspacing="0" width="100% " style="text-align: center">
+    <thead>
+    <tr  style="color: lime">
+      <th *ngFor="let column of table.columns" (click)="sort(column.columnName)" class="th-sm">{{column.columnTranslate|translate}}
+        <span class="fa fa-sort" [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr  style="color:blue;border-color: blue">
+      <td *ngFor="let column of table.columns;let i =index">
+        <input #_i type="text" class="search-query form-control "
+               placeholder="{{column.columnTranslate|translate}}"
+               name="_i" style="color: blue" [(ngModel)]="searchByName"/>
+      </td>
+
+      <!--<td style="width: 30px">
+        <h6 style="color: red;font-style:italic;font-family:Algerian">{{table.tableArray?.length}}
+          -{{'PROJECT.product.edit.product_count'|translate}}</h6>
+      </td>-->
+
+    </tr>
+    <tr
+      *ngFor="let obj of table.tableArray|orderBy:key:reverse
+                  | paginate: { itemsPerPage: itemsPerPage, currentPage: p }
+                                                 |productFilter:searchByAll:searchByName:searchByBrand:searchByCategory"
+
+      style="color:blue ">
+      <td *ngIf="table.columns.includes({columnName:'picture'})" style="width:140px">
+        <img [src]="imgPath+obj.imageName" class="embed-responsive" height="50px" width="30px"></td>
+
+      <td *ngFor="let c of table.columns" style="width:130px">{{obj[c.columnName]}}</td>
+
+    </tr>
+    </tbody>
+
+    <tfoot>
+    <tr style="color: lime">
+      <th *ngFor="let column of table.columns" class="th-sm">{{column.columnTranslate|translate}}</th>
+    </tr>
+    </tfoot>
+  </table>
+  <div class="row">
+    <div class="row">
+      <div class="col-md-9">
+        <label style="color: blue">{{'PROJECT.product.edit.items_per_page'|translate}}</label>
+      </div>
+      <div class="col-md-3">
+
+        <select
+          style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px;border-bottom-color: blue"
+          class="form-control form-control-sm text-center"
+          [(ngModel)]="itemsPerPage"
+          ngModel required>
+          <option style="color: white"
+                  [value]="'categories'">{{'PROJECT.product.edit.tap.select_category'|translate}}</option>
+          <option style="color: blue; font-size: small" *ngFor="let item of items"
+                  [value]="item">{{ item }}</option>
+        </select>
+
+      </div>
+    </div>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>

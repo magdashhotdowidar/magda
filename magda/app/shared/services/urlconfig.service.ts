@@ -15,8 +15,10 @@ export class URLConfigService {
 
   loadAppConfig() {
     this.IS_LOCAL_ENVIRONMENT = environment.localEnvironment;
-    this.configs.P_URL=environment.pURL;
-    this.configs.CH_URL=environment.chURL;
+    this.configs.P_URL = environment.pURL;
+    this.configs.CH_URL = environment.chURL;
+    this.configs.U_URL=environment.uURL;
+    this.configs.websocket_URL=environment.chWebSocketURL;
   }
 
   getApiUrl(moduleName?: Modules) {
@@ -28,8 +30,8 @@ export class URLConfigService {
         return environment.chURL;
       case Modules.U:
         return environment.uURL;
-        case Modules.CH_WEBSOCKET:
-          return environment.chWebSocketURL;
+      case Modules.CH_WEBSOCKET:
+        return environment.chWebSocketURL;
     }
   }
 
@@ -42,4 +44,6 @@ export class URLConfigService {
 export class AdaayConfig {
   P_URL: string;
   CH_URL: string;
+  U_URL:string;
+  websocket_URL:string;
 }

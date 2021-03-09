@@ -1,13 +1,12 @@
 button {
   border: 3px solid gold;
   color: white;
-  background-color: blue;
+  background-color: black;
   text-align: center;
   font-size: xx-large;
   cursor: pointer;
   width: 170px;
   height: 150px;
-
 }
 
 i {

@@ -1,6 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {WebSocketChattingService} from "../../../chatting/infrastructure/services/web-socket-chatting.service";
+import {Path} from "../../../shared/enums/path.enum";
+import {na} from "../../../user/sign-in/sign-in.component";
+import {Coding} from "../../../shared/enums/coding.enum";
 
 @Component({
   selector: 'app-test-chat',
@@ -8,6 +11,9 @@ import {WebSocketChattingService} from "../../../chatting/infrastructure/service
   styleUrls: ['./test-chat.component.css']
 })
 export class TestChatComponent implements OnInit, OnDestroy {
+
+  ASaberWordAr:string=Path.ASaberWordArt;
+  mainPath: string = '/' + na + '/' + Coding.front_home;
 
   constructor(public websocketService: WebSocketChattingService) {
   }
