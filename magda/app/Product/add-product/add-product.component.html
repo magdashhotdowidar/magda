@@ -16,7 +16,9 @@
               <li class="breadcrumb-item" style="font-size: large;">   <a routerLink="../slider" style="padding:0px 5px"
                                                                        routerLinkActive="active"> {{'PROJECT.breadcrumb.view_product'|translate}}</a>
               </li>
-              <li class="breadcrumb-item" style="font-size: large;">   <a style="padding:0px 5px;color: chartreuse;cursor: pointer " (click)="testTable=!testTable">{{testTable?'View Products Table':'TestTable'}}</a>
+              <li class="breadcrumb-item" style="font-size:large;font-style: italic">
+                <a style="padding:0px 5px;color:lime;cursor: pointer "
+                   (click)="testTable=!testTable"><i class="fa fa-table" aria-hidden="true" style="color:lime;font-size:x-large "></i>{{testTable?' View Products Table':' EditTable'}}</a>
               </li>
               <li class="breadcrumb-item"> <a (click)="showAddProductPopup=true"
                                              style="background-color: white;cursor: pointer;padding:0px 5px" data-toggle="modal"
@@ -231,12 +233,10 @@
                   <div class="col-md-3">
 
                     <select
-                      style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px;border-bottom-color: blue"
+                      style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px;width: fit-content;;border-bottom-color: blue"
                       class="form-control form-control-sm text-center"
                       [(ngModel)]="itemsPerPage"
                       ngModel required>
-                      <option style="color: white"
-                              [value]="'categories'">{{'PROJECT.product.edit.tap.select_category'|translate}}</option>
                       <option style="color: blue; font-size: small" *ngFor="let item of items"
                               [value]="item">{{ item }}</option>
                     </select>

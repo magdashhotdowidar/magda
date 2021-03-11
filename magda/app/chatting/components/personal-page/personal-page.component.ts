@@ -85,7 +85,7 @@ export class PersonalPageComponent implements OnInit {
   loadUser() {
     this.userService.getUser(this.route.snapshot.params['id']).subscribe(data => {
         this.user = data;
-        this.user.roles = [];
+        if(!this.user['roles']) this.user.roles = [];
         this.setShowRequestSent();
       },
       (error: HttpErrorResponse) => alert(error.message))
@@ -96,6 +96,7 @@ export class PersonalPageComponent implements OnInit {
     this.postService.getUserPosts(this.userName).subscribe((data:Post[])=>this.posts=data,
       (error:HttpErrorResponse)=>alert(error.message))
   }
+  //fake method for testing
 getFriends(){
     this.friends=[];
     this.showFriends=!this.showFriends;
@@ -108,6 +109,7 @@ getFriends(){
 }
   loadFriends() {
     this.showFriends=!this.showFriends;
+    if(this.friends.length==0)
     this.friendService.getAllUserFriends(this.userName).subscribe((data: ChattingUser[]) => {
         this.friends = data;
         // console.log(this.friends)
@@ -136,7 +138,8 @@ getFriends(){
     this.userService.updateUser(fd).subscribe(data => {
         if (data) this.toastr.success('Data Saved Successfully'); else this.toastr.error('Error!!!!!!!!')
         this.showSave = false;
-        console.log(data)
+        this.selectedFile=null;
+        //console.log(data)
       },
       (error: HttpErrorResponse) => alert(error.message))
 

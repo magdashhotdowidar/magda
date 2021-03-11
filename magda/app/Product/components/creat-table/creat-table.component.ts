@@ -1,6 +1,7 @@
 import {AfterContentChecked, Component, Input, OnChanges, OnInit} from '@angular/core';
 import {Path} from "../../../shared/enums/path.enum";
 import {NgForm} from "@angular/forms";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'creat-table',
@@ -14,6 +15,7 @@ export class CreatTableComponent implements OnInit {
   searchByCategory:string='';
   searchByAll: string = '';
   path: typeof Path = Path;
+  delete;boolean=false;
   imgPath: string = this.path.productImagePath;
   items:number[]=[5,10,15,20,50];
   itemsPerPage:number=5;
@@ -25,7 +27,7 @@ export class CreatTableComponent implements OnInit {
     this.reverse = !this.reverse;
   }
 
-  constructor() { }
+  constructor(private toast:ToastrService) { }
 
   ngOnInit() {
   }
@@ -33,12 +35,28 @@ export class CreatTableComponent implements OnInit {
   addColumn(f: NgForm) {
    let columnName:string=f.value['colName']
     let columnTranslate:string=f.value['colTrans']
-    this.table.columns.push(new column(columnName,columnTranslate,TableSortClasses.numericAsc))
+    let contain:boolean=false;
+   for(let ob of this.table.columns)if (ob.columnName==columnName)contain=true;
+    if(!contain) {
+      this.table.columns.push(new column(columnName,columnTranslate,TableSortClasses.numericAsc))
+    }else this.toast.warning('this column had been added');
   }
 
   deleteColumn(f: NgForm) {
-    let columnName:string=f.value['colName']
-    this.table.columns.splice(+columnName-1,1)
+    let columnName:number=+f.value['colName'];
+    if(columnName>=1&&this.table.columns.length>=1)
+    this.table.columns.splice(columnName-1,1)
+    this.delete=false;
+  }
+
+  showDeleteMessage(f: NgForm) {
+    this.delete=true;
+    if(+f.value['colName']<=0)
+    this.toast.info('Enter Column Number');
+  }
+
+  touchAddButton() {
+    this.delete=false;
   }
 }
 ///////////////////////////////////

@@ -49,12 +49,13 @@ export class AddProductComponent implements OnInit {
   }
 
   reloadData() {
+    let transPath:string='PROJECT.product.edit.product_';
     this.productService.getproductList().subscribe((date:ProductResponse )=> {
       this.products = date.products;
       this.myTable.tableArray=date.products;
-      this.myTable.columns=[new column('cod','PROJECT.product.edit.product_cod',TableSortClasses.alphaAsc),
-                            new column('name','PROJECT.product.edit.product_name',TableSortClasses.amountAsc),
-                            new column('brand','PROJECT.product.edit.product_brand',TableSortClasses.numericAsc)
+      this.myTable.columns=[new column('cod',transPath+'cod',TableSortClasses.alphaAsc),
+                            new column('name',transPath+'name',TableSortClasses.amountAsc),
+                            new column('brand',transPath+'brand',TableSortClasses.numericAsc)
                            ]
     });
   }

@@ -3,25 +3,26 @@
   <form #f="ngForm" (ngSubmit)="addColumn(f)" >
     <div class="row">
     <div class="col-md-5 input-group mb-3">
-    <label for="cname" style="cursor: pointer;color: blue;font-size: large">Enter Column name</label>
+    <label for="cname" style="cursor: pointer;color: blue;font-size: large">{{delete?'Enter Column number':'Enter Column name'}}</label>
       <div class="input-group-append">
     <input id="cname"  type="text" class="form-control text-center"
-           placeholder="{{'column property name'}}" ngModel
+           placeholder="{{'column property name'}}" ngModel required
            name="colName" style="color: blue" />
       </div></div>
     <div class="col-md-5 input-group mb-3">
-    <label for="ctrans" style="cursor: pointer;color: blue;font-size: large">Enter Column Translation</label>
+    <label for="ctrans" style="cursor: pointer;color: blue;font-size: large"
+    [ngStyle]="{color:delete?'orange':'blue'}">Enter Column Translation</label>
       <div class="input-group-append">
     <input id="ctrans" type="text" class="form-control text-center"
-           placeholder="{{' column translate path'}}" ngModel
+           placeholder="{{' column translate path'}}" ngModel required [disabled]="delete"
            name="colTrans" style="color: blue" />
       </div></div>
-    <button  class="btn btn-outline-primary"
+    <button  class="btn btn-outline-primary" [disabled]="!f.valid&&!delete" style="margin: 1px" (mouseenter)="touchAddButton()"
             data-toggle="tooltip" data-placement="right"
             title="{{'add'}}"><i
       class="fa fa-eye"> add </i>
     </button>
-      <button type="button" class="btn btn-outline-warning" style="color: red" (click)="deleteColumn(f)"
+      <button type="button" class="btn btn-outline-warning" style="color: red" (click)="deleteColumn(f)" (mouseenter)="showDeleteMessage(f)"
                data-toggle="tooltip" data-placement="right"
                title="{{'delete'}}"><i
         class="fa fa-eye"> delete </i>
@@ -83,12 +84,10 @@
       <div class="col-md-3">
 
         <select
-          style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px;border-bottom-color: blue"
+          style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px;width: fit-content;border-bottom-color: blue"
           class="form-control form-control-sm text-center"
           [(ngModel)]="itemsPerPage"
           ngModel required>
-          <option style="color: white"
-                  [value]="'categories'">{{'PROJECT.product.edit.tap.select_category'|translate}}</option>
           <option style="color: blue; font-size: small" *ngFor="let item of items"
                   [value]="item">{{ item }}</option>
         </select>
