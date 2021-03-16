@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -38,6 +39,12 @@ public class FriendController {
     @GetMapping("/friend/{user}")
     public CompletableFuture<ResponseEntity<List<Authusermodel>>> getAllUserFriends(@PathVariable(value = "user") String user) {
         return f_service.allUserFriends(user).thenApply(ResponseEntity::ok);
+    }
+    @GetMapping("/friend/common/{user}/{visitor}")
+    public CompletableFuture<ResponseEntity<List<Authusermodel >>> getCommonFriends(@PathVariable(value = "user") String user,
+                                                                                   @PathVariable(value = "visitor") String visitor)
+                                                                                  throws ExecutionException, InterruptedException {
+        return f_service.commonFriends(user,visitor).thenApply(ResponseEntity::ok);
     }
 
     @PostMapping("/friend")

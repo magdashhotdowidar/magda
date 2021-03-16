@@ -25,6 +25,9 @@ export class FriendService {
   getAllUserFriends(user: string): Observable<ChattingUser[]> {
     return this.http.get<ChattingUser[]>(`${this.baseUrl}/${user}`);
   }
+  getCommonFriends(friend:Friend):Observable<ChattingUser[]>{
+    return this.http.get<ChattingUser[]>(`${this.baseUrl}/common/${friend.userName}/${friend.friendName}`)
+  }
 
   createFriend(friend: Friend) {
     return this.http.post(`${this.baseUrl}`, friend);

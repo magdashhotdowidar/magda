@@ -12,10 +12,12 @@ import com.all.Projectforall.repos.FriendRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,18 +43,32 @@ public class FriendService {
         }).map(Authusermodel::new).collect(Collectors.toList());
         return CompletableFuture.completedFuture(friendsDetails);
     }
+    public CompletableFuture<List<Authusermodel >>commonFriends(String user,String visitor) throws ExecutionException, InterruptedException {
+        List<String>commonFriends=new ArrayList<>();
+        List<String>userFriends=this.allUserFriendsNames(user);
+        List<String>visitorFriends=this.allUserFriendsNames(visitor);
+        userFriends.forEach(friend->{
+            if(visitorFriends.contains(friend)) commonFriends.add(friend);
+        });
+          List<Authusermodel>commonFriendsData=commonFriends.stream().map(x->user_repo.findByUsername(x).get())
+                                                                     .map(Authusermodel::new).collect(Collectors.toList());
+        return CompletableFuture.completedFuture(commonFriendsData);
+    }
 
     public  List<String>allUserFriendsNames(String userName) {
         //it was possible to create one method findByUserNameOrFriendName(String userOrEmail) but I did 2 method to make swap
-        List<Friend> list1 = f_repo.findByUserName(userName);
-        List<Friend> list2 = f_repo.findByFriendName(userName);
+        List<String> friendsDetails=new ArrayList<>();
+         f_repo.findByUserName(userName).forEach(friend -> friendsDetails.add(friend.getFriendName()));
+         f_repo.findByFriendName(userName).forEach(friend -> friendsDetails.add(friend.getUserName()));
+        /*if(!list2.isEmpty()){
         list2.forEach(friend -> {
             String tem="";
             tem=friend.getUserName();
             friend.setUserName(friend.getFriendName());
             friend.setFriendName(tem); });
         list1.addAll(list2);
-        List<String> friendsDetails= list1.stream().map(friend ->friend.getFriendName()).collect(Collectors.toList());
+        }*/
+       // List<String> friendsDetails= list1.stream().map(friend ->friend.getFriendName()).collect(Collectors.toList());
         return friendsDetails;
     }
 

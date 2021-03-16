@@ -32,6 +32,8 @@ import {ShortenِِArrayPipe} from "./infrastructure/pipes/shortenArray.pipe";
 import {Ng2OrderModule} from "ng2-order-pipe";
 import { CameraComponent } from './components/main-page/camera/camera.component';
 import {WebcamModule} from "ngx-webcam";
+import { BlockUserSettingComponent } from './components/personal-page/block-user-setting/block-user-setting.component';
+import {NgxDraggableDomModule} from "ngx-draggable-dom";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -52,7 +54,8 @@ export function createTranslateLoader(http: HttpClient) {
     PersonalPageComponent,
     ShortenPipe,
     ShortenِِArrayPipe,
-    CameraComponent
+    CameraComponent,
+    BlockUserSettingComponent
   ],
   imports: [
     CommonModule,
@@ -76,7 +79,8 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    Ng2OrderModule
+    Ng2OrderModule,
+    NgxDraggableDomModule
 
   ],
   providers: [ CanDeactivateGuard,ChattingUserService, AuthGuard,

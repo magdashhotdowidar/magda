@@ -46,8 +46,8 @@ public class FriendRequestController {
     }
 
     @PostMapping()
-    public CompletableFuture<FriendRequest> createProduct(@Valid @RequestBody FriendRequest friendRequest) {
-        return c_service.save(friendRequest);
+    public CompletableFuture<String>sentFriendRequest(@Valid @RequestBody FriendRequest request){
+        return c_service.sendFriendRequest(request);
     }
 
     @DeleteMapping("/{from}/{to}")

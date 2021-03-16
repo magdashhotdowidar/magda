@@ -1,0 +1,40 @@
+<div class="modal-dialog  modal-lg" ngxDraggableDom="true"  role="document"
+     style="max-width: 500px;background-color: black;border: 1px solid blue">
+  <div class="modal-content" style="background-color: black;border: 1px solid white">
+    <div class="modal-header" style="background-color:black;color:blue;max-height: 60px;margin: 3px">
+      <div class="row">
+        <h5 style=" border: 3px solid;border-radius: 50%;color:deepskyblue">blocking users</h5>
+        <label (click)="blockAll()"> {{' BLOCK ALL '}}<input type="checkbox" [(ngModel)]="blockAllUsers"></label>
+        <label (click)="blockAllUsers=true"> {{'BLOCK some USERS'}}</label>
+      </div>
+      <button type="button" (click)="close()" data-dismiss="modal" aria-label="Close" id="chartPopupClose">close
+      </button>
+    </div>
+    <div class="modal-body" style="background-color: black;height:300px;border-top: 1px solid white">
+      <h1>BLOCK SPECIFIC USER</h1>
+      <div class="col-md-12 " style="border: 1px solid blue;min-height:100px;max-width: 490px">
+    <span class="container" *ngFor="let user of blockedUsers; let i=index;" style="margin:5px 5px;size:auto">
+    <div class="list-inline-item">
+      <span class="badge badge-pill" style="display: inline-block">
+        <img alt="" class="avatar" height="15" width="30" [src]="userImagePath+user.personalImage">
+        <span  style="color:blue;margin: 0 4px;padding:0;font-size:large"
+                [title]="user.username">{{user.username|shorten:10}}</span>
+          <button type="button" (click)="deleteBlockedUser(i)">X</button>
+    </span>
+    </div>
+    </span>
+      </div>
+      <div class="dropdown row myinput" >
+      <input  rows="1" placeholder="enter user.." name="message" ngModel [(ngModel)]="blockedUser" type="search"  aria-label="Search"
+                (mouseenter)="dorpDownSearchInput=!dorpDownSearchInput" (keyup)="getUserByNameOrEmail(search.value)"
+                class="dropdown-toggle form-control" data-toggle="dropdown" #search>
+        <ul class="dropdown-menu " [ngClass]="{show:dorpDownSearchInput}">
+          <li *ngFor="let u of usersForSearch;let i=index" class="text-center" #_i>
+            <button type="button" class="search" (click)="registerBlockedUser(u.username)">block<span style="color:orangered"> {{ u.username}}</span></button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="modal-footer" style="background-color: black;border: 1px solid blue"></div>
+  </div>
+</div>

@@ -15,8 +15,13 @@ export class ChattingUserService {
               private http: HttpClient) {
   }
 
-  getUser(name: string): Observable<any> {
-    return this.http.get(`${this.rootUrl}/user/${name}`);
+  getUser(name: string): Observable<ChattingUser> {
+    return this.http.get<ChattingUser>(`${this.rootUrl}/user/${name}`).pipe(map((user:ChattingUser)=>{
+      if(!user['roles']) user.roles = [];
+      if(!user['backgroundImage']||user.backgroundImage==null||user.backgroundImage=='')user.backgroundImage='1.jpg';
+      if(!user['personalImage']||user.personalImage==null||user.personalImage=='')user.personalImage='1.jpg';
+      return user;
+    }));
   }
 
   getUsersByNameOrEmail(name: string): Observable<any> {

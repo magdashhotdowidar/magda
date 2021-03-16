@@ -1,5 +1,5 @@
 <!-----------------------------------background&personal image and button bar--------------------------------------------------->
-<div >
+<div  *ngIf="!maximize">
   <div>
     <div class="row" style="margin:0 3px;">
       <div class="col-md-2">
@@ -42,7 +42,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="visitor==true&&!showRemoveFriend" class="row">
+      <div *ngIf="visitor==true&&!showRemoveFriend&&!blocked&&!blockAllUsers" class="row">
         <div class="col-md-12">
           <div class="input-group form-group">
             <button (click)="sendFriendReques()" class="btn btn-success" type="button"
@@ -70,7 +70,7 @@
             <button class="btn btn-success" type="button"><span class="input-group-text" (click)="loadFriends()"
                                                                 style="background-color: blue;border-color: blue"><i
               class="fa fa-user-secret"
-              style="font-size: large;color:white;border-color: blue"> friends{{visitor == true ? ' - the common friends - ' + 9 : ''}}</i></span>
+              style="font-size: large;color:white;border-color: blue"> friends{{visitor == true ? ' - the common friends - ' + commonFriends.length : ' - '+friends.length}}</i></span>
             </button>
           </div>
         </div>
@@ -86,6 +86,28 @@
           </div>
         </div>
       </div>
+      <div *ngIf="!visitor" class="row" >
+        <div class="col-md-12">
+          <div class="input-group form-group">
+            <button class="btn btn-success" type="button"><span class="input-group-text" (click)="openPrivacy=!openPrivacy"
+                                                                style="background-color: green;border-color: blue"><i class="fa fa-adjust"
+              style="font-size: large;color:orangered;border-color: blue">SET PRIVACIES</i></span>
+              <ul class="dropdown-menu " [ngClass]="{show:openPrivacy}" style="background-color: navy;color:#f91c1e;width: 220px">
+                <div class="row" style="margin:0 3px">
+                 <button class="btn btn-success">friends privacy<input type="checkbox" [(ngModel)]="friendsPrivacy" style="color: red;background-color: yellow"></button>
+                <button class="btn btn-success" (click)="updatePrivacy()">save</button>
+                </div>
+                <div class="row" style="margin:0 3px">
+                  <button class="btn btn-success" (click)="openBlockUserSettingPoPup=true" data-toggle="modal" data-target="#employeePopUp"> block users setting
+                      <i class="fa fa-eye" aria-hidden="true" style="color:lime;font-size:x-large "> </i>
+                  </button>
+                </div>
+              </ul>
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -111,12 +133,14 @@
   </div>
 </div>
 <!------------------------personal posts part----------------------------------->
-<div *ngIf="!showFriends" class="row" style="border: 1px solid blue;margin: 0 5px">
+<div *ngIf="!showFriends" class="row" style="border: 1px solid blue;margin: 0 5px" (dblclick)="maximize=!maximize">
   <div class="col-md-2">
     <div><img alt="" class="avatar" height="380" width="200" [src]="backgroundImagePath+'f4.gif'"></div>
+    <div *ngIf="maximize"><img alt="" class="avatar" height="380" width="200" [src]="backgroundImagePath+'f3.gif'"></div>
   </div>
   <div class="col-md-8 pre-scrollable"
-       style="border-left: 1px solid blue;border-right: 1px solid blue;min-height:390px;">
+       style="border-left: 1px solid blue;border-right: 1px solid blue;"
+       [ngStyle]="{'min-height':maximize?'782px':'390px'}">
 
     <div style="min-height:900px;margin:0 200px" class="text-center">
       <div class="text-center " *ngFor="let post of posts"
@@ -148,5 +172,10 @@
   </div>
   <div class="col-md-2">
     <div><img alt="" class="avatar" height="380" width="200" [src]="backgroundImagePath+'f4.gif'"></div>
+    <div *ngIf="maximize"><img alt="" class="avatar" height="380" width="200" [src]="backgroundImagePath+'f2.gif'"></div>
   </div>
+</div>
+<div class="modal fa fa" id="employeePopUp" tabindex="-1" role="dialog" *ngIf="openBlockUserSettingPoPup"
+     aria-labelledby="successLabel" aria-hidden="true">
+  <block-user-setting (show-popup)="openBlockUserSettingPoPup=$event" ></block-user-setting>
 </div>

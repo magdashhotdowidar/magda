@@ -100,7 +100,7 @@ public class JwtAuthenticationController {
 
     @GetMapping("userNameOrEmail/{userNameOrEmail}")
     public ResponseEntity<List<Authusermodel>> getUserByNameOrEmail(@PathVariable("userNameOrEmail") String user) {
-        return ResponseEntity.ok().body(userRepo.findByUsernameLikeOrEmailLike(user, user).stream().map(
+        return ResponseEntity.ok().body(userRepo.findByUsernameLikeOrEmailLike("%"+user+"%", "%"+user+"%").stream().map(
                 myUser -> new Authusermodel(myUser)).collect(Collectors.toList()));
     }
 

@@ -20,16 +20,12 @@ export class FriendRequestService {
     return this.http.get<FriendRequest[]>(`${this.baseUrl}/to/${to}`);
   }
 
-  getRequestByFrom(from: string): Observable<FriendRequest[]> {
-    return this.http.get<FriendRequest[]>(`${this.baseUrl}/from/${from}`);
+  sendFriendRequest(friendRequest:FriendRequest):Observable<string>{
+    return this.http.post(this.baseUrl,friendRequest,{responseType:"text"})
   }
 
   getRequestByFromAndTo(from: string, to: string): Observable<FriendRequest[]> {
     return this.http.get<FriendRequest[]>(`${this.baseUrl}/${from}/${to}`);
-  }
-
-  createFriendRequest(friendRequest: FriendRequest) {
-    return this.http.post(`${this.baseUrl}`, friendRequest);
   }
 
   deleteFriendRequest(from: string, to: string): Observable<any> {

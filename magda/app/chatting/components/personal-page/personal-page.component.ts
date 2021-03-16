@@ -10,6 +10,8 @@ import {Friend, FriendService} from "../../infrastructure/services/friends.servi
 import {Title} from "@angular/platform-browser";
 import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
 import {Post, PostService} from "../../infrastructure/services/posts.service";
+import {PrivacyDTO, PrivacyService} from "../../../shared/services/my-privacy.service";
+import {BlockUserService} from "../../infrastructure/services/block-user.service";
 
 @Component({
   selector: 'app-personal-page',
@@ -25,8 +27,8 @@ export class PersonalPageComponent implements OnInit {
   path: typeof Path = Path;
   imgPath: string = this.path.userImagePath;
   friendImagePath: string = Path.userImagePath;
-  postImagePath:string=Path.postImagePath;
-  backgroundImagePath:string=Path.backgroundPath;
+  postImagePath: string = Path.postImagePath;
+  backgroundImagePath: string = Path.backgroundPath;
   personalEvent: Event = null;
   backgroundEvent: Event = null;
   selectedFile: File;
@@ -34,88 +36,116 @@ export class PersonalPageComponent implements OnInit {
   visitor: boolean = false;
   showRemoveFriend: boolean = false;
   showRequestSent: boolean = false;
-  showFriends:boolean=false;
-  posts:Post[]=[];
+  showFriends: boolean = false;
+  maximize: boolean = false;
+  openPrivacy:boolean=false;
+  openBlockUserSettingPoPup:boolean=false;
+  friendsPrivacy:boolean=false;
+  blocked:boolean=false;
+  blockAllUsers:boolean=false;
+  posts: Post[] = [];
   friends: ChattingUser[] = [];
+  commonFriends: ChattingUser[] = [];
+
 
   constructor(private  userService: ChattingUserService,
               private friendRequestService: FriendRequestService,
               private friendService: FriendService,
-              private postService:PostService,
+              private blockedUserService: BlockUserService,
+              private postService: PostService,
               private toastr: ToastrService,
               private route: ActivatedRoute,
-              private title:Title,
+              private privacyService: PrivacyService,
+              private title: Title,
               private router: Router) {
   }
 
 
   ngOnInit() {
-    this.title.setTitle(this.userName+ ' - personal Page')
+    this.title.setTitle(this.route.snapshot.params['id'] + ' - personal Page')
     this.loadUser();
     this.setVisitor();
+    this.getBlockAllUsersPrivacy();
     this.setShowRemoveFriend();
     this.loadUserPosts();
+    this.getPrivacy();
   }
 
 
   setVisitor() {
-    if (this.userName != this.router.url.split('/')[6].toString())
+    if (this.userName != this.router.url.split('/')[6].toString()) {
       this.visitor = true
-    else this.visitor = false
+    } else this.visitor = false
   }
 
   setShowRemoveFriend() {
     this.friendService.getAllUserFriends(this.userName).subscribe((data: ChattingUser[]) => {
-      console.log("data1:",data.length,data)
+        //console.log("data1:",data.length,data)
         for (let friend of data) {
           if (this.user.username == friend.username) this.showRemoveFriend = true;
-        };
-   /*     this.friendService.getAllUserFriends(this.user.username).subscribe((data: ChattingUser[]) => {
-            console.log("data2:",data.length,data)
-            for (let friend of data) {
-              if (this.user.username == friend.username) this.showRemoveFriend = true;
-            };
+        }
+        ;
+        /*     this.friendService.getAllUserFriends(this.user.username).subscribe((data: ChattingUser[]) => {
+                 console.log("data2:",data.length,data)
+                 for (let friend of data) {
+                   if (this.user.username == friend.username) this.showRemoveFriend = true;
+                 };
 
-          },
-          (error: HttpErrorResponse) => alert(error.message))*/
+               },
+               (error: HttpErrorResponse) => alert(error.message))*/
       },
-      (error: HttpErrorResponse) => alert(error.message))
+      (error: HttpErrorResponse) => this.toastr.info('error in setShowRemoveFriend'))
   }
 
   loadUser() {
     this.userService.getUser(this.route.snapshot.params['id']).subscribe(data => {
         this.user = data;
-        if(!this.user['roles']) this.user.roles = [];
         this.setShowRequestSent();
       },
-      (error: HttpErrorResponse) => alert(error.message))
+      (error: HttpErrorResponse) => {
+        console.log(this.user)
+        this.toastr.info('in loadUser:' + error.message)
+      })
 
   }
 
-  loadUserPosts(){
-    this.postService.getUserPosts(this.userName).subscribe((data:Post[])=>this.posts=data,
-      (error:HttpErrorResponse)=>alert(error.message))
+  loadUserPosts() {
+    this.postService.getUserPosts(this.route.snapshot.params['id']).subscribe((data: Post[]) => this.posts = data,
+      (error: HttpErrorResponse) => this.toastr.info('error in loadUserPosts'))
   }
+
   //fake method for testing
-getFriends(){
-    this.friends=[];
-    this.showFriends=!this.showFriends;
-    for(let i=0;i<31;i++){
-      let user:ChattingUser=new ChattingUser();
-      user.username=i+'Ahmed Saber Amin El Barbari';
-      user.personalImage='1.jpg'
+  getFriends() {
+    this.friends = [];
+    this.showFriends = !this.showFriends;
+    for (let i = 0; i < 31; i++) {
+      let user: ChattingUser = new ChattingUser();
+      user.username = i + 'Ahmed Saber Amin El Barbari';
+      user.personalImage = '1.jpg'
       this.friends.push(user);
     }
-}
-  loadFriends() {
-    this.showFriends=!this.showFriends;
-    if(this.friends.length==0)
-    this.friendService.getAllUserFriends(this.userName).subscribe((data: ChattingUser[]) => {
-        this.friends = data;
-        // console.log(this.friends)
-      },
-      (error: HttpErrorResponse) => alert(error.message))
   }
+
+  loadFriends() {
+    this.showFriends = !this.showFriends;
+    if (this.friends.length == 0)
+      this.friendService.getAllUserFriends(this.route.snapshot.params['id']).subscribe((data: ChattingUser[]) => {
+          this.friends = data;
+          this.loadCommonFriends();
+          // console.log(this.friends)
+        },
+        (error: HttpErrorResponse) => this.toastr.info('error in loadFriends'))
+  }
+
+  loadCommonFriends() {
+    this.friendService.getCommonFriends(new Friend(this.userName, this.user.username)).subscribe((data) => {
+      this.commonFriends = data;
+      if (this.friendsPrivacy){
+         this.friends=data;
+      }
+    }, (error: HttpErrorResponse) => this.toastr.info('error in getCommonFriends '));
+  }
+
 
   updateUser() {
     const fd = new FormData();
@@ -138,15 +168,28 @@ getFriends(){
     this.userService.updateUser(fd).subscribe(data => {
         if (data) this.toastr.success('Data Saved Successfully'); else this.toastr.error('Error!!!!!!!!')
         this.showSave = false;
-        this.selectedFile=null;
+        this.selectedFile = null;
         //console.log(data)
       },
-      (error: HttpErrorResponse) => alert(error.message))
+      (error: HttpErrorResponse) => this.toastr.info('error in updateUser'))
 
   }
 
   sendFriendReques() {
-    this.friendRequestService.getRequestByFromAndTo(this.userName, this.user.username).subscribe((data: FriendRequest[]) => {
+    this.friendRequestService.sendFriendRequest(new FriendRequest(this.userName, this.user.username)).subscribe((message: string) => {
+      if (message.match('you sent already')) {
+        this.toastr.warning('your request sent already');
+      } else if (message.match('he sent already')) {
+        this.toastr.warning(this.user.username + ' already sent to you');
+      } else if (message.match('request sent successfully')) {
+        this.showRequestSent = true;
+        this.toastr.success('Your Request sent successfully');
+      } else if (message.match('error')) this.toastr.success('Error!!!!');
+    }, (error: HttpErrorResponse) => this.toastr.info('error in sendFriendReques'));
+
+    //I will make the business logic of this method in the back to improve the performance and make it easier so i commented out this code.
+
+    /*this.friendRequestService.getRequestByFromAndTo(this.userName, this.user.username).subscribe((data: FriendRequest[]) => {
         if (data.length==0) {
           this.friendRequestService.getRequestByFromAndTo(this.user.username, this.userName).subscribe((data: FriendRequest[]) => {
             if (data.length == 0) {
@@ -161,7 +204,7 @@ getFriends(){
           },(error: HttpErrorResponse) => alert(error.message))
         } else this.toastr.warning('your request sent already')
       },
-      (error: HttpErrorResponse) => alert(error.message))
+      (error: HttpErrorResponse) => alert(error.message))*/
 
   }
 
@@ -171,16 +214,50 @@ getFriends(){
         this.toastr.success(this.user.username + ' Removed Successfully');
         this.showRemoveFriend = false
       },
-      (error: HttpErrorResponse) => alert(error))
+      (error: HttpErrorResponse) => this.toastr.info('error in removeFriend'))
   }
 
   setShowRequestSent() {
     this.friendRequestService.getRequestByFromAndTo(this.userName, this.user.username).subscribe((data: FriendRequest[]) => {
-      //  console.log('dddaaaaaa : ', data)
+        //  console.log('dddaaaaaa : ', data)
         if (data.length != 0) {
           this.showRequestSent = true;
         }
       },
-      (error: HttpErrorResponse) => alert(error.message))
+      (error: HttpErrorResponse) => this.toastr.info('error in setShowRequestSent'))
   }
+
+/*  createPrivacy() {
+    this.privacyService.createPrivacy(new PrivacyDTO(this.userName,'friends', false)).subscribe(message => {
+      if (message.match('success')) this.toastr.success('success registration')
+      else if (message.match('fail')) this.toastr.error('error in createPrivacy')
+    }, (error: HttpErrorResponse) => this.toastr.info('error in createPrivacy '));
+  }*/
+  updatePrivacy() {
+    this.privacyService.updatePrivacy(new PrivacyDTO(this.userName,'friends', this.friendsPrivacy)).subscribe(message => {
+      if (message.match('success')) this.toastr.success('success updating')
+      else if (message.match('fail')) this.toastr.error('error in createPrivacy')
+    }, (error: HttpErrorResponse) => this.toastr.info('error in updatePrivacy '));
+  }
+  getPrivacy(){
+    this.privacyService.getPrivacyByUserAndProperty(this.route.snapshot.params['id'],'friends').subscribe(data=>{
+      if(data) this.friendsPrivacy=data.propertyState
+    }, (error: HttpErrorResponse) => this.toastr.info('error in getPrivacy '))
+  }
+
+  setBlocked() {
+    this.blockedUserService.getAllBLockedUsers(this.route.snapshot.params['id']).subscribe(data => {
+      for(let x of data)if(x.username.match(this.userName))this.blocked=true;
+      if(this.blocked)this.toastr.success(this.route.snapshot.params['id']+' had blocked you');
+      if(this.blockAllUsers)this.toastr.success(this.route.snapshot.params['id']+' had blocked every one');
+    }, (error: HttpErrorResponse) => this.toastr.info('error in getAllBlockedUsers '))
+  }
+  getBlockAllUsersPrivacy() {
+    this.privacyService.getPrivacyByUserAndProperty(this.route.snapshot.params['id'], 'blockAllUsers').subscribe(data => {
+      if (data) this.blockAllUsers = data.propertyState
+      this.setBlocked();
+    }, (error: HttpErrorResponse) => this.toastr.info('error in getBlockAllUsersPrivacy '))
+  }
+
 }
+

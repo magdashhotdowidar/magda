@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +38,18 @@ public class FriendRequestService {
         return CompletableFuture.completedFuture(c_repo.findByFromAndTo(from, to));
     }
 
+    public CompletableFuture<String>sendFriendRequest(FriendRequest request){
+        String message="";
+        if(c_repo.findByFromAndTo(request.getFrom(),request.getTo()).isEmpty()) {
+            if (c_repo.findByFromAndTo(request.getTo(), request.getFrom()).isEmpty()){
+                if(c_repo.save(request)!=null){
+                    message="request sent successfully";
+                }else message="error";
+            }else message="he sent already";
+        }else message="you sent already";
+
+        return CompletableFuture.completedFuture(message);
+    }
 
     public CompletableFuture<Map<String, Boolean>> deleteFriendRequest(String from, String to) {
         List<FriendRequest> request = c_repo.findByFromAndTo(from, to);
@@ -44,11 +57,6 @@ public class FriendRequestService {
         Map<String, Boolean> response = new HashMap<String, Boolean>();
         response.put("deleted", Boolean.TRUE);
         return CompletableFuture.completedFuture(response);
-    }
-
-    public CompletableFuture<FriendRequest> save(FriendRequest friendRequest) {
-        return CompletableFuture.completedFuture(c_repo.save(friendRequest));
-
     }
 
 }

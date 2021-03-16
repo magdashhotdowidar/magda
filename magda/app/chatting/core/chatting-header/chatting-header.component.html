@@ -26,9 +26,9 @@
              class="dropdown-toggle form-control mr-sm-2" data-toggle="dropdown" #search
               type="search" placeholder="Search" aria-label="Search">
       <ul class="dropdown-menu " [ngClass]="{show:dorpDownSearchInput}">
-        <li *ngFor="let friend of usersForSearch;let i=index" class="text-center">
+        <li *ngFor="let friend of usersForSearch;let i=index" class="text-center" #_i>
           <a style="color:blue;" target="_blank"
-             [routerLink]="['personalPage',search.value]"
+             [routerLink]="['personalPage',friend.username]"
              (click)="closeInputDropDown()">{{ friend.username}}</a>
         </li>
       </ul>
