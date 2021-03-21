@@ -35,6 +35,8 @@ import {NgxDraggableDomModule} from "ngx-draggable-dom";
 import { BuildByramidComponent } from './core/games/build-byramid/build-byramid.component';
 import { TestChatComponent } from './core/games/test-chat/test-chat.component';
 import { SetBackgroundColorDirective } from './shared/directives/set-background-color.directive';
+import {ChattingModule} from "./chatting/chatting.module";
+import {CloseTagDirective} from "./shared/directives/close-tag.directive";
 
 
 const appInitializerFn = (appConfig: URLConfigService) => {
@@ -58,7 +60,8 @@ export function createTranslateLoader(http: HttpClient) {
     FrontHeaderComponent,
     BuildByramidComponent,
     TestChatComponent,
-    SetBackgroundColorDirective
+    SetBackgroundColorDirective,
+    CloseTagDirective
   ],
   imports: [
     BrowserModule,
@@ -74,7 +77,7 @@ export function createTranslateLoader(http: HttpClient) {
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     ToastrModule.forRoot(),
-    RouterModule.forRoot(appRoutes,{useHash:true}),
+    RouterModule.forRoot(appRoutes, {useHash: true}),
     LoadingBarHttpClientModule,
     LoadingBarModule,
 

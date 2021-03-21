@@ -30,7 +30,7 @@
                 class="dropdown-toggle form-control" data-toggle="dropdown" #search>
         <ul class="dropdown-menu " [ngClass]="{show:dorpDownSearchInput}">
           <li *ngFor="let u of usersForSearch;let i=index" class="text-center" #_i>
-            <button type="button" class="search" (click)="registerBlockedUser(u.username)">block<span style="color:orangered"> {{ u.username}}</span></button>
+            <button type="button" class="search" (click)="registerBlockedUser(u.username)">block<span style="color:white"> {{ u.username}}</span></button>
           </li>
         </ul>
       </div>

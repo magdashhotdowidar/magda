@@ -30,7 +30,13 @@ id int PRIMARY KEY AUTO_INCREMENT,
 name varchar(20),
 email varchar(20),
 experience int
-dom varchar(20)
+dom varchar(20),
+)
+
+create table blockedusers(
+id int PRIMARY KEY AUTO_INCREMENT,
+blocked_user varchar(225),
+blocker_user varchar(225)
 )
 create table posts(
 id int PRIMARY KEY AUTO_INCREMENT,

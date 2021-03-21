@@ -83,7 +83,7 @@ export function createTranslateLoader(http: HttpClient) {
     NgxDraggableDomModule
 
   ],
-  providers: [ CanDeactivateGuard,ChattingUserService, AuthGuard,
+  providers: [CanDeactivateGuard, ChattingUserService, AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
