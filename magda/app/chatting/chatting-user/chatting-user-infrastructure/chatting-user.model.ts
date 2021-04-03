@@ -11,7 +11,7 @@ export class ChattingUser {
     public theUserAdmin?: string,
     public roles?: string[],
     public enabled?: boolean,
-    public online?:boolean
+    public open?:boolean
   ) {
   }
 

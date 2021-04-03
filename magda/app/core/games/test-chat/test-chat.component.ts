@@ -7,11 +7,14 @@ import {Path} from "../../../shared/enums/path.enum";
 import {na} from "../../../user/sign-in/sign-in.component";
 import {Coding} from "../../../shared/enums/coding.enum";
 import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
+import {HighContrastModeDetector} from "@angular/cdk/a11y";
+import {ThemePalette} from "@angular/material/core";
 
 @Component({
   selector: 'app-test-chat',
   templateUrl: './test-chat.component.html',
-  styleUrls: ['./test-chat.component.css']
+  styleUrls: ['./test-chat.component.css'],
+
 })
 export class TestChatComponent implements OnInit, OnDestroy{
 
@@ -44,6 +47,7 @@ export class TestChatComponent implements OnInit, OnDestroy{
     this.websocketService.sendFakeMessage(new chatMessage(this.userName, '',MessageType.leave))
     this.websocketService.closeWebSocket();
   }
+
 }
 
 export class chatMessage {

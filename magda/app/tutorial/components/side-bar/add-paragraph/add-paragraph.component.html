@@ -1,0 +1,89 @@
+<div class="modal-dialog  modal-lg" ngxDraggableDom="true" role="document"
+     style="max-width: 500px;background-color: black;border: 1px solid blue">
+  <div class="modal-content" style="background-color: black;border: 1px solid white">
+    <div class="modal-header" style="background-color:black;color:blue;max-height: 60px;margin: 3px">
+      <div class="row">
+        <button (click)="view=false" class="btn" style="margin:0 3px" >add paragraph</button>
+        <button (click)="view=true" class="btn" style="margin:0 3px" >find paragraph</button>
+      </div>
+      <button type="button" (click)="close()" data-dismiss="modal" aria-label="Close" id="add-paragraph">close
+      </button>
+    </div>
+    <div class="modal-body" style="background-color: black;height:320px;border-top: 1px solid white">
+<form (ngSubmit)="addParagraph(f)" #f="ngForm">
+  <div *ngIf="view" class="row" style="margin: 2px 14px">
+    <output class="text-center"  [value]="'tab '" style="border:none;color: mediumvioletred"></output>
+    <output class="text-center"  [value]="selectedTab"></output>
+    <output class="text-center"  [value]="selectedLink" ></output>
+    <output class="text-center"  [value]="'link '" style="border:none;color: mediumvioletred"></output>
+  </div>
+      <div *ngIf="!view" class="input-group mb-3">
+
+        <div class="form-group mx-sm-3 mb-2">
+          <div class="custom-select-box">
+            <select style="font-size: large;background-color: black;color: blue;width: fit-content" data-toggle="tooltip"
+                    data-placement="right" title="Select tab" required
+                    class="form-control form-control-sm" (change)="selectlinks()"
+                    name="selectedCategory" [(ngModel)]="selectedTab" ngModel>
+              <option  style="color: blue; font-size: large" [value]="'tabs'">{{'tabs'}}</option>
+              <option style="color: blue; font-size: large" *ngFor="let tab of tabs"
+                      [value]="tab.title">
+                {{ tab.title}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+          <div class="custom-select-box">
+            <select style="font-size: large;background-color: black;color: blue;width: fit-content" data-toggle="tooltip"
+                    data-placement="right" title="Select link" required
+                    class="form-control form-control-sm"
+                    name="selectedLink" [(ngModel)]="selectedLink" ngModel>
+              <option style="color: blue; font-size: large" [value]="'links'">{{'links'}}</option>
+              <option style="color: blue; font-size: large" *ngFor="let link of links"
+                      [value]="link.label">
+                {{ link.label}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group mx-sm-3 mb-2">
+          <input type="file" #fileInput (change)="fileEvent=$event" style="display: none" ngModel required
+                 name="fil">
+          <button type="button" (click)="fileInput.click()" style="background-color: black;cursor: pointer;border-color: black">
+                      <span class="input-group-text" style="background-color: black;color: blue;border-color: blue"><i
+                        class="fa fa-file" style="font-size: large;color:blue;border-color: black"> {{'PROJECT.product.edit.tap.select_image'|translate}}</i></span>
+          </button>
+        </div>
+
+      </div>
+
+  <li class=" row dropdown" style="width: fit-content">
+        <input placeholder="enter the header.." name="header" ngModel [(ngModel)]="header" type="text" required
+               aria-label="Search" class="form-control"
+               (mouseenter)="dorpDownSearchInput=!dorpDownSearchInput" (keyup)="findParagraph(search.value)"
+               class="dropdown-toggle form-control mr-sm-2" data-toggle="dropdown" #search>
+        <ul class="dropdown-menu " [ngClass]="{show:dorpDownSearchInput}">
+          <li *ngFor="let p of paragraphs;let i=index" class="text-center" #_i>
+            <a style="color:blue;cursor:pointer" (click)="setParagraph(p)">
+              <strong> {{ p.header}}</strong>
+              <p>{{p.paragraph.substring(0,17)}}</p>
+            </a>
+          </li>
+        </ul>
+  </li>
+      <div class="row">
+        <textarea rows="4" placeholder="enter paragraph.." name="paragraph" ngModel [(ngModel)]="paragraph" type="text" required
+                  aria-label="Search" class="form-control"></textarea>
+        <div *ngIf="view" style="margin: 5px 10px"><img alt="" class="avatar" height="80" width="470" [src]="paragraphImagePath+imageName"></div>
+      </div>
+      <div *ngIf="!view" class="row">
+        <button [disabled]="!f.valid" class="btn" style="margin:0 9px" >ADD</button>
+      </div>
+</form>
+    </div>
+
+    <div class="modal-footer" style="background-color: black;border: 1px solid blue"></div>
+  </div>
+</div>

@@ -46,6 +46,25 @@ pic_name varchar(220),
 user_pic_name varchar(220),
 message_date varchar(220)
 )
+create table taps(
+id int PRIMARY KEY AUTO_INCREMENT,
+title varchar(100)
+);
+create table links(
+id int PRIMARY KEY AUTO_INCREMENT,
+label varchar(200),
+tab_id int not null,
+  constraint fk_tap_links foreign key(tab_id) references taps(id));
+  create table paragraphs(
+  id int PRIMARY KEY AUTO_INCREMENT,
+  header varchar(500),
+  paragraph varchar(6300),
+  tutorial_file varchar(300),
+  link_id int not null,
+    constraint fk_link_paragraphs foreign key(link_id) references links(id));
+  
+  
+
 create table product(
 name varchar(220),
 THE_ADMIN varchar(220),
@@ -79,6 +98,7 @@ create table INVOICES(
       price decimal(9,2) not null,
       invoice_id int not null,
       constraint fk_INVOICE_PRODUCTS_INVOICES foreign key(invoice_id) references INVOICES(id));
+	  
 	  
 	  create table INGR (
       id  int not null primary key,

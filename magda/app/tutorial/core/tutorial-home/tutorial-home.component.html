@@ -1,0 +1,10 @@
+<main [ngStyle]="{direction:direc?'rtl':'ltr'}">
+  <ngx-loading-bar color="red"></ngx-loading-bar>
+  <tutorial-header (right_direction)="direc=$event"></tutorial-header>
+
+  <div style="background-color:white " >
+    <app-tab></app-tab>
+    <router-outlet></router-outlet>
+  </div>
+
+</main>

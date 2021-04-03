@@ -24,4 +24,8 @@ strong{
   max-height: max-content;
   max-width: max-content;
 }
-
+/*----------------------------------------------------*/
+.example-action-button {
+  margin-top: 8px;
+  margin-right: 8px;
+}
