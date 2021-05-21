@@ -10,8 +10,7 @@ export class ChattingUser {
     public backgroundImage?: string,
     public theUserAdmin?: string,
     public roles?: string[],
-    public enabled?: boolean,
-    public open?:boolean
+    public enabled?: boolean
   ) {
   }
 

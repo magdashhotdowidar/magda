@@ -1,8 +1,12 @@
 import {
-  AfterViewChecked, Component,
+  AfterViewChecked,
+  Component,
   DoCheck,
-  ElementRef, OnDestroy,
+  ElementRef, EventEmitter,
+  OnDestroy,
   OnInit,
+  Output,
+  Renderer2,
   ViewChild
 } from '@angular/core';
 import {ToastrService} from "ngx-toastr";
@@ -16,14 +20,14 @@ import {Message, MessageService} from "../../infrastructure/services/messages.se
 import {formatDate} from "@angular/common";
 import {Store} from "@ngrx/store";
 import {StoreStates} from "../../infrastructure/store/store.store";
+import {SendMessage} from "../../infrastructure/store/actions/message.action";
 
 import {Title} from "@angular/platform-browser";
 import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
 import {Post, PostService, Comment, Notification} from "../../infrastructure/services/posts.service";
-import {
-  WebSocketChattingService,
-  WebsocketObject
-} from "../../infrastructure/services/web-socket-chatting.service";
+import {Product} from "../../../Product/infrastructure/models/product";
+import {updateContainerClass} from "ngx-bootstrap/positioning/utils";
+import {WebSocketChattingService} from "../../infrastructure/services/web-socket-chatting.service";
 import {WebcamImage} from "ngx-webcam";
 
 
@@ -32,10 +36,8 @@ import {WebcamImage} from "ngx-webcam";
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.css']
 })
-export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck, OnDestroy{
+export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck, OnDestroy {
 
-//if you clicked a button and no event happened you must be export some thing in export array or you must be
-  //imported this module in the front module imports array when it is a lazy loading
   @ViewChild('scrollMe', {static: false}) myScrollContainer: ElementRef;
   date: string = formatDate(new Date(), 'yyyy-MM-dd | hh:mm:ss', 'en-US');
   userName: string = localStorage.getItem(LocalStorage.userName);
@@ -63,7 +65,8 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck, OnD
   webcamImage: WebcamImage = null;
   takePicture: boolean = false;
   chatLikes:number=0;
-  onlineUsers:string[]=[];
+
+  // messages_observe: Observable<Message[]>;
 
   constructor(private toastr: ToastrService,
               private userService: ChattingUserService,
@@ -72,23 +75,22 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck, OnD
               private postService: PostService,
               private title: Title,
               private store: Store<StoreStates>,
-              public webSocket: WebSocketChattingService) {
+              private webSocket: WebSocketChattingService) {
 
   }
 
   ngOnInit() {
     this.title.setTitle(this.userName + ' - main Page')
-    this.webSocket.openWebSocket('real');
-    this.loadUnreadMessages();
     this.loadFriends();
+    this.loadUnreadMessages();
     this.loadPublishedPosts();
-
+    this.webSocket.openWebSocket('real');
   }
 
   loadFriends() {
     this.friendService.getAllUserFriends(this.userName).subscribe((data: ChattingUser[]) => {
         this.friends = data;
-        setTimeout(()=>{this.webSocket.sendRealMessage(new WebsocketObject(null,localStorage.getItem(LocalStorage.userName)));},2000)
+        // console.log(this.friends)
       },
       (error: HttpErrorResponse) => alert(error.message))
   }
@@ -128,8 +130,6 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck, OnD
   ngAfterViewChecked(): void {
     this.direction = localStorage.getItem('direction');
     this.scrollToBottom();
-    this.webSocket.users.reverse();
-    this.onlineUsers=this.webSocket.users;
   }
 
   scrollToBottom(): void {
@@ -163,11 +163,10 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck, OnD
       }
       m.likes=this.chatLikes;
       this.chatLikes=0;
-      this.webSocket.sendRealMessage(new WebsocketObject(m,''));
+      this.webSocket.sendRealMessage(m);
       fd.append('message',JSON.stringify(m));
       this.messageService.sendMessage(fd).subscribe(data => {
-        let messages:Message[]=[];
-        messages=this.webSocket.getWebSocketMessages(this.userName,this.chatWindows[i].windowName);
+          let messages: Message[] = this.webSocket.messagesReal;
 
           this.chatWindows[i].message = '';
           if (messages != null)
@@ -250,10 +249,7 @@ export class MainPageComponent implements OnInit, AfterViewChecked, DoCheck, OnD
   }
 
   ngOnDestroy(): void {
-    this.webSocket.sendRealMessage(new WebsocketObject(null,localStorage.getItem(LocalStorage.userName)));
-    setTimeout(() => {
-      this.webSocket.closeWebSocket();
-    }, 2000)
+    this.webSocket.closeWebSocket();
   }
 
 }

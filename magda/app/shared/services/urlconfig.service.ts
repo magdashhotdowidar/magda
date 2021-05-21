@@ -18,7 +18,6 @@ export class URLConfigService {
     this.configs.P_URL = environment.pURL;
     this.configs.CH_URL = environment.chURL;
     this.configs.U_URL=environment.uURL;
-    this.configs.TUTORIAL=environment.TutorialURL;
     this.configs.websocket_URL=environment.chWebSocketURL;
   }
 
@@ -31,8 +30,6 @@ export class URLConfigService {
         return environment.chURL;
       case Modules.U:
         return environment.uURL;
-      case Modules.TUTORIAL:
-        return environment.TutorialURL;
       case Modules.CH_WEBSOCKET:
         return environment.chWebSocketURL;
     }
@@ -48,6 +45,5 @@ export class AdaayConfig {
   P_URL: string;
   CH_URL: string;
   U_URL:string;
-  TUTORIAL:string;
   websocket_URL:string;
 }

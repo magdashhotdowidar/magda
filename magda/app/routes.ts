@@ -18,7 +18,6 @@ export const appRoutes: Routes = [
       {path:Coding.pyramid,component: BuildByramidComponent},
       {path:Coding.test_chat,component: TestChatComponent},
       {path: Coding.product, loadChildren: () => import('./product/product.module').then(m => m.ProductModule)},
-      {path: Coding.tutorial, loadChildren: () => import('./tutorial/Tutorial.module').then(m => m.TutorialModule)},
       {path: Coding.chatting, loadChildren: () => import('./chatting/chatting.module').then(m => m.ChattingModule)}
     ]
   }

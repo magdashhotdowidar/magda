@@ -98,7 +98,7 @@
                 <button class="btn btn-success" (click)="updatePrivacy()">save</button>
                 </div>
                 <div class="row" style="margin:0 3px">
-                  <button class="btn btn-success" (click)="openBlockUserSettingPoPup=true" data-toggle="modal" data-target="#blockUserPopup"> block users setting
+                  <button class="btn btn-success" (click)="openBlockUserSettingPoPup=true" data-toggle="modal" data-target="#employeePopUp"> block users setting
                       <i class="fa fa-eye" aria-hidden="true" style="color:lime;font-size:x-large "> </i>
                   </button>
                 </div>
@@ -175,7 +175,7 @@
     <div *ngIf="maximize"><img alt="" class="avatar" height="380" width="200" [src]="backgroundImagePath+'f2.gif'"></div>
   </div>
 </div>
-<div class="modal fa fa" id="blockUserPopup" tabindex="-1" role="dialog" *ngIf="openBlockUserSettingPoPup"
+<div class="modal fa fa" id="employeePopUp" tabindex="-1" role="dialog" *ngIf="openBlockUserSettingPoPup"
      aria-labelledby="successLabel" aria-hidden="true">
   <block-user-setting (show-popup)="openBlockUserSettingPoPup=$event" ></block-user-setting>
 </div>

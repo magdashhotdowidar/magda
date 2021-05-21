@@ -18,6 +18,7 @@ import {AuthInterceptor} from './auth/auth.interceptor';
 import {ToastrModule} from 'ngx-toastr';
 import {FrontHeaderComponent} from "./core/front-header/front-header.component";
 import {ModalModule} from "ngx-bootstrap/modal";
+import {TabsModule} from "ngx-bootstrap/tabs";
 import {TooltipModule} from "ngx-bootstrap/tooltip";
 import {CollapseModule} from "ngx-bootstrap/collapse";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
@@ -34,9 +35,6 @@ import {NgxDraggableDomModule} from "ngx-draggable-dom";
 import { BuildByramidComponent } from './core/games/build-byramid/build-byramid.component';
 import { TestChatComponent } from './core/games/test-chat/test-chat.component';
 import { SetBackgroundColorDirective } from './shared/directives/set-background-color.directive';
-import {CloseTagDirective} from "./shared/directives/close-tag.directive";
-
-
 
 
 const appInitializerFn = (appConfig: URLConfigService) => {
@@ -60,13 +58,13 @@ export function createTranslateLoader(http: HttpClient) {
     FrontHeaderComponent,
     BuildByramidComponent,
     TestChatComponent,
-    SetBackgroundColorDirective,
-    CloseTagDirective
+    SetBackgroundColorDirective
   ],
   imports: [
     BrowserModule,
     NgxDraggableDomModule,
     ModalModule.forRoot(),
+    TabsModule.forRoot(),
     TooltipModule.forRoot(),
     CollapseModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
@@ -76,7 +74,7 @@ export function createTranslateLoader(http: HttpClient) {
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     ToastrModule.forRoot(),
-    RouterModule.forRoot(appRoutes, {useHash: true}),
+    RouterModule.forRoot(appRoutes,{useHash:true}),
     LoadingBarHttpClientModule,
     LoadingBarModule,
 
@@ -99,7 +97,6 @@ export function createTranslateLoader(http: HttpClient) {
     },
     {provide: APP_INITIALIZER, useFactory: appInitializerFn, multi: true, deps: [URLConfigService]}],
   exports: [
-    SetBackgroundColorDirective
   ],
   bootstrap: [Frontcomponent]
 })

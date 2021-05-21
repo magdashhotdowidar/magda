@@ -21,6 +21,7 @@ import {ChattingUserComponent} from "./chatting-user/chatting-user.component";
 import {ChattingUserService} from "./chatting-user/chatting-user-infrastructure/chatting-user.service";
 import {AuthGuard} from "../auth/auth.guard";
 import {AuthInterceptor} from "../auth/auth.interceptor";
+import {DropdownDirective} from "./infrastructure/directives/dropdown.directive";
 import {StoreModule} from "@ngrx/store";
 import {messageReducer} from "./infrastructure/store/reducers/message.reducer";
 import {EffectsModule} from "@ngrx/effects";
@@ -33,7 +34,6 @@ import { CameraComponent } from './components/main-page/camera/camera.component'
 import {WebcamModule} from "ngx-webcam";
 import { BlockUserSettingComponent } from './components/personal-page/block-user-setting/block-user-setting.component';
 import {NgxDraggableDomModule} from "ngx-draggable-dom";
-import {SharedModule} from "../shared/shared.module";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -49,6 +49,7 @@ export function createTranslateLoader(http: HttpClient) {
     ChattingSignUpComponent,
     ChattingUserComponent,
     MinimizeDirective,
+    DropdownDirective,
     FriendsFilterPipe,
     PersonalPageComponent,
     ShortenPipe,
@@ -68,7 +69,6 @@ export function createTranslateLoader(http: HttpClient) {
     NgbModule,
     WebcamModule,
     Ng2OrderModule,
-    SharedModule,
     NgbCarouselModule,
     StoreModule.forFeature('messages', messageReducer),
     EffectsModule.forFeature([MessageEffect]),
@@ -83,7 +83,7 @@ export function createTranslateLoader(http: HttpClient) {
     NgxDraggableDomModule
 
   ],
-  providers: [CanDeactivateGuard, ChattingUserService, AuthGuard,
+  providers: [ CanDeactivateGuard,ChattingUserService, AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

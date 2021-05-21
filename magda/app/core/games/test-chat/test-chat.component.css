@@ -15,17 +15,4 @@ li{
   width: 650px;
   margin: 4px 0;
 }
-strong{
-  border-radius: 50%;
-  background-color: #ff6701;
-  color:white;
-  font-size: xx-large;
-  margin: 2px 3px;
-  max-height: max-content;
-  max-width: max-content;
-}
-/*----------------------------------------------------*/
-.example-action-button {
-  margin-top: 8px;
-  margin-right: 8px;
-}
+
