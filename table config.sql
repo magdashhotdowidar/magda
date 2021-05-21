@@ -62,7 +62,13 @@ tab_id int not null,
   tutorial_file varchar(300),
   link_id int not null,
     constraint fk_link_paragraphs foreign key(link_id) references links(id));
-  
+  create table videos(
+   id int PRIMARY KEY AUTO_INCREMENT,
+   name varchar(220),
+   channel varchar(220),
+   uploadDate varchar(220),
+   views LONG
+  )
   
 
 create table product(

@@ -14,8 +14,8 @@ button {
    color: lime;
  }
 button.search {
-  background-color: white;
-  border: 1px solid white;
+  background-color: black;
+  border: 1px solid black;
   font-family: Andalus;
   font-style: italic;
   color:blue;
@@ -28,7 +28,7 @@ button.search {
   max-width: 480px;
 }
 ul{
-  background-color: white;
+  background-color: black;
   z-index: 9;
 }
 li{

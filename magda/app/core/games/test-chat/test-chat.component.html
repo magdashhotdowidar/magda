@@ -15,10 +15,16 @@
 <main >
   <div class="card">
     <div class="card-body">
+      <div *ngFor="let joined of websocketService.joinedArray">
+        <h3 *closeTag class="text-center" [ngStyle]="{color:joined.state=='joined'?'blue':'red'}"
+            style="color: blue">{{joined.state=='joined'&&joined.user!=userName?joined.user+' joined':''}}</h3>
+        <h3 *closeTag class="text-center" [ngStyle]="{color:joined.state=='joined'?'blue':'red'}"
+            style="color: blue">{{joined.state=='leave'&&joined.user!=userName?joined.user+' left':''}}</h3>
+      </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item" *ngFor="let message of websocketService.messagesFake">
-          <strong>{{message.user}}:</strong>
-          <span>{{message.message}}</span>
+        <li class="list-group-item" *ngFor="let message of websocketService.messagesFake" >
+          <strong  [ngStyle]="{'background-color':message.user!=userName?'#ff6701':'blue'}">{{message.user|slice :0:1|uppercase}}</strong>
+          <span style="color: blue">{{ message.message}}</span>
         </li>
 
       </ul>
@@ -27,7 +33,7 @@
   <form (ngSubmit)="sendMessage(sendForm)" #sendForm="ngForm">
     <div class="row">
       <div class="col-md-2">
-        <input type="text" class="form-control" id="input-user" name="user" ngModel>
+        <input type="text" class="form-control" id="input-user" name="user" readonly [(ngModel)]="userName" style="background-color: white;color: blue">
       </div>
       <div class="col-md-8">
         <input type="text" class="form-control" id="input-message" name="message" ngModel>
@@ -37,4 +43,5 @@
       </div>
     </div>
   </form>
+
 </main>

@@ -27,7 +27,7 @@
                 <!----><span *ngIf="unReadMessages.length!=0" style="color:orangered;margin-left: 5px;margin-right: 5px"
                              data-toggle="tooltip" data-placement="right" [title]="friend.username+' un read messages'"
                              class="ng-chat-unread-messages-count unread-messages-counter-container primary-text">{{unReadMessages.length}}</span>
-                <span style="margin: 0 4px" class="ng-chat-participant-status online"></span>
+                <span [ngClass]="{'online':onlineUsers.includes(friend.username)}" style="margin: 0 4px" class="ng-chat-participant-status"></span>
               </div>
             </div>
 

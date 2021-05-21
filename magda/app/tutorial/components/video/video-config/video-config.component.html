@@ -1,0 +1,48 @@
+<!--<div class="text-center view">
+  &lt;!&ndash;Video source&ndash;&gt;
+  <video class="video-fluid" [muted]="true" [autoplay]="false"
+         controls [poster]="paragraphImagePath+'احمد صابر.jpg'"
+         style="border: 9px solid yellow">
+    <source [src]="paragraphImagePath+videoImageName" type="video/mp4" />
+  </video>
+  <div class="mask rgba-indigo-light waves-light" mdbWavesEffect></div>
+</div>
+<hr>-->
+<div class="container">
+  <div class="row">
+    <video id="my_video_1"  width="940px" height="567px" controls preload="auto" [autoplay]="true">
+      <source [src]="videosPath+videoName" type="video/mp4" />
+    </video>
+  </div>
+  <div class="row" style="background-color: black;width: 940px;">
+    <button (click)="playPause()"><i class="fa fa-youtube-play"></i></button>
+    <button (click)="makeBig()" ><i class="fa fa-window-maximize" style="width: 50px;size:B5"></i></button>
+    <button (click)="makeSmall()"><i class="fa fa-window-maximize"></i></button>
+    <button (click)="makeNormal()"><i class="fa fa-window-restore"></i></button>
+    <button (click)="restart();"><i class="fa fa-refresh"></i></button>
+    <button (click)="skip(-10)"><i class="fa fa-step-backward"></i></button>
+    <button (click)="skip(10)"><i class="fa fa-step-forward"></i></button>
+  </div>
+  <!---------------------------------------------------likes part------------------------------------------------------------------>
+  <div class="row" style="border-bottom:1px solid blue;padding:4px 0;margin:4px 0">
+    <div class="col-md-2 text-justify"><i class="fa fa-hand-o-left" style="color: blue;cursor: pointer"
+                                          (click)="increase()" data-toggle="tooltip" data-placement="right" [title]="'add like'"></i>
+      <i *ngIf="likes>0" style="color: orangered">{{likes}}</i></div>
+  <div class="col-md-2 text-justify"><i class="fa fa-hand-o-down" style="color: blue;cursor: pointer"
+                                        (click)="decrease()" data-toggle="tooltip" data-placement="right" [title]="'add dislike'"></i>
+    <i *ngIf="dislikes>0" style="color: orangered">{{dislikes}}</i></div>
+</div>
+
+</div>
+<!--<hr>
+
+<div class="video">
+  <video controls (click)="toggleVideo()" #videoPlayer>
+    <source [src]="paragraphImagePath+videoImageName" type="video/mp4" />
+    Browser not supported
+  </video>
+</div>-->
+
+<!---------------------------------------------------------------------->
+
+

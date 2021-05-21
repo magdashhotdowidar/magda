@@ -1,0 +1,27 @@
+button {
+  cursor: pointer;
+  background-color: black;
+  border: 1px solid blue;
+  color: blue;
+}
+output {
+  font-size: xx-large;
+  min-width: 90px;
+  margin: 0 3px;
+  color: blue;
+  border:none;
+}
+video{
+  cursor: pointer;
+}
+h5{
+  color: blue;
+}
+p{
+  color: blue;
+}
+a{
+  cursor: pointer;
+  color: blue;
+  font-size: x-large;
+}
