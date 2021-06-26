@@ -2,16 +2,16 @@
   "PROJECT": {
     "user": {
       "sign_in": "تسجيل الدخول",
-      "sign_up":"تسجيل",
+      "sign_up": "تسجيل",
       "product": "الرجوع الي المنتجات",
       "log_in": "دخول"
     },
     "home": {
-      "shopping_and_marketing" : "تسويق و تسوق",
+      "shopping_and_marketing": "تسويق و تسوق",
       "chatting": "محادثة",
-      "recruitment":"توظيف",
+      "recruitment": "توظيف",
       "management": "إدارة",
-      "news": "أخبار",
+      "car": " تأجير سيارات",
       "tutorials": "شرح"
     },
     "header": {
@@ -44,6 +44,7 @@
         "enterQuantity": "ادخل الكمية",
         "buy": "شراء",
         "add_to_cart": "اضف الي البطاقة",
+        "cancel": "إلغاء",
         "back_to_online_shopping": "العودة إلي التسوق",
         "back_to_products": "العودة الي إدارة المنتجات",
         "the_product_view": "عرض المنتج",
@@ -86,6 +87,7 @@
         "items_per_page": "عدد العناصر لكل صفحة",
         "search": {
           "all": "بحث بالسم أو الماركة أو الفئة أو السعر أو الكمية ",
+          "cod": "بحث بالكود",
           "name": "بحث بالاسم",
           "brand": "بحث بالماركة",
           "category": "بحث بالفئة",
@@ -100,6 +102,23 @@
           "select_image": "اختر صورة"
         }
       }
+    },
+    "vehicle": {
+      "plateNum": "رقم السيارة",
+      "type": "نوع السيارة",
+      "dailyFee":"الرسوم",
+      "price":"السعر",
+      "numberOfTires": "عدد الإطارات",
+      "loading": "اقصي وزن للحمولة",
+      "goesAbroad": "هل تعبر الحدود?",
+      "color": "للون",
+      "seating": "عدد المقاعد",
+      "doors": "عدد الابواب",
+      "remotely": "استلام و تسلم عن بعد",
+      "horse": "قوة الحصان",
+      "wheelDriveType": "نوع الاطارات",
+      "pic": "صورة المركبة",
+      "add":"إضافة مركبة"
     }
   }
 }

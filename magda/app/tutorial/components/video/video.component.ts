@@ -16,7 +16,9 @@ export class VideoComponent implements OnInit {
 
   videoImagePath: string = Path.videoImagPath;
   videosPath:string=Path.videosPath;
+  dorpDownSearchInput: boolean = false;
   videos:MyVideo[]=[];
+  videosForSearch:MyVideo[]=[];
   openChannel: boolean=false;
   constructor(private router:Router,
               private route:ActivatedRoute,
@@ -26,10 +28,11 @@ export class VideoComponent implements OnInit {
   ngOnInit() {
     this.getAllVideos();
   }
-  watch(video:MyVideo){
+  watch(video:MyVideo,purpose:string){
     if (video.views == null || video.views == 0) video.views = 1;else video.views++;
     this.updateVideoViews(video.name, video.views);
-    this.router.navigate(['watch'],{relativeTo:this.route,queryParams:{v:video.name}})
+    if(purpose=='search')this.closeInputDropDown();
+    this.router.navigate(['watch'],{relativeTo:this.route,queryParams:{name:video.name,channel:video.channel,date:video.uploadDate,views:video.views}})
   }
 
   updateVideoViews(user: string, count: number) {
@@ -40,6 +43,23 @@ export class VideoComponent implements OnInit {
     this.videoService.getVideos().subscribe((data)=>{
       this.videos=data;
     },((error:HttpErrorResponse) =>this.toastr.warning('error in get all videos : '+error.message) ))
+  }
+  getUserByNameOrEmail(video: string) {
+
+    if (video != '' || video != null || video != undefined || video.length > 0)
+      this.videoService.getVideo(video).subscribe(
+        data => {
+          this.videosForSearch = data;
+          this.dorpDownSearchInput = true;
+          // console.log(this.usersForSearch);
+        },
+        (error: HttpErrorResponse) =>{ if (video==''){}else alert(error.message)})
+  }
+
+  closeInputDropDown() {
+    setTimeout(() => {
+      this.dorpDownSearchInput = false;
+    }, 1000);
   }
 
   /*arrayOne(n: number): any[] {

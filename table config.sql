@@ -46,6 +46,63 @@ pic_name varchar(220),
 user_pic_name varchar(220),
 message_date varchar(220)
 )
+///////////////////////////
+create table vehicles(
+id int PRIMARY KEY AUTO_INCREMENT,
+plate_number varchar(15),
+number_of_tires int,
+price int ,
+daily_fee int 
+);
+create table vehicles_trans(
+trans_id int PRIMARY KEY AUTO_INCREMENT,
+plate_num varchar(20),
+total_fees int,
+start_date varchar(25),
+end_date varchar(20),
+location varchar(200),
+rented boolean,
+booked boolean,
+canceled boolean,
+  );
+create table cars(
+id int not null,
+color varchar(25),
+seating_cap int ,
+num_of_doors int ,
+deliver_Dropping_off_remotely boolean,
+  constraint fk_vehicles_cars foreign key(id) references vehicles(id)
+  );
+  create table trucks(
+id int not null,
+loading_cap int ,
+  constraint fk_vehicles_trucks foreign key(id) references vehicles(id)
+  );
+    create table sports_cars(
+id int not null,
+horsepower_HP int ,
+constraint FKad6nenpygjxv4tntnnjaok3ls foreign key (id) references cars
+  );
+  create table suv_cars(
+id int not null,
+wheel_drive_type varchar(30) ,
+  constraint FKlm445gf5ab8u9sp87qouldwsb foreign key(id) references cars(id)
+  );
+    create table sw_cars(
+id int not null,
+loading_cap int ,
+  constraint FKljc36gd5xlxlnlf1wowpw1kv6 foreign key(id) references cars(id)
+  );
+      create table small_truck(
+id int not null,
+  constraint FKd6wunasvasjrg4fhmigiwouo4 foreign key(id) references trucks(id)
+  );
+  create table transport_truck(
+id int not null,
+goes_abroad boolean ,
+  constraint FKq23tkr6r5t8pgd9u2g252bxpu foreign key(id) references trucks(id)
+  );
+///////////////////////
 create table taps(
 id int PRIMARY KEY AUTO_INCREMENT,
 title varchar(100)
@@ -55,6 +112,7 @@ id int PRIMARY KEY AUTO_INCREMENT,
 label varchar(200),
 tab_id int not null,
   constraint fk_tap_links foreign key(tab_id) references taps(id));
+  
   create table paragraphs(
   id int PRIMARY KEY AUTO_INCREMENT,
   header varchar(500),
@@ -62,6 +120,7 @@ tab_id int not null,
   tutorial_file varchar(300),
   link_id int not null,
     constraint fk_link_paragraphs foreign key(link_id) references links(id));
+	
   create table videos(
    id int PRIMARY KEY AUTO_INCREMENT,
    name varchar(220),

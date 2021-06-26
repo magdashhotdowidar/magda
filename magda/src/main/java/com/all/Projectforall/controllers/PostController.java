@@ -1,7 +1,7 @@
 package com.all.Projectforall.controllers;
 
 import com.all.Projectforall.configuration.FileUpload;
-import com.all.Projectforall.exceptions.ResourceNotFoundException;
+import com.all.Projectforall.exceptions.custExcep.ResourceNotFoundException;
 import com.all.Projectforall.models.NotificationModel;
 import com.all.Projectforall.models.PostModel;
 import com.all.Projectforall.services.PostService;

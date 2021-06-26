@@ -1,7 +1,7 @@
 
 <nav class="navbar navbar-expand-sm " style="background-color: black">
   <!-- Links -->
-  <ul class="navbar-nav col-md-10">
+  <ul class="navbar-nav col-md-9">
     <li SetBackgroundColor=black highlight-color=red class="nav-item">
       <a style="cursor: pointer" (click)="this.login('product')"><i style="font-size: large;color: white" class="fa fa-shopping-basket">shopping</i></a>
     </li>
@@ -18,7 +18,7 @@
       <a style="cursor: pointer" (click)="this.login('tutorial')"><i style="font-size:large;color:white" class="fa fa-table"> tutorials</i></a>
     </li>
      </ul>
-  <ul class="nav navbar-nav navbar-right col-md-2">
+  <ul class="nav navbar-nav navbar-right col-md-3">
     <li SetBackgroundColor=black highlight-color=red class="nav-item" >
       <a > <select class="fa fa-eye"  (change)="setLang()" [(ngModel)]="selectedLang" style="background-color:black;color:white;font-size: x-large">
         <option *ngFor="let lang of translate.getLangs()" [value]="lang">{{lang}}<i class="fa fa-eye" style="color: red"></i></option>

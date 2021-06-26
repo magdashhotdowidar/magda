@@ -2,7 +2,6 @@ package com.all.Projectforall.services;
 
 
 import com.all.Projectforall.entitys.FriendRequest;
-import com.all.Projectforall.exceptions.ResourceNotFoundException;
 import com.all.Projectforall.repos.FriendRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,9 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Service

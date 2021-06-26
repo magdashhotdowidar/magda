@@ -1,0 +1,336 @@
+<ngx-loading-bar color="red"></ngx-loading-bar>
+<main>
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+
+          <nav aria-label="breadcrumb" style="background-color: white;color: navy">
+            <ol class="breadcrumb" style="background-color: white;color: navy">
+              <li class="breadcrumb-item"><a routerLink="../" routerLinkActive="active"><i class="fa fa-home"
+                                                                                           style="font-size: xx-large"></i></a>
+              </li>
+              <li class="breadcrumb-item" style="font-size: large"><a routerLink="../sell" style="padding:0px 5px"
+                                                                      routerLinkActive="active"> {{'PROJECT.breadcrumb.selling'|translate}}</a>
+              </li>
+              <li class="breadcrumb-item" style="font-size: large;"><a routerLink="../slider" style="padding:0px 5px"
+                                                                       routerLinkActive="active"> {{'PROJECT.breadcrumb.view_product'|translate}}</a>
+              </li>
+              <li class="breadcrumb-item" style="font-size:large;font-style: italic">
+                <a style="padding:0px 5px;color:lime;cursor: pointer "
+                   (click)="testTable=!testTable"><i class="fa fa-table" aria-hidden="true"
+                                                     style="color:lime;font-size:x-large "></i>{{testTable ? ' View Products Table' : ' EditTable'}}
+                </a>
+              </li>
+              <li class="breadcrumb-item"><a (click)="showAddProductPopup=true"
+                                             style="background-color: white;cursor: pointer;padding:0px 5px"
+                                             data-toggle="modal"
+                                             data-target="#vehiclePopUp">
+                <i class="fa fa-eye" aria-hidden="true"
+                   style="color:lime;font-size:x-large "> {{'PROJECT.breadcrumb.add_product'|translate}}</i></a></li>
+              <li class="breadcrumb-item"><a (click)="showChartPopup=true"
+                                             style="background-color: white;cursor: pointer;padding:0px 5px"
+                                             data-toggle="modal"
+                                             data-target="#chartPopUp">
+                <i class="fa fa-bar-chart" aria-hidden="true"
+                   style="color:magenta;font-size:x-large "> {{'PROJECT.breadcrumb.chart'|translate}}</i></a></li>
+              <!--    <li class="breadcrumb-item"><a (click)="generateProductReport()"
+                                                 style="background-color: white;cursor: pointer;padding:0px 5px">
+                    <i class="fa fa-print" aria-hidden="true"
+                       style="color:blue;font-size:x-large ">  {{'PROJECT.breadcrumb.print'|translate}}</i></a></li>-->
+            </ol>
+          </nav>
+
+        </div>
+      </div>
+      <!--<hr style="border-color: blue">-->
+      <div *ngIf="!testTable" class="row">
+        <div class="col-md-12">
+          <div class="panel panel-primary">
+            <!--         <div class="panel-heading">
+                       <h2 style="color: blue;text-align: center;">Product List</h2>
+                     </div>
+                     <hr style="border-color: blue">
+                     <br/>-->
+            <div class="panel-body">
+              <div class="row" style="margin: 5px 0px">
+                <button [ngStyle]="{color :matchAny?'blue':'yellow'}" [ngClass]="{'btn-warning':matchAny}"
+                        class="btn btn-outline-warning fa-sliders"
+                        style="color: yellow;font-size:large;font-style: italic;max-height: 40px">
+                  <label [ngStyle]="{color :matchAny?'blue':'yellow'}"><input [(ngModel)]="matchAny"
+                                                                              type="checkbox"> {{matchAny ? 'hidden data' : 'show data'}}
+                  </label></button>
+                <div *ngIf="moreOptions">
+                  <button type="button" (click)="getAllVehicles()" STYLE="margin-right:3px" class="btn btn-success ">
+                    <i class="fa fa-arrow-left" aria-hidden="true" style="color: red"></i> ALL VEHICLES <i
+                    class="fa fa-address-book" aria-hidden="true" style="color: red"></i>
+                  </button>
+                  <button type="button" (click)="getAvailableVehicles()" STYLE="margin-right:3px" class="btn btn-success">
+                    <i class="fa fa-edit" aria-hidden="true" style="color: red"></i>AVAILABLE VEHICLES <i
+                    class="fa fa-align-justify" aria-hidden="true" style="color: red"></i>
+                  </button>
+                  <button type="button" STYLE="margin-right:3px" class="btn btn-success">
+                    <select (change)="getCars()"
+                      style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px"
+                      class="form-control form-control-sm"
+                      [(ngModel)]="carOption" name="carsOption"
+                      ngModel required>
+                      <option style="color: blue; font-size: small" *ngFor="let car of carsOption"
+                              [value]="car">{{ car }}</option>
+                    </select>
+                  </button>
+                  <button type="button" STYLE="margin:3px" class="btn btn-success">
+                    <select (change)="getTrucks()"
+                      style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px"
+                      class="form-control form-control-sm"
+                      [(ngModel)]="truckOption" name="trucksOption"
+                      ngModel required>
+                      <option style="color: blue; font-size: small" *ngFor="let truck of trucksOption"
+                              [value]="truck">{{ truck }}</option>
+                    </select>
+                  </button>
+
+                        <button class="dropdown dropdown-toggle btn btn-success" type="button"><span class="input-group-text"
+                                                                            (click)="openPrivacy=!openPrivacy"
+                                                                            style="background-color: green;border-color: blue;margin: 4px"><i
+                          class="fa fa-adjust"
+                          style="font-size: large;color:orangered;border-color: blue">delete</i></span>
+                          <ul class="dropdown-menu " [ngClass]="{show:openPrivacy}"
+                              style="background-color: navy;color:#f91c1e;width: 220px">
+                            <div class="row" style="margin:0 3px"><button class="btn btn-success" style="margin-bottom:3px" (click)="deleteAllVehicle()"> delete all vehicles<i class="fa fa-eye" style="color:lime;font-size:x-large "> </i></button></div>
+                            <div class="row" style="margin:0 3px"><button class="btn btn-success" (click)="deleteAllVehicleNull()"> delete nulls plateNum<i class="fa fa-eye" style="color:lime;font-size:x-large "> </i></button></div>
+                          </ul>
+                        </button>
+                  <button type="button"  STYLE="margin-right:3px"
+                          class="btn btn-success">
+                    <i class="fa fa-eye" aria-hidden="true"></i>SEARCH <i class="fa fa-search" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <button *ngIf="!moreOptions" type="button" (click)="moreOptions=true" STYLE="margin-right:3px"
+                        class="btn btn-link">
+                  <i class="fa fa-angle-left" aria-hidden="true" style="color: red"></i> MORE OPTIONS <i
+                  class="fa fa-eye"
+                  aria-hidden="true"
+                  style="color: red"></i>
+                </button>
+              </div>
+
+            <div class="row" style="margin: 0px 2px">  <input type="text" class="search-query form-control "
+                     placeholder="{{'search by plate num or daily fees  or loading capacity'}}"
+                     name="searchAll" style="color: blue;text-align: center;width: 700px"
+                     [(ngModel)]="searchByAll"/>
+              <h6 >عدد السيارات <i style="color: blue">{{cars?.length}}</i>-{{'سيارة'}}</h6>
+            </div>
+              <table class="table table-striped table-bordered table-sm " cellspacing="0" width="100% "
+                     style="text-align: center">
+                <thead>
+                <tr style="color: lime">
+                  <th class="th-sm">{{'PROJECT.vehicle.pic'|translate}}</th>
+                  <th (click)="sort('plateNumber')" class="th-sm">{{'PROJECT.vehicle.plateNum'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+                  <th (click)="sort('vehicleType')" class="th-sm">{{'PROJECT.vehicle.type'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+                  <th  (click)="sort('dailyFee')"
+                       class="th-sm">{{'PROJECT.vehicle.dailyFee'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+                  <th  (click)="sort('price')" class="th-sm">{{'PROJECT.vehicle.price'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-amount-desc ':reverse,' fa-sort-amount-asc ':!reverse}"></span></th>
+                  <th *ngIf="matchAny&&carOption!='select car'||!matchAny&&carOption=='select car'" (click)="sort('numberOfTires')" class="th-sm"
+                       style="min-width: 170px">{{'PROJECT.vehicle.numberOfTires'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-numeric-desc ':reverse,'fa-sort-numeric-asc ':!reverse}"></span></th>
+                  <th *ngIf=" truckOption!='select truck'||carOption=='sw'" (click)="sort('loadingCap')" class="th-sm"
+                      style="min-width: 170px">{{'PROJECT.vehicle.loading'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-numeric-desc ':reverse,'fa-sort-numeric-asc ':!reverse}"></span></th>
+                  <th *ngIf=" truckOption!='select truck'" (click)="sort('goesAbroad')" style="min-width: 170px"
+                      class="th-sm">{{'PROJECT.vehicle.goesAbroad'|translate}}
+                    <span class="fa fa-sort " [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
+                  <th *ngIf="carOption!='select car'" (click)="sort('color')"
+                      class="th-sm">{{'PROJECT.vehicle.color'|translate}}
+                    <span class="fa fa-sort " [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
+                  <th *ngIf="!matchAny&&carOption!='select car'" (click)="sort('seatingCap')"
+                      class="th-sm">{{'PROJECT.vehicle.seating'|translate}}
+                    <span class="fa fa-sort " [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
+                  <th *ngIf="matchAny&&carOption!='select car'" (click)="sort('numberOfDoors')"
+                      class="th-sm">{{'PROJECT.vehicle.doors'|translate}}
+                    <span class="fa fa-sort " [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
+                  <th *ngIf="!matchAny&&carOption!='select car'" (click)="sort('deliverDroppingOffRemotely')" style="min-width: 170px"
+                      class="th-sm">{{'PROJECT.vehicle.remotely'|translate}}
+                    <span class="fa fa-sort " [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
+                  <th *ngIf="carOption=='sport'" (click)="sort('horsepowerHP')"
+                      class="th-sm">{{'PROJECT.vehicle.horse'|translate}}
+                    <span class="fa fa-sort " [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
+                  <th *ngIf="carOption=='suv'" (click)="sort('wheelDriveType')"
+                      class="th-sm">{{'PROJECT.vehicle.wheelDriveType'|translate}}
+                    <span class="fa fa-sort " [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
+                  <th class="th-sm" style="min-width:190px ">{{'PROJECT.product.edit.actions'|translate}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="color:blue;border-color: blue">
+                  <td>
+
+                  </td>
+                  <td>
+                    <input type="text" class="search-query form-control "
+                           placeholder="{{'PROJECT.vehicle.plateNum'|translate}}"
+                           name="searchName" style="color: blue"
+                           [(ngModel)]="searchByName"/>
+                  </td>
+                  <td>
+                    <input type="text" class="search-query form-control "  style="color: blue"/>
+                  </td>
+                  <td>
+                    <input type="text" class="search-query form-control "
+                           placeholder="{{'PROJECT.vehicle.dailyFee'|translate}}"
+                           name="searchName" style="color: blue"
+                           [(ngModel)]="searchByName"/>
+                </td>
+                  <td>
+                    <input type="text" class="search-query form-control " name="searchName" style="color: blue"/>
+                  </td>
+                  <td *ngIf="matchAny&&carOption!='select car'||!matchAny&&carOption=='select car'"><input type="text" class="search-query form-control " name="searchName" style="color: blue"/></td>
+                  <td *ngIf="truckOption!='select truck'||carOption=='sw'">
+                    <input type="text" class="search-query form-control "
+                           placeholder="{{'PROJECT.vehicle.loading'|translate}}"
+                           name="searchName" style="color: blue"
+                           [(ngModel)]="searchByBrand"/></td>
+                  <td *ngIf=" truckOption!='select truck'"><input type="text" class="search-query form-control " name="searchName" style="color: blue"/></td>
+                  <td *ngIf="carOption!='select car'"><input type="text" class="search-query form-control " name="searchName" style="color: blue"/></td>
+                  <td *ngIf="!matchAny&&carOption!='select car'"><input type="text" class="search-query form-control " name="searchName" style="color: blue"/></td>
+                  <td *ngIf="matchAny&&carOption!='select car'"><input type="text" class="search-query form-control " name="searchName" style="color: blue"/></td>
+                  <td *ngIf="!matchAny&&carOption!='select car'"><input type="text" class="search-query form-control " name="searchName" style="color: blue"/></td>
+                  <td *ngIf="carOption=='sport'"><input type="text" class="search-query form-control " name="searchName" style="color: blue"/></td>
+                  <td *ngIf="carOption=='suv'"><input type="text" class="search-query form-control " name="searchName" style="color: blue"/></td>
+                  <td></td>
+                </tr>
+                <tr
+                  *ngFor="let v of cars|orderBy:key:reverse
+                  | paginate: { itemsPerPage: itemsPerPage, currentPage: p }
+                                                 |vehicleFilter:searchByAll:searchByName:searchByBrand:searchByCategory"
+
+                  style="color:blue ">
+                  <td style="width:140px"><img [src]="imgPath+v.imageName" class="embed-responsive" height="50px"
+                                               width="30px"></td>
+                  <td>{{v.plateNumber|shorten:11}}</td>
+                  <td>{{v.vehicleType|shorten:11}}</td>
+                  <td >{{v.dailyFee}}</td>
+                  <td >{{v.price}}<i class="fa fa-dollar"></i></td>
+                  <td *ngIf="matchAny&&carOption!='select car'||!matchAny&&carOption=='select car'" >{{v.numberOfTires|shorten:8}}</td>
+                  <td *ngIf="truckOption!='select truck'||carOption=='sw'" style="width: 160px">{{v.loadingCap|shorten:8}}</td>
+                  <td *ngIf=" truckOption!='select truck'">{{v.goesAbroad|shorten:8}}</td>
+                  <td *ngIf="carOption!='select car'">{{v.color|shorten:8}}</td>
+                  <td *ngIf="!matchAny&&carOption!='select car'">{{v.seatingCap|shorten:8}}</td>
+                  <td *ngIf="matchAny&&carOption!='select car'">{{v.numOfDoors|shorten:8}}</td>
+                  <td *ngIf="!matchAny&&carOption!='select car'" style="width: 170px">{{v.deliverDroppingOffRemotely|shorten:8}}</td>
+                  <td *ngIf="carOption=='sport'">{{v.horsepowerHP|shorten:8}}</td>
+                  <td *ngIf="carOption=='suv'">{{v.wheelDriveType|shorten:8}}</td>
+                  <td style="min-width: 170px">
+                    <button (click)="updateProduct(v.plateNumber)" class="btn btn-primary" style=""
+                            data-toggle="tooltip" data-placement="right"
+                            title="{{'PROJECT.product.edit.tap.product_edit'|translate}}"><i
+                      class="fa fa-edit"></i></button>
+                    <button (click)=" productDetails(v.plateNumber)" class="btn btn-success" style=""
+                            data-toggle="tooltip" data-placement="right"
+                            title="{{'PROJECT.product.edit.tap.product_details'|translate}}"><i
+                      class="fa fa-eye"></i></button>
+                    <button (click)="deleteVehicle(v.plateNumber)" class="btn btn-info"
+                            data-toggle="tooltip" data-placement="right"
+                            title="{{'PROJECT.product.edit.tap.product_delete'|translate}}"><i
+                      class="fa fa-recycle"></i>
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+
+                <tfoot>
+                <tr style="color: lime">
+                  <th class="th-sm">{{'PROJECT.vehicle.pic'|translate}}</th>
+                  <th (click)="sort('plateNumber')" class="th-sm">{{'PROJECT.vehicle.plateNum'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+                  <th (click)="sort('vehicleType')" class="th-sm">{{'PROJECT.vehicle.type'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+                  <th  (click)="sort('dailyFee')"
+                       class="th-sm">{{'PROJECT.vehicle.dailyFee'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+                  <th  (click)="sort('price')" class="th-sm">{{'PROJECT.vehicle.price'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-amount-desc ':reverse,' fa-sort-amount-asc ':!reverse}"></span></th>
+                  <th *ngIf="matchAny&&carOption!='select car'||!matchAny&&carOption=='select car'" (click)="sort('numberOfTires')" class="th-sm"
+                      style="min-width: 170px">{{'PROJECT.vehicle.numberOfTires'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-numeric-desc ':reverse,'fa-sort-numeric-asc ':!reverse}"></span></th>
+                  <th *ngIf=" truckOption!='select truck'||carOption=='sw'" (click)="sort('loadingCap')" class="th-sm"
+                      style="min-width: 170px">{{'PROJECT.vehicle.loading'|translate}}
+                    <span class="fa fa-sort"
+                          [ngClass]="{'fa-sort-numeric-desc ':reverse,'fa-sort-numeric-asc ':!reverse}"></span></th>
+                  <th *ngIf=" truckOption!='select truck'" (click)="sort('goesAbroad')" style="min-width: 170px"
+                      class="th-sm">{{'PROJECT.vehicle.goesAbroad'|translate}}
+                    <span class="fa fa-sort " [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
+                  <th *ngIf="carOption!='select car'" (click)="sort('color')"
+                      class="th-sm">{{'PROJECT.vehicle.color'|translate}}
+                    <span class="fa fa-sort " [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
+                  <th *ngIf="!matchAny&&carOption!='select car'" (click)="sort('seatingCap')"
+                      class="th-sm">{{'PROJECT.vehicle.seating'|translate}}
+                    <span class="fa fa-sort " [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
+                  <th *ngIf="matchAny&&carOption!='select car'" (click)="sort('numberOfDoors')"
+                      class="th-sm">{{'PROJECT.vehicle.doors'|translate}}
+                    <span class="fa fa-sort " [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
+                  <th *ngIf="!matchAny&&carOption!='select car'" (click)="sort('deliverDroppingOffRemotely')" style="min-width: 170px"
+                      class="th-sm">{{'PROJECT.vehicle.remotely'|translate}}
+                    <span class="fa fa-sort " [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
+                  <th *ngIf="carOption=='sport'" (click)="sort('horsepowerHP')"
+                      class="th-sm">{{'PROJECT.vehicle.horse'|translate}}
+                    <span class="fa fa-sort " [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
+                  <th *ngIf="carOption=='suv'" (click)="sort('wheelDriveType')"
+                      class="th-sm">{{'PROJECT.vehicle.wheelDriveType'|translate}}
+                    <span class="fa fa-sort " [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
+                  <th class="th-sm" style="min-width:190px ">{{'PROJECT.product.edit.actions'|translate}}</th>
+                </tr>
+                </tfoot>
+              </table>
+              <div class="row">
+                <div class="row">
+                  <div class="col-md-9">
+                    <label style="color: blue">{{'PROJECT.product.edit.items_per_page'|translate}}</label>
+                  </div>
+                  <div class="col-md-3">
+
+                    <select
+                      style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px;width: fit-content;;border-bottom-color: blue"
+                      class="form-control form-control-sm text-center"
+                      [(ngModel)]="itemsPerPage"
+                      ngModel required>
+                      <option style="color: blue; font-size: small" *ngFor="let item of items"
+                              [value]="item">{{ item }}</option>
+                    </select>
+
+                  </div>
+                </div>
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal fa fa" id="vehiclePopUp" tabindex="-1" role="dialog" *ngIf="showAddProductPopup"
+     aria-labelledby="successLabel" aria-hidden="true">
+  <add-vehicle-popup (show-popup)="showAddProductPopup=$event"
+                     (new-vehicle)="addNewProduct($event)"></add-vehicle-popup>
+</div>
+
+
+

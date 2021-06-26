@@ -1,14 +1,12 @@
 package com.all.Projectforall.controllers;
 
 import com.all.Projectforall.configuration.FileUpload;
-import com.all.Projectforall.entitys.Product;
-import com.all.Projectforall.exceptions.ResourceNotFoundException;
+import com.all.Projectforall.exceptions.custExcep.ResourceNotFoundException;
 import com.all.Projectforall.models.ProductModel;
 import com.all.Projectforall.responses.ProductResponse;
 import com.all.Projectforall.services.ProductService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

@@ -2,16 +2,16 @@
   "PROJECT": {
     "user": {
       "sign_in": "Sign In",
-      "sign_up":"Sign Up",
+      "sign_up": "Sign Up",
       "product": "Back To Product",
       "log_in": "Log In"
     },
     "home": {
-      "shopping_and_marketing" : "Shopping & Marketing",
+      "shopping_and_marketing": "Shopping & Marketing",
       "chatting": "Chatting",
-      "recruitment":"Recruitment",
+      "recruitment": "Recruitment",
       "management": "Management",
-      "news": "NEWS",
+      "car": "CAR HIRING",
       "tutorials": "Tutorials"
     },
     "header": {
@@ -44,6 +44,7 @@
         "enterQuantity": "Enter The Quantity",
         "buy": "BUY",
         "add_to_cart": "Add To Cart",
+        "cancel": "CANCEL",
         "back_to_online_shopping": "Back To ONLINE SHOPPING",
         "back_to_products": "Back To Products Edit",
         "the_product_view": "THE PRODUCT VIEW",
@@ -86,6 +87,7 @@
         "items_per_page": "Items Per Page",
         "search": {
           "all": "search By All",
+          "cod": "search By Cod",
           "name": "SB_Name",
           "brand": "SB_Brand",
           "category": "SB_Category",
@@ -100,6 +102,23 @@
           "select_image": "IMAGES"
         }
       }
+    },
+    "vehicle": {
+      "plateNum": "Plate Number",
+      "type": "Vehicle Type",
+      "dailyFee":"Fees",
+      "price":"Price",
+      "numberOfTires": "tires num",
+      "loading": "loading capacity",
+      "goesAbroad": "goes abroad?",
+      "color": "color",
+      "seating": "seating capacity",
+      "doors": "doors num",
+      "remotely": "deliver remotely",
+      "horse": "horse power",
+      "wheelDriveType": "wheel type",
+      "pic": "vehicle picture",
+      "add": "ADD VEHICLE"
     }
   }
 }

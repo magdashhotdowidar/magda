@@ -2,7 +2,7 @@ package com.all.Projectforall.services;
 
 import com.all.Projectforall.entitys.InvoProduct;
 import com.all.Projectforall.entitys.InvoiceA;
-import com.all.Projectforall.exceptions.ResourceNotFoundException;
+import com.all.Projectforall.exceptions.custExcep.ResourceNotFoundException;
 import com.all.Projectforall.jasperReports.services.ProductReportService;
 import com.all.Projectforall.models.InvoiceModel;
 import com.all.Projectforall.repos.InvoProductRepository;
@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import java.util.concurrent.CompletableFuture;

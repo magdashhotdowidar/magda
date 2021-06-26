@@ -30,11 +30,11 @@ public class VideoService {
         return CompletableFuture.completedFuture(videoModelList);
     }
 
-@Transactional
+    @Transactional
     public Long updateVideoViews(String name, Long views) {
-        List<VideoModel> videoModelList = repo.findByNameLike(  name ).stream().map(VideoModel::new).collect(Collectors.toList());
+        List<VideoModel> videoModelList = repo.findByNameLike(name).stream().map(VideoModel::new).collect(Collectors.toList());
         videoModelList.get(0).setViews(views);
-        repo.updateVideoViews(videoModelList.get(0).getName(),videoModelList.get(0).getViews());
+        repo.updateVideoViews(videoModelList.get(0).getName(), videoModelList.get(0).getViews());
         return views;
     }
 

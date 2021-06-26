@@ -1,6 +1,8 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Path} from "../../../../shared/enums/path.enum";
 import {ToastrService} from "ngx-toastr";
+import {MyVideo} from "../../../infrastructure/services/video.service";
+import {LocalStorage} from "../../../../shared/enums/local-storage-coding.enum";
 
 @Component({
   selector: 'video-config',
@@ -8,9 +10,10 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./video-config.component.css']
 })
 export class VideoConfigComponent implements OnInit {
-
+  userImage: string = localStorage.getItem(LocalStorage.userImage);
+  userImagePath:string=Path.userImagePath;
   videosPath: string = Path.videosPath;
-  @Input() videoName: string = '';
+  @Input() video:MyVideo = new MyVideo();
 
   constructor(private toastr: ToastrService) {
   }

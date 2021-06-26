@@ -1,0 +1,89 @@
+<h2 xmlns="http://www.w3.org/1999/html" style="text-align: center;color: lime">{{'PROJECT.product.sell.the_product_view'|translate}}</h2>
+
+<hr/>
+<div *ngIf="vehicle">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div>
+          <label><b>{{'PROJECT.vehicle.plateNum'|translate}} - </b></label>
+          <span>{{vehicle.plateNumber}}</span>
+        </div>
+        <div>
+          <label><b>{{'PROJECT.vehicle.type'|translate}} - </b></label>
+          <span>{{vehicle.vehicleType}}</span>
+        </div>
+        <div>
+          <label><b>{{'PROJECT.vehicle.dailyFee'|translate}} - </b></label>
+          <span>{{vehicle.dailyFee}}</span>
+        </div>
+        <div>
+          <label><b>{{'PROJECT.vehicle.numberOfTires'|translate}} - </b></label>
+          <span>{{vehicle.numberOfTires}}</span>
+        </div>
+        <div>
+          <label><b>{{'PROJECT.vehicle.price'|translate}} - </b></label>
+          <span>{{vehicle.price}}<i class="fa fa-dollar"></i></span>
+        </div>
+        <div *ngIf="vehicle.vehicleType=='transport'||vehicle.vehicleType=='truck'||vehicle.vehicleType=='sw'">
+          <label><b>{{'PROJECT.vehicle.loading'|translate}} - </b></label>
+          <span>{{vehicle.loadingCap}}</span>
+        </div>
+        <div *ngIf="vehicle.vehicleType=='transport'">
+          <label><b>{{'PROJECT.vehicle.goesAbroad'|translate}} - </b></label>
+          <span>{{vehicle.goesAbroad}}</span>
+        </div>
+        <div *ngIf="vehicle.vehicleType=='sport'||vehicle.vehicleType=='suv'||vehicle.vehicleType=='sw'||vehicle.vehicleType=='car'">
+          <label><b>{{'PROJECT.vehicle.remotely'|translate}} - </b></label>
+          <span>{{vehicle.deliverDroppingOffRemotely}}</span>
+        </div>
+        <div *ngIf="vehicle.vehicleType=='sport'||vehicle.vehicleType=='suv'||vehicle.vehicleType=='sw'||vehicle.vehicleType=='car'">
+          <label><b>{{'PROJECT.vehicle.color'|translate}} - </b></label>
+          <span>{{vehicle.color}}</span>
+        </div>
+        <div *ngIf="vehicle.vehicleType=='sport'||vehicle.vehicleType=='suv'||vehicle.vehicleType=='sw'||vehicle.vehicleType=='car'">
+          <label><b>{{'PROJECT.vehicle.seating'|translate}} - </b></label>
+          <span>{{vehicle.seatingCap}}</span>
+        </div>
+        <div *ngIf="vehicle.vehicleType=='sport'||vehicle.vehicleType=='suv'||vehicle.vehicleType=='sw'||vehicle.vehicleType=='car'">
+          <label><b>{{'PROJECT.vehicle.doors'|translate}} - </b></label>
+          <span>{{vehicle.numOfDoors}}</span>
+        </div>
+        <div *ngIf="vehicle.vehicleType=='sport'">
+          <label><b>{{'PROJECT.vehicle.horse'|translate}} - </b></label>
+          <span>{{vehicle.horsepowerHP}}</span>
+        </div>
+        <div *ngIf="vehicle.vehicleType=='suv'">
+          <label><b>{{'PROJECT.vehicle.wheelDriveType'|translate}} - </b></label>
+          <span>{{vehicle.wheelDriveType}}</span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <img [src]="imgPath+vehicle.imageName" class="embed-responsive" height="300px" width="170px">
+      </div>
+    </div>
+    <hr style="border: 1px solid blue">
+    <div class="row">
+      <button class="btn "  style="font-size:x-large;color: white;background-color: darkblue;cursor: pointer;padding:0px 5px;margin: 0 3px" routerLink="../../">Back to Viewer</button>
+      <button *ngIf="role==l.ROLE_ADMIN" (click)="list()" class="btn "  style="font-size:x-large;color: white;background-color: darkgreen;cursor: pointer;padding:0px 5px;margin: 0 2px">Go to Managing</button>
+      <button class="btn " (click)="showTransacPopup=true"
+              style="font-size:x-large;color: white;background-color: black;cursor: pointer;padding:0px 5px;margin: 0 3px"
+                                     data-toggle="modal" data-target="#transactionPopUp">
+        <i class="fa fa-transgender-alt" aria-hidden="true" style="color:white;font-size:x-large "> {{'Go To TRANSACTION'}}</i></button>
+    </div>
+  </div>
+</div>
+<div class="modal fa fa" id="transactionPopUp" tabindex="-1" role="dialog" *ngIf="showTransacPopup"
+     aria-labelledby="successLabel" aria-hidden="true">
+  <vehicle-transaction [plate-num]="plateNum" (show-popup)="showTransacPopup=$event"></vehicle-transaction>
+</div>
+
+
+
+
+
+
+
+
+
+

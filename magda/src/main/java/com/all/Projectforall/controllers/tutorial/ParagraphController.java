@@ -1,7 +1,7 @@
 package com.all.Projectforall.controllers.tutorial;
 
 import com.all.Projectforall.configuration.FileUpload;
-import com.all.Projectforall.exceptions.ResourceNotFoundException;
+import com.all.Projectforall.exceptions.custExcep.ResourceNotFoundException;
 import com.all.Projectforall.models.tutorial.ParagraphModel;
 import com.all.Projectforall.services.tutorial.ParagraphService;
 import com.google.gson.Gson;

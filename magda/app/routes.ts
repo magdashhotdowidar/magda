@@ -19,6 +19,7 @@ export const appRoutes: Routes = [
       {path:Coding.test_chat,component: TestChatComponent},
       {path: Coding.product, loadChildren: () => import('./product/product.module').then(m => m.ProductModule)},
       {path: Coding.tutorial, loadChildren: () => import('./tutorial/Tutorial.module').then(m => m.TutorialModule)},
+      {path: Coding.car_hiring, loadChildren: () => import('./car-hiring/car-hiring.module').then(m => m.CarHiringModule)},
       {path: Coding.chatting, loadChildren: () => import('./chatting/chatting.module').then(m => m.ChattingModule)}
     ]
   }

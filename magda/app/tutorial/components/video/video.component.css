@@ -12,3 +12,7 @@ a{
   color: blue;
   font-size: x-large;
 }
+input{
+  border: 1px solid blue;
+  width: 400px;
+}

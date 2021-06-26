@@ -2,8 +2,7 @@ package com.all.Projectforall.services;
 
 
 import com.all.Projectforall.entitys.Product;
-import com.all.Projectforall.entitys.compositkey.ProductKey;
-import com.all.Projectforall.exceptions.ResourceNotFoundException;
+import com.all.Projectforall.exceptions.custExcep.ResourceNotFoundException;
 import com.all.Projectforall.models.ProductModel;
 import com.all.Projectforall.repos.InvoiceRepository;
 import com.all.Projectforall.repos.ProductRepository;

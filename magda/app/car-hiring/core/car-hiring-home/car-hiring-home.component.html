@@ -1,0 +1,9 @@
+<main [ngStyle]="{direction:direc?'rtl':'ltr'}">
+  <ngx-loading-bar color="red"></ngx-loading-bar>
+  <car-hiring-header (right_direction)="direc=$event"></car-hiring-header>
+
+  <div style="background-color:white " >
+    <router-outlet></router-outlet>
+  </div>
+
+</main>

@@ -1,0 +1,38 @@
+<section class="main-section" style="background-color:navy">
+<!--  <a href="#" class="notification">
+    <span>Inbox</span>
+    <span class="badge">3</span>
+  </a>
+  <i class="material-icons" style="font-size:48px;color:red">notifications_none</i>-->
+  <div class="container" style="background-color: blue">
+    <div class="row">
+      <div class="col-md-12">
+        <ngb-carousel *ngIf="carouselData?.length>0" style="background-color: #FFC312">
+          <ng-template ngbSlide *ngFor="let p of carouselData ;let i=index">
+            <div class="picsum-img-wrapper" style="background-color:red">
+              <img [src]="imgPath+p?.imageName" class="embed-responsive" height="400px" width="900px"
+                   alt="{{'Random slide'+(i+1)}}">
+            </div>
+            <div class="carousel-caption">
+              <h3 style="color: blue"> {{'slide No-' + (i + 1) + '-' + p?.vehicleType}}</h3>
+              <p style="color:yellow;">{{p?.plateNumber}}</p>
+            </div>
+          </ng-template>
+
+        </ngb-carousel>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="main-section" style="background-color:navy">
+  <div class="container" style="background-color:yellow">
+    <span class="row" *ngFor="let group of viewerData">
+
+      <legend class="text-center" style="border:1px solid magenta"><h1 *ngIf="group[0]" style="color:red">THE <span style="color: blue">{{group[0].vehicleType}}</span> TYPE</h1> </legend>
+        <fieldset class="col-md-3" *ngFor="let p of group"  style="border:2px solid white">
+
+           <car-item   [vehicle]="p"></car-item>
+        </fieldset>
+    </span>
+  </div>
+</section>

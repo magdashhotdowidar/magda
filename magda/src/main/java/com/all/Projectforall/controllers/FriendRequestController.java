@@ -1,10 +1,6 @@
 package com.all.Projectforall.controllers;
 
-import com.all.Projectforall.entitys.Cart;
 import com.all.Projectforall.entitys.FriendRequest;
-import com.all.Projectforall.exceptions.ResourceNotFoundException;
-import com.all.Projectforall.models.CartModel;
-import com.all.Projectforall.services.CartService;
 import com.all.Projectforall.services.FriendRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +10,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController

@@ -2,20 +2,15 @@ package com.all.Projectforall.services;
 
 
 import com.all.Projectforall.entitys.Category;
-import com.all.Projectforall.entitys.Product;
-import com.all.Projectforall.exceptions.ResourceNotFoundException;
+import com.all.Projectforall.exceptions.custExcep.ResourceNotFoundException;
 import com.all.Projectforall.models.CategoryModel;
-import com.all.Projectforall.models.ProductModel;
 import com.all.Projectforall.repos.CategoryRepository;
-import com.all.Projectforall.repos.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

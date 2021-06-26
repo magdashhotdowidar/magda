@@ -1,0 +1,22 @@
+<a
+  style="cursor: pointer;"
+  (click)="vehicleDetails(vehicle.plateNumber)"
+  routerLinkActive="active"
+  class="list-group-item clearfix">
+  <div class="row">
+    <span class="col-md-12">
+        <img
+          [src]="imgPath+vehicle.imageName"
+          alt="{{ vehicle.plateNumber}}"
+          class="img-responsive"
+          style="height: 180px;width: 170px">
+      </span>
+  <div class="col-md-12 ">
+    <h3 class="list-group-item-heading" style="color: blue">{{ vehicle.plateNumber }}</h3>
+    <p class="list-group-item-text" style="color:lime"> <i class="fa fa-dollar">{{vehicle.dailyFee }}</i> - daily fees</p>
+    <p class="list-group-item-text" style="font-size: small;color: blue">{{ 'Type - ' + vehicle.vehicleType }}</p>
+    <p class="list-group-item-text" style="color:red"><i class="fa fa-dollar" >{{vehicle.price }}</i>-price</p>
+  </div>
+  </div>
+
+</a>

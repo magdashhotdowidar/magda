@@ -1,5 +1,6 @@
 export enum Path {
   productImagePath='../assets/images/products/',
+  vehicleImagePath='../assets/images/vehicles/',
   userImagePath='../assets/images/users/',
   ASaberWordArt='../assets/images/users/ASaberWordArt.jpg',
   backgroundPath='../assets/images/background/',

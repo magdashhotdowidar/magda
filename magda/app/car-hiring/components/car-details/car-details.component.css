@@ -1,0 +1,19 @@
+label{
+  color: blue;
+  font-size: x-large;
+}
+span{
+  color:lime;
+  font-size: x-large;
+}
+button{
+  color: white;
+}
+input.ng-invalid.ng-touched{
+  border: 1px solid  red;
+}
+input{
+  border: 1px solid  blue;
+  text-align: center;
+  align-content: center;
+}

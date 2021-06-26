@@ -96,6 +96,12 @@ export class ChattingHeaderComponent implements OnInit {
         (error: HttpErrorResponse) =>{ if (nameOrEmail==''){}else alert(error.message)})
     }
 
+  closeInputDropDown() {
+    setTimeout(() => {
+      this.dorpDownSearchInput = false;
+    }, 1000);
+  }
+
 
   getFriendRquests() {
     this.friendRequestService.getRequestByTo(this.userName).subscribe(data => {
@@ -122,11 +128,6 @@ export class ChattingHeaderComponent implements OnInit {
     this.userService.Logout();
   }
 
-  closeInputDropDown() {
-    setTimeout(() => {
-      this.dorpDownSearchInput = false;
-    }, 1000);
-  }
 
   addFriend(friendRequest: FriendRequest) {
     let friendName: string = friendRequest.from;

@@ -1,0 +1,52 @@
+input.ng-invalid.ng-touched {
+  border: none;
+}
+div.but{
+  margin:0 2px;
+  padding:0 0;
+}
+button{
+  color: blue;
+  margin-right: 2px;
+}
+button>i{
+  color: red;
+}
+.model-header-button{
+  cursor: pointer;
+  color: white;
+  background-color: black;
+  font-size: x-large;
+}
+.search{
+  background-color:white;
+  border: 1px solid blue;
+  color: blue;
+  width: 100px;
+  margin: 0 20px;
+}
+
+input {
+  border: none;
+  color: blue;
+  font-size: large;
+  cursor: pointer;
+  border: 1px solid blue;
+}
+hr{
+  border: 1px solid blue;
+}
+
+textarea {
+  border: none;
+  color: blue;
+  font-size: large;
+}
+label{
+  color:blue;
+  font-style: italic;
+  font-family: Arial;
+  font-size: x-large;
+}
+
+

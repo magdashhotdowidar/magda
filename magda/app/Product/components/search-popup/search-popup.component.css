@@ -1,8 +1,10 @@
 input.ng-invalid.ng-touched{
   border: 1px solid  red;
+  min-width: 200px;
 }
 input{
   border: 1px solid  blue;
+  min-width: 200px;
 }
 thead>tr>th {
   cursor: pointer;

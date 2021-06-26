@@ -4,11 +4,12 @@ import com.all.Projectforall.auth.entitys.MyAuthority;
 import com.all.Projectforall.auth.entitys.MyUser;
 import com.all.Projectforall.auth.model.Authusermodel;
 import com.all.Projectforall.auth.repos.Usersandauthoritiesrepos;
-import com.all.Projectforall.entitys.InvoProduct;
-import com.all.Projectforall.exceptions.ResourceNotFoundException;
+import com.all.Projectforall.entitys.vehicle_hiring.Vehicle;
+import com.all.Projectforall.entitys.vehicle_hiring.vehicles.Truck;
+import com.all.Projectforall.entitys.vehicle_hiring.vehicles.trucks.TransportTruck;
+import com.all.Projectforall.exceptions.custExcep.ResourceNotFoundException;
 import com.all.Projectforall.models.InvoiceModel;
-import com.all.Projectforall.models.ProductModel;
-import com.all.Projectforall.repos.InvoiceRepository;
+import com.all.Projectforall.repos.vehicle_hiring.VehicleRepository;
 import com.all.Projectforall.services.InvoiceService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.plaf.PanelUI;
-import javax.xml.crypto.Data;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -34,6 +31,8 @@ class ProjectforallApplicationTests {
 
     @Autowired
     InvoiceService invserv;
+    @Autowired
+    VehicleRepository vehicleRepository;
 
     @Test
     void contextLoads() {
@@ -63,19 +62,16 @@ class ProjectforallApplicationTests {
     @Test
     public void creatInvoice() throws ParseException {
 
-  /*      InvoiceModel invoice = new InvoiceModel();
-        invoice.setCustomerName("allah");
-        invoice.setUserName("akbar");
-        invoice.setDate(new Date());
+        Truck truck=new Truck();
+       truck.setPlateNumber("ffr4");
+       truck.setDailyFee(342225);
+       truck.setNumberOfTires(52);
+       truck.setLoadingCap(445);
+       truck.setPrice(8000000);
+        Truck transportTruck=new TransportTruck(truck,false);
 
-        ProductModel Product = new ProductModel();
-        Product.setAmount(2);
-        Product.setName("allah");
-        Product.setPrice(2.5);
 
-        invoice.getProductModels().add(Product);
-
-        invserv.save(invoice);*/
+       vehicleRepository.save(transportTruck);
 
     }
 
@@ -83,23 +79,24 @@ class ProjectforallApplicationTests {
     @Transactional
     public void getallInvoices() throws ExecutionException, InterruptedException {
 
-        CompletableFuture<List<InvoiceModel>> all = invserv.allInvoices("ahmed");
-        all.get().forEach(invoiceModel ->
+        List<Vehicle> all = vehicleRepository.findAll();
+        System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+        System.out.println(all);
+     /*   all.forEach(vehicle ->
         {
-            System.out.println(invoiceModel);
-        });
+            System.out.println(vehicle);
+        });*/
 
     }
 
     @Test
     @Transactional
-    public void getallusers() {
+    public void findById() {
 
-        List<MyUser> all = repo.findAll();
-        all.forEach(myUser ->
-        {
-            System.out.println(new Authusermodel(myUser));
-        });
+        Optional<Vehicle> obj = vehicleRepository.findById(2);
+        System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+            System.out.println(obj.get());
+        System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 
     }
 
@@ -127,10 +124,16 @@ class ProjectforallApplicationTests {
     @Transactional
     public void getuser() {
 
-        Optional<MyUser> user = repo.findByUsername("user");
+        Optional<Vehicle> user = vehicleRepository.findByPlateNumber("ffr4");
         user.orElseThrow(() -> new UsernameNotFoundException("Not Found"));
-        System.out.println("MY USER IS :" + user.map(Authusermodel::new).get());
-        // System.out.println(user.get().getAuthorities().get(0).getAuthority());
+
+        System.out.println("the vehicle is  :" + user.get());
+        System.out.println("the vehicle is  :" + user.get().getClass());
+String v="TransportTruck";
+        System.out.println("the is goes  :" +((TransportTruck) user.get()).isGoesAbroad());
+
+
+
     }
 
 

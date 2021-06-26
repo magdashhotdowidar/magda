@@ -1,3 +1,20 @@
+
+<div class="row justify-content-center" style="border-bottom: 1px solid blue;margin-right:3px;margin-bottom: 3px;padding-bottom: 4px;width: 1600px">
+  <div class=" row dropdown" style="width: fit-content">
+    <input (mouseenter)="dorpDownSearchInput=!dorpDownSearchInput" (keyup)="getUserByNameOrEmail(search.value)"
+           class="dropdown-toggle form-control mr-sm-2" data-toggle="dropdown" #search
+           type="search" placeholder="Search" aria-label="Search">
+    <ul class="dropdown-menu " [ngClass]="{show:dorpDownSearchInput}">
+      <li *ngFor="let v of videosForSearch;let i=index" class="text-center" #_i>
+        <a style="color:blue;font-size: small" target="_blank"
+           (click)="watch(v,'search')">{{ v.name}}</a>
+      </li>
+    </ul>
+  </div>
+  <button style="background-color:white;border: 1px solid blue;color: blue;width: 50px"
+          (click)="getUserByNameOrEmail(search.value)"><i class="fa fa-search"></i></button>
+</div>
+
 <div class="row" style="min-height: 720px;margin:0 2px;background-color: black">
   <div class="col-md-1" style="border: 1px solid blue">
     <a  (click)="openChannel=true" data-toggle="modal" data-target="#open-channel"
@@ -5,11 +22,11 @@
   </div>
   <div class="col-md-11 pre-scrollable" style="min-height: 700px">
     <span class="container" *ngFor="let video of videos; let i=index;" style="margin: 0;cursor: pointer"
-    (click)="watch(video)">
+    (click)="watch(video,'')">
     <div class="list-inline-item" style="margin: 0">
       <span class="badge badge-pill" style="display: inline-block;margin: 0" data-toggle="tooltip" data-placement="right" [title]="video.name">
     <div class="text-center view" style="border: 1px solid blue;margin: 0">
-      <video class="video-fluid" [poster]="" width="180px" height="200px" style="margin: 0">
+      <video class="video-fluid" [poster]=""  width="180px" height="200px" style="margin: 0" [muted]="true" [autoplay]="false">
         <source [src]="videosPath+video.name" type="video/mp4"/>
       </video>
       <h5>{{video.name|shorten:15}}</h5>

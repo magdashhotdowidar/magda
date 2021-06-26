@@ -1,0 +1,245 @@
+<main>
+  <section>
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" ngxDraggableDom="true" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color:black ">
+          <h6 style="color: white;font-size: x-large">{{'PROJECT.vehicle.add'|translate}}</h6>
+          <button type="button" (click)="close()" data-dismiss="modal" aria-label="Close"
+                  style="cursor: pointer;color: white;background-color: black"
+                  id="vehiclePopUpClose">close
+          </button>
+        </div>
+        <div class="modal-body" style="background-color: white;min-height:fit-content">
+          <div>
+            <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+              <div class="container">
+                <div class="row" style="margin-bottom: 3px">
+                  <div class="col-md-5">
+                    <label>{{'PROJECT.vehicle.type'|translate}} : </label>
+                  </div>
+                  <div class="col-md-7">
+                    <div class="row" style="margin: 0px;padding: 0px;">
+                      <div style="margin:0px 1px;padding: 0px;">
+                        <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="right"
+                                style="cursor: pointer;background-color: white"
+                                title="{{'PROJECT.vehicle.type'|translate}}">
+                          <select
+                            style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px"
+                            class="form-control form-control-sm"
+                            (change)="selectedValue=$event.target.value" name="selectedValue"
+                            [(ngModel)]="selectedValue"
+                            ngModel required>
+                            <option style="color: blue"
+                                    [value]="'types'">{{'PROJECT.vehicle.type'|translate}}</option>
+                            <option style="color: blue; font-size: small" *ngFor="let category of vehiclesType"
+                                    [value]="category">{{ category }}</option>
+                          </select>
+                        </button>
+
+                      </div>
+                      <div style="margin:0px 1px;padding: 0px;cursor: pointer" data-toggle="tooltip"
+                           data-placement="right"
+                           title="{{'PROJECT.product.edit.tap.select_image'|translate}}">
+                        <div class="input-group form-group">
+                          <input type="file" #fileInput (change)="fileEvent=$event" style="display: none" ngModel
+                                 required
+                                 name="fil">
+                          <button type="button" class="btn btn-primary" (click)="fileInput.click()"
+                                  style="background-color: white;color: blue;cursor: pointer">
+                      <span class="input-group-text" style="background-color: white;border-color: white"><i
+                        class="fa fa-file"
+                        style="font-size: large;color:blue;border-color: white"> {{'PROJECT.product.edit.tap.select_image'|translate}}</i></span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                 <div *ngIf="selectedValue=='sport'||selectedValue=='suv'||selectedValue=='sw'||selectedValue=='car'" class="row" style="margin-bottom: 3px">
+                <div class="col-md-5">
+                  <label>{{'PROJECT.vehicle.remotely'|translate}}: </label>
+                </div>
+                <div class="col-md-7">
+                  <div class="row" style="margin: 0px;padding: 0px;">
+                  <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="right"
+                          style="cursor: pointer;background-color: white"
+                          title="{{'PROJECT.vehicle.remotely'|translate}}">
+                    <select
+                      style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px"
+                      class="form-control form-control-sm"
+                      [(ngModel)]="remotely" name="remotely"
+                      ngModel required>
+                      <option style="color: blue; font-size: small" *ngFor="let category of booleans"
+                              [value]="category">{{ category }}</option>
+                    </select>
+                  </button>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="selectedValue=='transport'" class="row" style="margin-bottom: 3px">
+                <div class="col-md-5">
+                  <label>{{'PROJECT.vehicle.goesAbroad'|translate}}: </label>
+                </div>
+                <div class="col-md-7">
+                  <div class="row" style="margin: 0px;padding: 0px;">
+                  <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="right"
+                          style="cursor: pointer;background-color: white"
+                          title="{{'PROJECT.vehicle.goesAbroad'|translate}}">
+                    <select
+                      style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px"
+                      class="form-control form-control-sm"
+                      [(ngModel)]="goesAbroad" name="goesAbroad"
+                      ngModel required>
+                      <option style="color: blue; font-size: small" *ngFor="let category of booleans"
+                              [value]="category">{{ category }}</option>
+                    </select>
+                  </button>
+                  </div>
+                </div>
+              </div>
+                <div class="row" style="margin-bottom: 3px">
+                  <div class="col-md-5">
+                    <label>{{'PROJECT.vehicle.plateNum'|translate}}: </label>
+                  </div>
+                  <div class="col-md-7">
+                    <input type="text" placeholder="{{'PROJECT.vehicle.plateNum'|translate}}"
+                           class="form-control" ngModel
+                           [(ngModel)]="plateNumber" name="plate"
+                           required>
+                  </div>
+                </div>
+                <div class="row" style="margin-bottom: 3px">
+                  <div class="col-md-5">
+                    <label>{{'PROJECT.vehicle.dailyFee'|translate}}: </label>
+                  </div>
+                  <div class="col-md-7">
+                    <input type="number" class="form-control"  required minlength="1" min="1" maxlength="6"
+                           max="999999"
+                           data-toggle="tooltip" [(ngModel)]="fees" name="fees"
+                           data-placement="right" title="Enter The dailyFee"
+                           placeholder="{{'PROJECT.vehicle.dailyFee'|translate}}"
+                           style="font-size: x-large"
+                           OnlyNumber="true" PositiveOnly  ngModel>
+                  </div>
+                </div>
+                <div class="row" style="margin-bottom: 3px">
+                  <div class="col-md-5">
+                    <label>{{'PROJECT.vehicle.price'|translate}} : </label>
+                  </div>
+                  <div class="col-md-7">
+                    <input type="number" class="form-control" required minlength="1" min="1" PositiveOnly
+                           data-toggle="tooltip" [(ngModel)]="price" name="price"
+                           data-placement="right" title="Enter The Unit price"
+                           placeholder="{{'PROJECT.vehicle.price'|translate}}"
+                           style="font-size: x-large"
+                           OnlyNumber="true"  ngModel>
+                  </div>
+                </div>
+                <div class="row" style="margin-bottom: 3px">
+                  <div class="col-md-5">
+                    <label>{{'PROJECT.vehicle.numberOfTires'|translate}}: </label>
+                  </div>
+                  <div class="col-md-7">
+                    <input type="number" class="form-control" required minlength="1" min="1" PositiveOnly
+                           data-toggle="tooltip" [(ngModel)]="tiresNum" name="tiresNum"
+                           data-placement="right" title="Enter The Available Quantity"
+                           placeholder="{{'PROJECT.vehicle.numberOfTires'|translate}}"
+                           style="font-size: x-large"
+                           OnlyNumber="true"  ngModel>
+                  </div>
+                </div>
+                  <div *ngIf="selectedValue=='truck'||selectedValue=='transport'||selectedValue=='small'||selectedValue=='sw'" class="row" style="margin-bottom: 3px">
+                    <div class="col-md-5">
+                      <label>{{'PROJECT.vehicle.loading'|translate}}: </label>
+                    </div>
+                    <div class="col-md-7">
+                      <input type="number" class="form-control" required minlength="1" min="1" PositiveOnly
+                             data-toggle="tooltip" [(ngModel)]="loadingCap" name="loadingCap"
+                             data-placement="right" title="{{'PROJECT.vehicle.loading'|translate}}"
+                             placeholder="{{'PROJECT.vehicle.loading'|translate}}"
+                             style="font-size: x-large"
+                             OnlyNumber="true"  ngModel>
+                    </div>
+                  </div>
+                    <div *ngIf="selectedValue=='sport'||selectedValue=='suv'||selectedValue=='sw'||selectedValue=='car'" class="row" style="margin-bottom: 3px">
+                      <div class="col-md-5">
+                        <label>{{'PROJECT.vehicle.seating'|translate}}: </label>
+                      </div>
+                      <div class="col-md-7">
+                        <input type="number" class="form-control" required minlength="1" min="1" PositiveOnly
+                               data-toggle="tooltip" [(ngModel)]="seatingNum" name="seatingCap"
+                               data-placement="right" title="{{'PROJECT.vehicle.seating'|translate}}"
+                               placeholder="{{'PROJECT.vehicle.seating'|translate}}"
+                               style="font-size: x-large"
+                               OnlyNumber="true"  ngModel>
+                      </div>
+                    </div>
+                      <div *ngIf="selectedValue=='sport'||selectedValue=='suv'||selectedValue=='sw'||selectedValue=='car'" class="row" style="margin-bottom: 3px">
+                        <div class="col-md-5">
+                          <label>{{'PROJECT.vehicle.doors'|translate}}: </label>
+                        </div>
+                        <div class="col-md-7">
+                          <input type="number" class="form-control" required minlength="1" min="1" PositiveOnly
+                                 data-toggle="tooltip" [(ngModel)]="doors" name="doors"
+                                 data-placement="right" title="{{'PROJECT.vehicle.doors'|translate}}"
+                                 placeholder="{{'PROJECT.vehicle.doors'|translate}}"
+                                 style="font-size: x-large"
+                                 OnlyNumber="true"  ngModel>
+                        </div>
+                      </div>
+                      <div *ngIf="selectedValue=='sport'||selectedValue=='car'" class="row" style="margin-bottom: 3px">
+                        <div class="col-md-5">
+                          <label>{{'PROJECT.vehicle.horse'|translate}}: </label>
+                        </div>
+                        <div class="col-md-7">
+                          <input type="number" class="form-control" required minlength="1" min="1" PositiveOnly
+                                 data-toggle="tooltip" [(ngModel)]="horsepower" name="horse"
+                                 data-placement="right" title="{{'PROJECT.vehicle.horse'|translate}}"
+                                 placeholder="{{'PROJECT.vehicle.horse'|translate}}"
+                                 style="font-size: x-large"
+                                 OnlyNumber="true"  ngModel>
+                        </div>
+
+                      </div>
+                      <div *ngIf="selectedValue=='sport'||selectedValue=='suv'||selectedValue=='sw'||selectedValue=='car'" class="row" style="margin-bottom: 3px">
+                        <div class="col-md-5">
+                          <label>{{'PROJECT.vehicle.color'|translate}}: </label>
+                        </div>
+                        <div class="col-md-7">
+                          <input type="text" placeholder="{{'PROJECT.vehicle.color'|translate}}"
+                                 class="form-control" ngModel
+                                 [(ngModel)]="color" name="color"
+                                 required>
+                        </div>
+                      </div>
+                      <div *ngIf="selectedValue=='suv'||selectedValue=='car'" class="row" style="margin-bottom: 3px">
+                        <div class="col-md-5">
+                          <label>{{'PROJECT.vehicle.wheelDriveType'|translate}}: </label>
+                        </div>
+                        <div class="col-md-7">
+                          <input type="text" placeholder="{{'PROJECT.vehicle.wheelDriveType'|translate}}"
+                                 class="form-control" ngModel
+                                 [(ngModel)]="wheelType" name="wheelType"
+                                 required>
+                        </div>
+                      </div>
+                      <hr style="border-color: blue"/>
+                      <div class="row ">
+                        <div class="col-md-5"></div>
+                        <div class="col-md-7">
+                          <button type="button" (click)="onSubmit(f)" class="btn "
+                                  style="text-align: center;color:white;background-color:red;cursor: pointer"
+                                  [disabled]="!f.valid">
+                            <i class="fa fa-eye"></i>{{'PROJECT.product.edit.save'|translate}}<i class="fa fa-eye"></i>
+                          </button>
+                        </div>
+                      </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer" style="background-color: black"></div>
+      </div>
+    </div>
+  </section>
+</main>

@@ -8,8 +8,7 @@ import com.all.Projectforall.auth.entitys.MyUser;
 import com.all.Projectforall.auth.model.Authusermodel;
 import com.all.Projectforall.auth.repos.Usersandauthoritiesrepos;
 import com.all.Projectforall.configuration.FileUpload;
-import com.all.Projectforall.entitys.Friend;
-import com.all.Projectforall.exceptions.ResourceNotFoundException;
+import com.all.Projectforall.exceptions.custExcep.ResourceNotFoundException;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +17,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.ws.rs.Path;
 
 @CrossOrigin()
 @RestController
