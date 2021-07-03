@@ -123,10 +123,8 @@ public class VehicleService {
 
     private List<Vehicle> getAvailableVehicles() {
         List<Vehicle> vehicles = new ArrayList<>();
-        List<VehicleTransaction> availableVehicles = transactionService.getAvailableVehicles();
-        for (VehicleTransaction vehicleTransaction : availableVehicles)
             for (Vehicle vehicle : vehicleRepository.findAll())
-                if (vehicleTransaction.getPlateNum() == vehicle.getPlateNumber()) vehicles.add(vehicle);
+                if (transactionService.getTransactionVehicle("","",vehicle.getPlateNumber())!=null) vehicles.add(vehicle);
         return vehicles;
     }
 

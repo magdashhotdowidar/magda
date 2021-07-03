@@ -16,31 +16,31 @@ export class VehicleService {
               private urlConfigService: URLConfigService) {
   }
 
-  rentMeAndGiveLocation(start:string,end:string,num:string,location:string):Observable<string> {
-    return this.http.get<string>(`${this.baseUrl}/rent/location/${start}/${end}/${num}/${location}`);
-  }
-  rentMe(start:string,end:string,num:string):Observable<string> {
-    return this.http.get<string>(`${this.baseUrl}/rent/${start}/${end}/${num}`);
-  }
   getVehicleByTypeOrPlateNumber(value:string):Observable<VehicleDto[]> {
     return this.http.get<VehicleDto[]>(`${this.baseUrl}/searchByTypeOrPlateNum/${value}`);
   }
-  getVehicleByType(value:string):Observable<VehicleDto[]> {
+  getVehiclesByType(value:string):Observable<VehicleDto[]> {
     return this.http.get<VehicleDto[]>(`${this.baseUrl}/searchByType/${value}`);
   }
 
-  bookMe(obj:ResponseWithDateModel,num:string):Observable<string> {
-    return this.http.put<string>(`${this.baseUrl}/book/${num}`,obj);
+  bookMe(obj:ResponseWithDateModel):Observable<VehicleResponseDto> {
+    return this.http.put<VehicleResponseDto>(`${this.baseUrl}/book`,obj);
+  }
+  rentMeAndGiveLocation(obj:ResponseWithDateModel,location:string):Observable<VehicleResponseDto> {
+    return this.http.put<VehicleResponseDto>(`${this.baseUrl}/rent/location/${location}`,obj);
+  }
+  rentMe(obj:ResponseWithDateModel):Observable<VehicleResponseDto> {
+    return this.http.put<VehicleResponseDto>(`${this.baseUrl}/rent`,obj);
   }
 
-  cancelMe(plateNum:string):Observable<string> {
-    return this.http.get<string>(`${this.baseUrl}/cancel/${plateNum}`);
+  cancelMe(plateNum:string):Observable<VehicleResponseDto> {
+    return this.http.get<VehicleResponseDto>(`${this.baseUrl}/cancel/${plateNum}`);
   }
   loadMe(amount:number):Observable<TruckDto[]> {
     return this.http.get<TruckDto[]>(`${this.baseUrl}/load/${amount}`);
   }
-  dropMe(plateNum:string):Observable<number> {
-    return this.http.get<number>(`${this.baseUrl}/drop/${plateNum}`);
+  dropMe(plateNum:string):Observable<VehicleResponseDto> {
+    return this.http.get<VehicleResponseDto>(`${this.baseUrl}/drop/${plateNum}`);
   }
 
   saveVehicle(fd: FormData) {

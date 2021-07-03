@@ -3,27 +3,33 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg" ngxDraggableDom="true" role="document">
       <div class="modal-content">
         <div class="modal-header" style="background-color:black ">
-          <button type="button" class="model-header-button" (click)="showSearchByType=!showSearchByType"   id="searchByType">search By Type</button>
-          <button type="button" class="model-header-button" (click)="showSearch=!showSearch"   id="search">search By plateNum OR Type</button>
-          <button type="button" class="model-header-button" (click)="close()" data-dismiss="modal" aria-label="Close"  id="transactionPopUpClose">close</button>
+          <div class="dropdown">
+            <button type="button"  (click)="openSearch=!openSearch" class="model-header-button">
+              SEARCH <i class="fa fa-search" aria-hidden="true" style="color: white"></i></button>
+            <ul class="dropdown-menu " [ngClass]="{show:openSearch}" style="background-color: white;color:blue;width: 220px">
+              <button type="button" class="model-header-button-search" (click)="showSearchByType=!showSearchByType;showSearch=false"
+                      id="searchByType">By Type<i class="fa fa-search" aria-hidden="true" ></i></button>
+              <button type="button" class="model-header-button-search" (click)="showSearch=!showSearch;showSearchByType=false"
+                      id="search">By plateNum or Type<i class="fa fa-search" aria-hidden="true" ></i></button>
+            </ul>
+          </div>
+           <button type="button" class="model-header-button" (click)="close()" data-dismiss="modal" aria-label="Close"  id="transactionPopUpClose">close</button>
         </div>
         <div class="modal-body" style="background-color: white;min-height:fit-content">
           <div *ngIf="showSearchByType" class="row" style="margin: 0 3px">
-            <button type="button" STYLE="margin-right:3px" class="btn btn-link col-md-2">
+            <div class=" col-md-2">
+            <button type="button"  class="btn btn-link">
               <select (change)="getVehicleByType()"
-                      style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px"
-                      class="form-control form-control-sm"
-                      [(ngModel)]="type" name="carsOption"
-                      ngModel required>
+                      style="font-size: x-large;background-color:white;color: blue;cursor: pointer;height: 40px;width: 150px"
+                      class="form-control form-control-sm" [(ngModel)]="type" name="carsOption" ngModel required>
                 <option style="color: blue; font-size: small" *ngFor="let car of vehiclesType"
                         [value]="car">{{ car }}</option>
               </select>
             </button>
+            </div>
 
-            <div (mouseenter)="selectDropDown=!selectDropDown"
-                 class="col-md-6 dropdown dropdown-toggle "
-                 style="width: fit-content;margin: 0 80px" data-toggle="dropdown">
-              <input class="form-control" type="search" placeholder="select vehicle" aria-label="vehicle" [(ngModel)]="selectedVehicleName">
+            <div (mouseenter)="selectDropDown=!selectDropDown" class="col-md-6 " style="width: fit-content;margin: 0 80px" >
+              <input class="form-control dropdown dropdown-toggle" data-toggle="dropdown"  type="search" placeholder="select vehicle" aria-label="vehicle" [(ngModel)]="selectedVehicleName">
               <ul class="dropdown-menu " [ngClass]="{show:selectDropDown}">
                 <li *ngFor="let v of vehiclesByType;let i=index" class="text-center" #_i>
                   <a style="color:blue;cursor: pointer" (click)="closeSelectDropDown(v)">{{ v.plateNumber}}
@@ -37,64 +43,90 @@
           <div *ngIf="showSearch" class="row" style="margin: 0 3px">
             <div class=" row dropdown" style="width: fit-content">
               <input (mouseenter)="dorpDownSearchInput=!dorpDownSearchInput" (keyup)="getVehicleByTypeOrPlateNumber(search.value)"
-                     class="dropdown-toggle form-control mr-sm-2" data-toggle="dropdown" #search
-                     type="search" placeholder="Search" aria-label="Search">
+                     class="dropdown-toggle form-control mr-sm-2" data-toggle="dropdown" #search [(ngModel)]="plateNum"
+                     type="search"  aria-label="Search">
               <ul class="dropdown-menu " [ngClass]="{show:dorpDownSearchInput}">
                 <li *ngFor="let v of vehiclesForSearch;let i=index" class="text-center" #_i>
-                  <a style="color:blue;" (click)="closeInputDropDown()">{{ v.plateNumber}}
+                  <a style="color:blue;" (click)="closeInputDropDown(v)">{{ v.plateNumber}}
                     <img alt="" class="avatar" height="30" width="30" [src]="path+v.imageName"></a>
                 </li>
               </ul>
             </div>
             <button class="search" (click)="getVehicleByTypeOrPlateNumber(search.value)">search <i class=" fa fa-search "></i></button>
           </div>
+          <div *ngIf="cancellation" class="row" style="border-bottom: 1px solid blue">
+            <label class="cancel" style="color: lawngreen;font-size: large">{{cancellation.label}}</label>
+            <label class="cancel"><i>{{cancellation.plateNum}}</i>{{' : plate-num'}}</label>
+            <label class="cancel"><i>{{cancellation.customer}}</i>{{' : customer'}}</label>
+            <label class="cancel"><i>{{cancellation.user}}</i>{{' : employee'}}</label>
+            <label class="cancel"><i>{{cancellation.startDate}}</i>{{'startD '}}</label>
+            <label class="cancel"><i>{{cancellation.endDate}}</i>{{'endD '}}</label>
+            <label class="cancel"><i>{{cancellation?.drop.allFees}}</i>{{'total fees '}}</label>
+            <label class="cancel"><i>{{cancellation?.drop.dailyFees}}</i>{{'daily fees '}}</label>
+            <label class="cancel"><i>{{cancellation?.drop.rentPeriod}}</i>{{'period '}}</label>
+               </div>
+
 
           <div  *ngIf="!showSearch&&!showSearchByType">
             <div class="row">
-              <div class="input-group col-md-6" style="text-align: center">
-                <label> start date</label>
+              <div class="input-group col-md-4" style="text-align: center">
+               <i class="fa fa-calendar" style="margin: 0 5px;color: blue;font-size: xx-large"></i> <label> start date</label>
               </div>
-              <div class="input-group col-md-6" style="text-align: center">
-                <label>end date</label>
+              <div class="input-group col-md-4" style="text-align: center">
+                <i class="fa fa-calendar-check-o" style="margin: 0 5px;color: blue;font-size: xx-large"></i><label>end date</label>
+              </div>
+              <div class="input-group col-md-4" style="text-align: center">
+                <i class="fa fa-cc-mastercard" style="margin: 0 5px;color: blue;font-size: xx-large"></i> <label>Customer</label>
               </div>
             </div>
             <div class="row">
-              <div class="input-group col-md-6" style="text-align: center">
-                <input type="date" class="search-query form-control " placeholder="start date" name="startDate"
-                       [(ngModel)]="startDate"/>
-              </div>
-              <div class="input-group col-md-6" style="text-align: center">
-                <input type="date" class="search-query form-control " placeholder="end date" name="endDate"
-                       [(ngModel)]="endDate"/>
-              </div>
-            </div>
+              <div class="input-group col-md-4" style="text-align: center">
+                <input type="date" class="search-query form-control text-center " placeholder="start date" name="startDate" [(ngModel)]="startDate"/></div>
+              <div class="input-group col-md-4" style="text-align: center">
+                <input type="date" class="search-query form-control text-center " placeholder="end date" name="endDate" [(ngModel)]="endDate"/></div>
+              <div class="input-group col-md-4" style="text-align: center">
+                <input type="text" class="form-control text-center" placeholder="set Customer" name="customer" [(ngModel)]="customer"/></div>
+          </div>
           </div>
             <hr>
         <div>
            <div class="row but">
-              <button type="button" (click)="bookMe()"  class="btn btn-link"><i class="fa fa-arrow-left" aria-hidden="true" ></i> Book <i
-                class="fa fa-address-book" aria-hidden="true" ></i>
-              </button>
-              <button type="button" (click)="getAvailableVehicles()"  class="btn btn-link">
-                <i class="fa fa-edit" aria-hidden="true" ></i>AVAILABLE VEHICLES <i class="fa fa-align-justify" aria-hidden="true" ></i>
-              </button>
-              <button type="button"
-                      class="btn btn-link">
-                <i class="fa fa-eye" aria-hidden="true"></i>SEARCH <i class="fa fa-search" aria-hidden="true"></i>
-              </button>
-              <button  type="button" class="btn btn-link"><i class="fa fa-angle-left" aria-hidden="true" ></i> MORE OPTIONS <i class="fa fa-eye" aria-hidden="true"></i>
-              </button>
-             <button class="dropdown dropdown-toggle btn btn-outline-success" type="button" (click)="openPrivacy=!openPrivacy"><span class="input-group-text" style="background-color: green;border-color: blue;margin: 4px"><i
-               class="fa fa-adjust" style="font-size: large;color:orangered;border-color: blue">delete</i></span>
+              <button [disabled]="setDisabled('book')" *ngIf="type=='transport'||type=='sport'||type=='suv'||type=='sw'" type="button" (click)="bookMe()"
+                      data-toggle="tooltip" data-placement="right" title="{{'set start-end date,customer'}}"
+                      class="btn btn-link"><i class="fa fa-arrow-left" aria-hidden="true" ></i> Book <i class="fa fa-address-book" aria-hidden="true" ></i></button>
+              <button  data-toggle="tooltip" data-placement="right" title="{{'cancel reservation'}}"
+                      type="button" (click)="cancelMe()"  class="btn btn-link">
+                <i class="fa fa-edit" aria-hidden="true" ></i>  Cancel  <i class="fa fa-align-justify" aria-hidden="true" ></i></button>
+             <div class="dropdown">
+              <button type="button"  (click)="openLoading=!openLoading" class="btn btn-link ">
+                <i class="fa fa-eye" aria-hidden="true"></i>Check Loading Amount <i class="fa fa-truck" aria-hidden="true"></i></button>
+               <ul class="dropdown-menu " [ngClass]="{show:openLoading}"
+                   style="background-color: white;color:blue;width: 220px">
+                 <div class="row" style="margin:0 3px">
+                   <input type="number" class="form-control" required minlength="1" min="1" PositiveOnly
+                           [(ngModel)]="amount" name="amount"
+                          data-toggle="tooltip" data-placement="right" title="{{'set the amount'}}"
+                          placeholder="{{'set the amount'}}"
+                          style="font-size: large"
+                          OnlyNumber="true"  ngModel>
+                   <button [disabled]="setDisabled('amount')" class="btn btn-link"(click)="loadMe()"><i class="fa fa-eye" style="color:red;font-size:large "></i> CHECK</button>
+                 </div>
+               </ul>
+             </div>
+              <button type="button" (click)="dropMe()" class="btn btn-link">
+                <i class="fa fa-angle-left" aria-hidden="true" ></i> Returning The Vehicle <i class="fa fa-eye" aria-hidden="true"></i></button>
+             <button class="dropdown dropdown-toggle btn btn-outline-primary" type="button" (click)="openPrivacy=!openPrivacy">
+               <span class="input-group-text" style="background-color: white;border-color: blue;margin: 4px"><i
+               class="fa fa-adjust" style="font-size: large;color:blue;border-color: blue">Rent</i></span>
                <ul class="dropdown-menu " [ngClass]="{show:openPrivacy}"
-                   style="background-color: navy;color:#f91c1e;width: 220px">
-                 <div class="row" style="margin:0 3px"><button class="btn btn-success"(click)="deleteAllVehicle()"> delete all vehicles<i class="fa fa-eye" style="color:lime;font-size:x-large "> </i></button></div>
-                 <div class="row" style="margin:0 3px"><button class="btn btn-success" (click)="deleteAllVehicleNull()"> delete nulls plateNum<i class="fa fa-eye" style="color:lime;font-size:x-large "> </i></button></div>
+                   style="background-color: white;color:blue;width: 220px">
+                 <div class="row" style="margin:0 3px"><button class="btn btn-link"(click)="rentMe()"><i class="fa fa-eye" style="color:red;font-size:x-large "> </i> Rent</button></div>
+                 <div class="row" style="margin:0 3px"><button class="btn btn-link" (click)="rentMeAndGiveLocation()"><i class="fa fa-eye" style="color:red;font-size:x-large "> </i> Rent Remotely</button></div>
                </ul>
              </button>
           </div>
-
-
+          <hr>
+          <div class="row col-md-12 text-center" style="margin: 0 2px"> <img alt="" class="avatar" height="300" width="750" [src]="path+imageName"></div>
 
           </div>
         </div>

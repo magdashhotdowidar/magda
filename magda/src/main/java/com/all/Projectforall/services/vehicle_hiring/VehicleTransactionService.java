@@ -2,16 +2,23 @@ package com.all.Projectforall.services.vehicle_hiring;
 
 import com.all.Projectforall.configuration.TestClass;
 import com.all.Projectforall.entitys.vehicle_hiring.VehicleTransaction;
+import com.all.Projectforall.entitys.vehicle_hiring.transactionTables.Cancellation;
+import com.all.Projectforall.entitys.vehicle_hiring.transactionTables.Reservation;
 import com.all.Projectforall.entitys.vehicle_hiring.vehicles.Truck;
 import com.all.Projectforall.exceptions.custExcep.NoCancellationYouMustPayException;
 import com.all.Projectforall.exceptions.custExcep.OverWeightException;
 import com.all.Projectforall.exceptions.custExcep.SorryWeDontHaveThatOneException;
+import com.all.Projectforall.models.vehicle_hiring.CancellationModel;
+import com.all.Projectforall.models.vehicle_hiring.Drop;
 import com.all.Projectforall.repos.vehicle_hiring.VehicleRepository;
 import com.all.Projectforall.repos.vehicle_hiring.VehicleTransactionRepository;
+import com.all.Projectforall.repos.vehicle_hiring.transacations.ReservationRepository;
 import com.all.Projectforall.repos.vehicle_hiring.vehicles.TruckRepository;
+import com.all.Projectforall.responses.VehicleResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,86 +35,52 @@ public class VehicleTransactionService {
     private VehicleRepository vehicleRepository;
     @Autowired
     private TruckRepository truckRepository;
-
-    public List<VehicleTransaction> getAvailableVehicles() {
-        return vehicleTransactionRepository.findAll().stream().filter(vehicle ->
-                checkTheCarExisting(vehicle.getEndDate())).collect(Collectors.toList());
-    }
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @Async
-    public CompletableFuture<String> bookMe(String startDate, String endDate, String plateNumber) throws SorryWeDontHaveThatOneException {
-        VehicleTransaction vehicle = getTransactionVehicle( startDate, endDate, plateNumber);
+    @Transactional
+    public CompletableFuture<VehicleResponse> bookMe(String startDate, String endDate, String plateNumber, String user, String cus) throws SorryWeDontHaveThatOneException {
+        VehicleTransaction vehicle = getTransactionVehicle(startDate, endDate, plateNumber);
         if (vehicle == null)
-            throw new SorryWeDontHaveThatOneException("this car " + plateNumber + " not available now");
+            throw new SorryWeDontHaveThatOneException("this car " + plateNumber + " not available now " + "it will be available in " +
+                    vehicleTransactionRepository.findByPlateNum(plateNumber).get().getEndDate());
 
+        vehicle.add_reservation(new Reservation(plateNumber, startDate, endDate, user, cus, "booking"));
         vehicleTransactionRepository.save(vehicle);
-        return CompletableFuture.completedFuture("the car booked successfully");
-    }
-
-    private boolean checkTheCarExisting(String date) {
-        return TestClass.calcDAte(date, "cur").get("available") == 1;
+        return CompletableFuture.completedFuture(new VehicleResponse("the car booked successfully"));
     }
 
     @Async
-    public CompletableFuture<String> cancelMe(String plateNum) throws NoCancellationYouMustPayException {
-        VehicleTransaction vehicle = vehicleTransactionRepository.findByPlateNum(plateNum).get();
-        if (vehicle != null) {
-            if (checkTheCarExisting(vehicle.getStartDate()))
-                throw new NoCancellationYouMustPayException("cancellation noLonger possible");
-            vehicle.setBooked(false);
-            vehicle.setRented(false);
-            vehicle.setCanceled(true);
-        }
+    @Transactional
+    public CompletableFuture<VehicleResponse> rentMe(String startDate, String endDate, String plateNumber, String user, String cus) throws SorryWeDontHaveThatOneException {
+        VehicleTransaction vehicle = getTransactionVehicle(startDate, endDate, plateNumber);
+        if (vehicle == null)
+            throw new SorryWeDontHaveThatOneException("this car " + plateNumber + " not available now " + "it will be available in " +
+                    vehicleTransactionRepository.findByPlateNum(plateNumber).get().getEndDate());
 
-        return CompletableFuture.completedFuture("cancellation done successfully");
+        vehicle.add_reservation(new Reservation(plateNumber, startDate, endDate, user, cus, "renting"));
+        vehicleTransactionRepository.save(vehicle);
+        return CompletableFuture.completedFuture(new VehicleResponse("the car rented successfully"));
     }
 
     @Async
-    public CompletableFuture<String> rentMe(String startDate, String endDate, String plateNumber) throws SorryWeDontHaveThatOneException {
-        VehicleTransaction vehicle = rent(startDate, endDate, plateNumber);
-        if (vehicle != null) {
-            vehicleTransactionRepository.save(vehicle);
-
-            return CompletableFuture.completedFuture("the car rented successfully");
-        }
-        throw new SorryWeDontHaveThatOneException("this car " + plateNumber + " not available now : ");
+    @Transactional
+    public CompletableFuture<VehicleResponse> rentMe(String startDate, String endDate, String plateNumber, String user, String cus, String location) throws SorryWeDontHaveThatOneException {
+        return CompletableFuture.completedFuture(new VehicleResponse("the car rented successfully"));
     }
 
-    @Async
-    public CompletableFuture<String> rentMe(String startDate, String endDate, String plateNum, String location) throws SorryWeDontHaveThatOneException {
-        VehicleTransaction vehicle = rent(startDate, endDate, plateNum);
-        if (vehicle != null) {
-            vehicle.setLocation(location);
-            vehicleTransactionRepository.save(vehicle);
-
-            return CompletableFuture.completedFuture("the car rented successfully");
-        }
-        throw new SorryWeDontHaveThatOneException("this car " + plateNum + " plateNum not available now : ");
-    }
-
-    private VehicleTransaction rent(String startDate, String endDate, String plateNumber) {
-        VehicleTransaction vehicle = getTransactionVehicle( startDate, endDate, plateNumber);
-        if (vehicle != null) {
-            vehicle.setRented(true);
-            return vehicle;
-        }
-        return null;
-    }
-
-    private VehicleTransaction getTransactionVehicle( String startDate, String endDate, String plateNumber) {
-
-        if (vehicleTransactionRepository.findAll().isEmpty()||!vehicleTransactionRepository.findByPlateNum(plateNumber).isPresent())
+    public VehicleTransaction getTransactionVehicle(String startDate, String endDate, String plateNumber) {
+        if (vehicleTransactionRepository.findAll().isEmpty() || !vehicleTransactionRepository.findByPlateNum(plateNumber).isPresent())
             return new VehicleTransaction(plateNumber, startDate, endDate);
         else if (vehicleTransactionRepository.findByPlateNum(plateNumber).isPresent()) {
-            VehicleTransaction obj = vehicleTransactionRepository.findByPlateNum(plateNumber).filter(vehicle -> checkTheCarExisting(vehicle.getEndDate())).get();
-            if (!obj.equals(null)) {
+            VehicleTransaction obj = vehicleTransactionRepository.findByPlateNum(plateNumber).get();
+
+            if (obj.getEndDate().equals("free")||checkTheCarExisting(obj.getEndDate())) {
                 if (!startDate.equals("") && !endDate.equals("")) {
                     obj.setStartDate(startDate);
                     obj.setEndDate(endDate);
                 }
-                obj.setRented(true);
-                obj.setBooked(true);
-                obj.setCanceled(false);
                 return obj;
             }
         }
@@ -115,14 +88,52 @@ public class VehicleTransactionService {
     }
 
     @Async
-    public CompletableFuture<Integer> dropMe(String plateNum) {
-        VehicleTransaction vehicle = vehicleTransactionRepository.findByPlateNum(plateNum).get();
-        vehicle.setBooked(false);
-        vehicle.setRented(false);
+    @Transactional
+    public CompletableFuture<VehicleResponse> cancelMe(String plateNum) throws NoCancellationYouMustPayException {
+        VehicleTransaction v = vehicleTransactionRepository.findByPlateNum(plateNum).get();
+        if (v != null) {
+            if (v.getStartDate().equals("free"))
+                throw new NoCancellationYouMustPayException("this reservation already cancelled");
+            if (checkTheCarExisting(v.getStartDate()))
+                throw new NoCancellationYouMustPayException("cancellation noLonger possible you must pay");
+            Reservation reservation = reservationRepository.findByPlateNumAndStartDateAndEndDate(v.getPlateNum(), v.getStartDate(), v.getEndDate()).get();
+            Cancellation cancellation = new Cancellation(v.getPlateNum(), v.getStartDate(), v.getEndDate(), reservation.getUser(), reservation.getCustomer());
+            v.add_cancellation(cancellation);
+            reservationRepository.delete(reservation);
+            v.setStartDate("free");
+            v.setEndDate("free");
+            vehicleTransactionRepository.save(v);
+            return CompletableFuture.completedFuture(new VehicleResponse(new CancellationModel(cancellation), "cancellation done successfully"));
+        }
+        throw new NoCancellationYouMustPayException("no transaction for this vehicle ");
+    }
 
-        int rentPeriod = TestClass.calcDAte(vehicle.getStartDate(), vehicle.getEndDate()).get("defInDays");
-        int allFees = rentPeriod * vehicleRepository.findByPlateNumber(plateNum).get().getDailyFee();
-        return CompletableFuture.completedFuture(allFees);
+    private boolean checkTheCarExisting(String date) {
+        return TestClass.calcDAte(date, "cur").get("available") == 1;
+    }
+
+    @Async
+    public CompletableFuture<VehicleResponse> dropMe(String plateNum) throws NoCancellationYouMustPayException {
+        VehicleTransaction v = vehicleTransactionRepository.findByPlateNum(plateNum).get();
+        int dailyFees=vehicleRepository.findByPlateNumber(plateNum).get().getDailyFee();
+        int rentPeriod = TestClass.calcDAte(v.getStartDate(), v.getEndDate()).get("defInDays");
+        int allFees = rentPeriod * dailyFees;
+        if (v != null) {
+            if (v.getStartDate().equals("free")) throw new NoCancellationYouMustPayException("this reservation cancelled period ago");
+
+            Reservation reservation = reservationRepository.findByPlateNumAndStartDateAndEndDate(v.getPlateNum(), v.getStartDate(), v.getEndDate()).get();
+            CancellationModel cancellation = new CancellationModel(v.getPlateNum(), v.getStartDate(), v.getEndDate(),
+                    reservation.getUser(), reservation.getCustomer(),new Drop(allFees,dailyFees,rentPeriod));
+            if (!checkTheCarExisting(v.getEndDate()))
+                return CompletableFuture.completedFuture(new VehicleResponse(cancellation,"note that you didn't end your reservation yet"));
+
+            v.setStartDate("free");
+            v.setEndDate("free");
+            vehicleTransactionRepository.save(v);
+            return CompletableFuture.completedFuture(new VehicleResponse(cancellation, "returning done successfully"));
+        }
+        throw new NoCancellationYouMustPayException("no transaction for this vehicle ");
+
     }
 
     @Async

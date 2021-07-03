@@ -57,9 +57,10 @@ public class VehicleController {
 
     @DeleteMapping("/deleteAll")
     public CompletableFuture<String> deleteAll() {
-         vehicleService.deleteAllVehicles();
-         return CompletableFuture.completedFuture("successfully deletion");
+        vehicleService.deleteAllVehicles();
+        return CompletableFuture.completedFuture("successfully deletion");
     }
+
     @DeleteMapping("/isNull")
     public CompletableFuture<String> deleteAllNull() {
         vehicleService.deleteByPlateNumISNull();
@@ -73,11 +74,12 @@ public class VehicleController {
 
     @GetMapping("searchByTypeOrPlateNum/{value}")
     public ResponseEntity<List<Vehicle>> getVehicleByTypeOrPlateNumber(@PathVariable("value") String user) {
-        return ResponseEntity.ok().body(vehicleRepository.findByPlateNumberLikeOrVehicleTypeLike("%"+user+"%", "%"+user+"%"));
+        return ResponseEntity.ok().body(vehicleRepository.findByPlateNumberLikeOrVehicleTypeLike("%" + user + "%", "%" + user + "%"));
     }
+
     @GetMapping("searchByType/{value}")
     public ResponseEntity<List<Vehicle>> getVehicleByType(@PathVariable("value") String user) {
-        return ResponseEntity.ok().body(vehicleRepository.findByVehicleTypeLike("%"+user+"%"));
+        return ResponseEntity.ok().body(vehicleRepository.findByVehicleTypeLike("%" + user + "%"));
     }
 
     @GetMapping("/getVehicle/{plateNum}")
@@ -86,33 +88,34 @@ public class VehicleController {
         return vehicleService.getVehicle(plateNum).thenApply(ResponseEntity::ok);
     }
 
-    @PutMapping("/book/{num}")
-    public CompletableFuture<ResponseEntity<String>> bookMe(@Valid @RequestBody ResponseWithDateModel response,
-                                                            @PathVariable(value = "num") String num) throws SorryWeDontHaveThatOneException {
-        return transactionService.bookMe(response.getStartDate(), response.getEndDate(), num).thenApply(ResponseEntity::ok);
+    //we can set @PathVariable and @RequestBody at the same time
+    @PutMapping("/book")
+    public CompletableFuture<ResponseEntity<VehicleResponse>> bookMe(@Valid @RequestBody ResponseWithDateModel response) throws SorryWeDontHaveThatOneException {
+        return transactionService.bookMe(response.getStartDate(), response.getEndDate(),
+                response.getPlateNum(), response.getUser(), response.getCustomer()).thenApply(ResponseEntity::ok);
+    }
+
+    @PutMapping("/rent")
+    public CompletableFuture<ResponseEntity<VehicleResponse>> rentMe(@Valid @RequestBody ResponseWithDateModel response) throws SorryWeDontHaveThatOneException {
+        return transactionService.rentMe(response.getStartDate(), response.getEndDate(),
+                response.getPlateNum(), response.getUser(), response.getCustomer()).thenApply(ResponseEntity::ok);
+    }
+
+    @PutMapping("/rent/location/{location}")
+    public CompletableFuture<ResponseEntity<VehicleResponse>> rentMe(@Valid @RequestBody ResponseWithDateModel response, @PathVariable(value = "location") String location)
+            throws SorryWeDontHaveThatOneException {
+        return transactionService.rentMe(response.getStartDate(), response.getEndDate(), response.getPlateNum(),"","", location).thenApply(ResponseEntity::ok);
     }
 
     @GetMapping("/cancel/{plateNum}")
-    public CompletableFuture<ResponseEntity<String>> cancelMe(@PathVariable(value = "plateNum") String plateNum
+    public CompletableFuture<ResponseEntity<VehicleResponse>> cancelMe(@PathVariable(value = "plateNum") String plateNum
     ) throws NoCancellationYouMustPayException {
         return transactionService.cancelMe(plateNum).thenApply(ResponseEntity::ok);
     }
 
-    @GetMapping("/rent/{start}/{end}/{num}")
-    public CompletableFuture<ResponseEntity<String>> rentMe(@PathVariable(value = "start") String start, @PathVariable(value = "end") String end,
-                                                            @PathVariable(value = "num") String num) throws SorryWeDontHaveThatOneException {
-        return transactionService.rentMe(start, end, num).thenApply(ResponseEntity::ok);
-    }
-
-    @GetMapping("/rent/location/{start}/{end}/{num}/{location}")
-    public CompletableFuture<ResponseEntity<String>> rentMe(@PathVariable(value = "start") String start, @PathVariable(value = "end") String end,
-                                                            @PathVariable(value = "num") String num, @PathVariable(value = "location") String location) throws SorryWeDontHaveThatOneException {
-        return transactionService.rentMe(start, end, num, location).thenApply(ResponseEntity::ok);
-    }
-
     @GetMapping("/drop/{plateNum}")
-    public CompletableFuture<ResponseEntity<Integer>> dropMe(@PathVariable(value = "plateNum") String plateNum
-    ) {
+    public CompletableFuture<ResponseEntity<VehicleResponse>> dropMe(@PathVariable(value = "plateNum") String plateNum
+    ) throws NoCancellationYouMustPayException {
         return transactionService.dropMe(plateNum).thenApply(ResponseEntity::ok);
     }
 

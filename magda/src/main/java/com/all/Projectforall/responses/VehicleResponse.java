@@ -1,12 +1,16 @@
 package com.all.Projectforall.responses;
 
 import com.all.Projectforall.entitys.vehicle_hiring.Vehicle;
+import com.all.Projectforall.entitys.vehicle_hiring.transactionTables.Cancellation;
+import com.all.Projectforall.entitys.vehicle_hiring.transactionTables.Reservation;
 import com.all.Projectforall.entitys.vehicle_hiring.vehicles.Car;
 import com.all.Projectforall.entitys.vehicle_hiring.vehicles.Truck;
 import com.all.Projectforall.entitys.vehicle_hiring.vehicles.cars.SUV;
 import com.all.Projectforall.entitys.vehicle_hiring.vehicles.cars.SW;
 import com.all.Projectforall.entitys.vehicle_hiring.vehicles.cars.Sports;
 import com.all.Projectforall.entitys.vehicle_hiring.vehicles.trucks.TransportTruck;
+import com.all.Projectforall.models.vehicle_hiring.CancellationModel;
+import com.all.Projectforall.models.vehicle_hiring.ReservationModel;
 
 import java.util.List;
 
@@ -19,6 +23,8 @@ public class VehicleResponse {
     private List<Sports> sports;
     private List<SUV> suvList;
     private List<SW> swList;
+    private String message;
+    private CancellationModel cancellation;
 
     public VehicleResponse() {
     }
@@ -32,6 +38,15 @@ public class VehicleResponse {
         this.sports = sports;
         this.suvList = suvList;
         this.swList = swList;
+    }
+
+    public VehicleResponse(String message) {
+        this.message = message;
+    }
+
+    public VehicleResponse( CancellationModel cancellation,String message) {
+        this.message = message;
+        this.cancellation = cancellation;
     }
 
     public List<Vehicle> getVehicles() {
@@ -62,5 +77,13 @@ public class VehicleResponse {
 
     public List<SW> getSwList() {
         return swList;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public CancellationModel getCancellation() {
+        return cancellation;
     }
 }

@@ -12,11 +12,30 @@ button{
 button>i{
   color: red;
 }
+label.cancel{
+font-size: small;
+  color:blue;
+  margin-left: 2px;
+  padding-right: 2px;
+  border-right: 1px solid blue;
+  background-color: white;
+}
+label.cancel>i{
+  background-color: white;
+  color: lime;
+  font-size: small;
+}
 .model-header-button{
   cursor: pointer;
   color: white;
   background-color: black;
   font-size: x-large;
+}
+.model-header-button-search{
+  color: blue;
+  background-color: white;
+  font-size: large;
+  border: none;
 }
 .search{
   background-color:white;

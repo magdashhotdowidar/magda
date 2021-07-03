@@ -2,6 +2,7 @@ package com.all.Projectforall.entitys.vehicle_hiring.vehicles.cars;
 
 import com.all.Projectforall.entitys.vehicle_hiring.vehicles.Car;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -10,8 +11,8 @@ import javax.persistence.Table;
 @Table(name = "sports_cars")
 @PrimaryKeyJoinColumn(name = "id")
 public class Sports extends Car {
-
-    private int  horsepowerHP;
+    @Column(name = "horsepower_HP")
+    private int horsepowerHP;
 
     public Sports() {
     }
@@ -30,11 +31,11 @@ public class Sports extends Car {
         this.horsepowerHP = horsepowerHP;
     }
 
-    public int getHorsepower() {
+    public int getHorsepowerHP() {
         return horsepowerHP;
     }
 
-    public void setHorsepower(int horsepower) {
+    public void setHorsepowerHP(int horsepower) {
         this.horsepowerHP = horsepower;
     }
 

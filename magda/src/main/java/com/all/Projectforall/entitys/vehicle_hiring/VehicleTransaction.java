@@ -1,50 +1,60 @@
 package com.all.Projectforall.entitys.vehicle_hiring;
 
+import com.all.Projectforall.entitys.vehicle_hiring.transactionTables.Cancellation;
+import com.all.Projectforall.entitys.vehicle_hiring.transactionTables.Reservation;
+import com.all.Projectforall.models.vehicle_hiring.VehicleTransactionModel;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "vehicles_trans")
 public class VehicleTransaction {
+    //important important note when the class have many relations of type one to many make fetchType lazy to avoid the exception
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int transId;
     private String plateNum;
     private String startDate;
     private String endDate;
-    private String location;
-    private int totalFees;
-    private boolean rented;
-    private boolean booked;
-    private boolean canceled;
+
+    @OneToMany(mappedBy = "vehicleTransaction", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    List<Reservation>reservations;
+
+    @OneToMany(mappedBy = "vehicleTransaction", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    List<Cancellation> cancellations;
+
 
     public VehicleTransaction() {
     }
-
-    public VehicleTransaction(String plateNum, String startDate, String endDate, String location, boolean rented, boolean booked, boolean canceled) {
-        this.plateNum = plateNum;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.location = location;
-        this.rented = rented;
-        this.booked = booked;
-        this.canceled = canceled;
+    public void add_reservation(Reservation reservation) {
+        if (reservation != null) {
+            if (reservations == null) reservations = new ArrayList<>();
+            reservation.setVehicleTransaction(this);//set the foreign key
+            reservations.add(reservation);
+        }
     }
+
+    public void add_cancellation(Cancellation cancellation) {
+        if (cancellations != null) {
+            if (cancellations == null) cancellations = new ArrayList<>();
+            cancellation.setVehicleTransaction(this);//set the foreign key
+            cancellations.add(cancellation);
+        }
+    }
+
+    public VehicleTransaction(VehicleTransactionModel transaction) {
+        this.plateNum = transaction.getPlateNum();
+        this.startDate = transaction.getStartDate();
+        this.endDate = transaction.getEndDate();
+    }
+
+
     public VehicleTransaction(String plateNum, String startDate, String endDate) {
         this.plateNum = plateNum;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.rented = true;
-        this.booked = true;
-        this.canceled = false;
-    }
-    public VehicleTransaction(String plateNum, String startDate, String endDate,String location) {
-        this.plateNum = plateNum;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.location=location;
-        this.rented = true;
-        this.booked = true;
-        this.canceled = false;
     }
 
     public int getTransId() {
@@ -71,38 +81,6 @@ public class VehicleTransaction {
         this.endDate = endDate;
     }
 
-    public boolean isRented() {
-        return rented;
-    }
-
-    public void setRented(boolean rented) {
-        this.rented = rented;
-    }
-
-    public boolean isBooked() {
-        return booked;
-    }
-
-    public void setBooked(boolean booked) {
-        this.booked = booked;
-    }
-
-    public boolean isCanceled() {
-        return canceled;
-    }
-
-    public void setCanceled(boolean canceled) {
-        this.canceled = canceled;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public String getPlateNum() {
         return plateNum;
     }
@@ -111,26 +89,30 @@ public class VehicleTransaction {
         this.plateNum = plateNum;
     }
 
-    public int getTotalFees() {
-        return totalFees;
+    public List<Reservation> getReservations() {
+        if (reservations==null)return new ArrayList<>();
+        return reservations;
     }
 
-    public void setTotalFees(int totalFees) {
-        this.totalFees = totalFees;
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public List<Cancellation> getCancellations() {
+        if (cancellations ==null)return new ArrayList<>();
+        return cancellations;
+    }
+
+    public void setCancellations(List<Cancellation> cancellations) {
+        this.cancellations = cancellations;
     }
 
     @Override
     public String toString() {
         return "VehicleTransaction{" +
-                "transId=" + transId +
-                ", plateNum='" + plateNum + '\'' +
+                "plateNum='" + plateNum + '\'' +
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
-                ", location='" + location + '\'' +
-                ", totalFees=" + totalFees +
-                ", rented=" + rented +
-                ", booked=" + booked +
-                ", canceled=" + canceled +
                 '}';
     }
 }

@@ -44,17 +44,30 @@ export class SWDto extends CarDto {
 
 export class VehicleResponseDto {
   constructor(public vehicles: VehicleDto[],
-              public availableVehicles:VehicleDto[],
+              public availableVehicles: VehicleDto[],
               public cars: CarDto[],
               public trucks: TruckDto[],
               public transportTrucks: TransportTruckDto[],
               public sports: SportsDto[],
               public suvList: SuvDto[],
-              public swList: SWDto[]) {
+              public swList: SWDto[],
+              public message: string,
+              public cancellation: ResponseWithDateModel) {
   }
 }
 
 export class ResponseWithDateModel {
-  constructor(public startDate:string,
-              public endDate:string){}
+  constructor(public label: string,
+              public startDate: string,
+              public endDate: string,
+              public plateNum: string,
+              public user: string,
+              public customer: string,
+              public drop?:Drop) {
+  }
+}
+class Drop{
+  constructor(public allFees:number,
+              public dailyFees:number,
+              public rentPeriod:number){}
 }
