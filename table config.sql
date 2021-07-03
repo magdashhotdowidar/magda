@@ -57,13 +57,29 @@ daily_fee int
 create table vehicles_trans(
 trans_id int PRIMARY KEY AUTO_INCREMENT,
 plate_num varchar(20),
-total_fees int,
+start_date varchar(25),
+end_date varchar(20)
+  );
+  create table reservations(
+id int PRIMARY KEY AUTO_INCREMENT,
+plate_num varchar(20),
 start_date varchar(25),
 end_date varchar(20),
-location varchar(200),
-rented boolean,
-booked boolean,
-canceled boolean,
+employee varchar(220),
+customer varchar(220),
+reservation_type varchar(20),
+transaction_id int not null,
+constraint fk_Transaction_reservation foreign key(transaction_id) references vehicles_trans(trans_id)
+  );
+    create table cancellations(
+id int PRIMARY KEY AUTO_INCREMENT,
+plate_num varchar(20),
+start_date varchar(25),
+end_date varchar(20),
+employee varchar(220),
+customer varchar(220),
+transaction_id int not null,
+constraint fk_Transaction_cancellation foreign key(transaction_id) references vehicles_trans(trans_id)
   );
 create table cars(
 id int not null,
@@ -190,10 +206,8 @@ ORDER BY COUNT(CustomerID) DESC;
 alter table users drop column(
 personal_Image,background_Image,phone_Number,gender,email,birth_Date)
 
-ALTER TABLE USERS   
-ADD (EMAIL VARCHAR(225),PHONE_NUMBER VARCHAR(225),GENDER VARCHAR(225),
-      PERSONAL_IMAGE VARCHAR(225),BACKGROUND_IMAGE VARCHAR(225),BIRTH_DATE VARCHAR(225)
-	  )
+ALTER TABLE vehicles   
+ADD (image_Name VARCHAR(225),vehicle_type VARCHAR(40))
 	  
 ALTER TABLE product
 ADD the_admin VARCHAR(225);
