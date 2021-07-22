@@ -21,6 +21,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -121,7 +123,7 @@ public class VehicleService {
         return CompletableFuture.completedFuture(list);
     }
 
-    private List<Vehicle> getAvailableVehicles() {
+    public List<Vehicle> getAvailableVehicles() {
         List<Vehicle> vehicles = new ArrayList<>();
             for (Vehicle vehicle : vehicleRepository.findAll())
                 if (transactionService.getTransactionVehicle("","",vehicle.getPlateNumber())!=null) vehicles.add(vehicle);
@@ -140,6 +142,20 @@ public class VehicleService {
                 .get(), getAllSportCars().get(), getAllSuvCars().get(), getAllSWCars().get());
 
         return CompletableFuture.completedFuture(response);
+    }
+    public void writeDataInFile() throws FileNotFoundException {
+        List<Vehicle>vehicles=vehicleRepository.findAll();
+        PrintWriter print =new PrintWriter("src\\main\\resources\\jasper\\reports\\"+"myVehiclesFile"+".txt");
+        print.println("                                                       ** ALL VEHICLES REPORT **");
+        print.println("                                                       ** FROM AHMED SABER AMEN **");
+        print.println();
+        print.println("************************************************************************************");
+        print.println();
+        for (Vehicle vehicle:vehicles){
+            print.println(" "+vehicle.getPlateNumber()+"    |    "+vehicle.getVehicleType()+"    |    "+vehicle.getDailyFee()+"    |    "+vehicle.getPrice());
+            print.println("-------------------------------------------------------");
+        }
+        print.close();
     }
 
 }

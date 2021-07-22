@@ -33,10 +33,12 @@ export class VehicleTransactionComponent implements OnInit, AfterViewChecked {
   selectDropDown: boolean;
   selectedVehicleName: string = '';
   customer: string='';
+  location:string='';
   openLoading: boolean;
   amount: number=0;
   cancellation:ResponseWithDateModel;
   openSearch: boolean;
+  showRentLocation: boolean=false;
 
 
   constructor(private vehicleService: VehicleService,
@@ -77,8 +79,11 @@ export class VehicleTransactionComponent implements OnInit, AfterViewChecked {
   }
   rentMeAndGiveLocation() {
     if(this.setResponse()==null)this.toastr.warning('set the date')
-    else this.vehicleService.rentMeAndGiveLocation(this.setResponse(),'location').subscribe(data => {
+    else this.vehicleService.rentMeAndGiveLocation(this.setResponse(),this.location).subscribe(data => {
         this.toastr.success(data.message);
+        this.showRentLocation=false;
+        this.openPrivacy=false;
+        this.location='';
       },
       (error: HttpErrorResponse) => this.toastr.error(error['error'].message));
   }
@@ -96,12 +101,15 @@ export class VehicleTransactionComponent implements OnInit, AfterViewChecked {
 
   loadMe() {
     this.openLoading=!this.openLoading;
-    this.amount=0
-/*    this.vehicleService.loadMe(9).subscribe(
+    this.vehiclesForSearch=[];
+    this.showSearch=true;
+    this.dorpDownSearchInput=true;
+    this.vehicleService.loadMe(this.amount).subscribe(
       (data) => {
-        this.toastr.success('cancellation done successfully')
+        this.vehiclesForSearch=data;
+        this.amount=0
       },
-      (error: HttpErrorResponse) => this.toastr.success(error.error.message));*/
+      (error: HttpErrorResponse) => this.toastr.success(error.error.message));
   }
   dropMe() {
     this.vehicleService.dropMe(this.plateNum).subscribe(
@@ -137,6 +145,7 @@ export class VehicleTransactionComponent implements OnInit, AfterViewChecked {
   }
 
   getVehicleByTypeOrPlateNumber(value: string) {
+    this.vehiclesForSearch=[];
 
     if (value != '' || value != null || value != undefined || value.length > 0)
       this.vehicleService.getVehicleByTypeOrPlateNumber(value).subscribe(
@@ -154,7 +163,8 @@ export class VehicleTransactionComponent implements OnInit, AfterViewChecked {
     this.plateNum = vehicle.plateNumber;
     setTimeout(() => {
       this.dorpDownSearchInput = false;
-    }, 500);
+      this.showSearch=false;
+    }, 1500);
   }
 
   closeSelectDropDown(vehicle: VehicleDto) {
@@ -168,6 +178,7 @@ export class VehicleTransactionComponent implements OnInit, AfterViewChecked {
     if (type === 'book') if (this.startDate==null||this.endDate==null||this.customer=='')return true;
     if (type === 'cancel') if (this.customer=='')return true;
     if (type === 'amount') if (this.amount<1)return true;
+    if (type === 'location') if (this.location==='')return true;
     return false;
   }
 

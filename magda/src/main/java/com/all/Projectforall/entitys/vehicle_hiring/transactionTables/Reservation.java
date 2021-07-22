@@ -21,6 +21,9 @@ public class Reservation {
     @JoinColumn(name = "transaction_id")
     private VehicleTransaction vehicleTransaction;
 
+    @OneToOne(mappedBy = "reservation")
+    private Location location;
+
     public Reservation() {
     }
     public Reservation(ReservationModel reservation) {
@@ -103,6 +106,14 @@ public class Reservation {
 
     public void setReservationType(String reservationType) {
         this.reservationType = reservationType;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     @Override

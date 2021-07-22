@@ -8,16 +8,16 @@ import {LocalStorage} from "../../../shared/enums/local-storage-coding.enum";
 @Injectable({
   providedIn: 'root'
 })
-export class ProductJasperReportService {
+export class VehicleJasperReportService {
 
-  private baseUrl = this.urlConfigService.getApiUrl(Modules.P) + 'product/report';
+  private baseUrl = this.urlConfigService.getApiUrl(Modules.TUTORIAL) + 'vehicle/report';
 
   constructor(private http: HttpClient,
               private urlConfigService: URLConfigService) {
   }
 
-  generateReport(format:string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${format}/${localStorage.getItem(LocalStorage.userName)}`,{responseType: 'text'} );
+  generateReport(format:string,typeOfData:string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${format}/${localStorage.getItem(LocalStorage.userName)}/${typeOfData}`,{responseType: 'text'} );
   }
 }
 

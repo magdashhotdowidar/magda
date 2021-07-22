@@ -10,6 +10,7 @@ import com.all.Projectforall.exceptions.custExcep.OverWeightException;
 import com.all.Projectforall.exceptions.custExcep.SorryWeDontHaveThatOneException;
 import com.all.Projectforall.models.vehicle_hiring.ResponseWithDateModel;
 import com.all.Projectforall.repos.vehicle_hiring.VehicleRepository;
+import com.all.Projectforall.repos.vehicle_hiring.transacations.ReservationRepository;
 import com.all.Projectforall.responses.VehicleResponse;
 import com.all.Projectforall.services.vehicle_hiring.VehicleService;
 import com.all.Projectforall.services.vehicle_hiring.VehicleTransactionService;
@@ -31,11 +32,12 @@ import java.util.stream.Collectors;
 public class VehicleController {
     @Autowired
     private VehicleTransactionService transactionService;
-
     @Autowired
     private VehicleService vehicleService;
     @Autowired
     private VehicleRepository vehicleRepository;
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @PostMapping()
     public CompletableFuture<String> save(@RequestParam(value = "file", required = false) MultipartFile file,
@@ -98,13 +100,14 @@ public class VehicleController {
     @PutMapping("/rent")
     public CompletableFuture<ResponseEntity<VehicleResponse>> rentMe(@Valid @RequestBody ResponseWithDateModel response) throws SorryWeDontHaveThatOneException {
         return transactionService.rentMe(response.getStartDate(), response.getEndDate(),
-                response.getPlateNum(), response.getUser(), response.getCustomer()).thenApply(ResponseEntity::ok);
+                response.getPlateNum(), response.getUser(), response.getCustomer(),"").thenApply(ResponseEntity::ok);
     }
 
     @PutMapping("/rent/location/{location}")
     public CompletableFuture<ResponseEntity<VehicleResponse>> rentMe(@Valid @RequestBody ResponseWithDateModel response, @PathVariable(value = "location") String location)
             throws SorryWeDontHaveThatOneException {
-        return transactionService.rentMe(response.getStartDate(), response.getEndDate(), response.getPlateNum(),"","", location).thenApply(ResponseEntity::ok);
+        return transactionService.rentMe(response.getStartDate(), response.getEndDate(), response.getPlateNum(),
+                response.getUser(), response.getCustomer(), location).thenApply(ResponseEntity::ok);
     }
 
     @GetMapping("/cancel/{plateNum}")
@@ -123,6 +126,14 @@ public class VehicleController {
     public CompletableFuture<ResponseEntity<List<Truck>>> loadMe(@PathVariable(value = "amount") int amount
     ) throws OverWeightException {
         return transactionService.loadMe(amount).thenApply(ResponseEntity::ok);
+    }
+    @GetMapping("ChartDataDailyFee")
+    public ResponseEntity<List<Object[]>> getVehicleChartDataDailyFee() {
+        return ResponseEntity.ok().body(vehicleRepository.chartData());
+    }
+    @GetMapping("ChartDataReservationCount")
+    public ResponseEntity<List<Object[]>> getVehicleChartDataReservationCount() {
+        return ResponseEntity.ok().body(reservationRepository.chartData());
     }
 
 }

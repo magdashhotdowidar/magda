@@ -7,37 +7,22 @@
 
           <nav aria-label="breadcrumb" style="background-color: white;color: navy">
             <ol class="breadcrumb" style="background-color: white;color: navy">
-              <li class="breadcrumb-item"><a routerLink="../" routerLinkActive="active"><i class="fa fa-home"
-                                                                                           style="font-size: xx-large"></i></a>
-              </li>
-              <li class="breadcrumb-item" style="font-size: large"><a routerLink="../sell" style="padding:0px 5px"
-                                                                      routerLinkActive="active"> {{'PROJECT.breadcrumb.selling'|translate}}</a>
-              </li>
-              <li class="breadcrumb-item" style="font-size: large;"><a routerLink="../slider" style="padding:0px 5px"
-                                                                       routerLinkActive="active"> {{'PROJECT.breadcrumb.view_product'|translate}}</a>
-              </li>
-              <li class="breadcrumb-item" style="font-size:large;font-style: italic">
-                <a style="padding:0px 5px;color:lime;cursor: pointer "
-                   (click)="testTable=!testTable"><i class="fa fa-table" aria-hidden="true"
-                                                     style="color:lime;font-size:x-large "></i>{{testTable ? ' View Products Table' : ' EditTable'}}
-                </a>
-              </li>
-              <li class="breadcrumb-item"><a (click)="showAddProductPopup=true"
-                                             style="background-color: white;cursor: pointer;padding:0px 5px"
-                                             data-toggle="modal"
-                                             data-target="#vehiclePopUp">
-                <i class="fa fa-eye" aria-hidden="true"
-                   style="color:lime;font-size:x-large "> {{'PROJECT.breadcrumb.add_product'|translate}}</i></a></li>
-              <li class="breadcrumb-item"><a (click)="showChartPopup=true"
-                                             style="background-color: white;cursor: pointer;padding:0px 5px"
-                                             data-toggle="modal"
-                                             data-target="#chartPopUp">
-                <i class="fa fa-bar-chart" aria-hidden="true"
+              <li class="breadcrumb-item"><a routerLink="../" routerLinkActive="active"><i class="fa fa-home" style="font-size: xx-large"></i></a></li>
+              <li class="breadcrumb-item"><a (click)="showAddProductPopup=true" style="background-color: white;cursor: pointer;padding:0px 5px" data-toggle="modal" data-target="#vehiclePopUp">
+                <i class="fa fa-truck" aria-hidden="true" style="color:lime;font-size:x-large "> {{'PROJECT.breadcrumb.add_vehicle'|translate}}</i></a></li>
+              <li class="breadcrumb-item"><a (click)="showChartPopup=true" style="background-color: white;cursor: pointer;padding:0px 5px"
+                                             data-toggle="modal" data-target="#vehicleChartPopUp"><i class="fa fa-bar-chart" aria-hidden="true"
                    style="color:magenta;font-size:x-large "> {{'PROJECT.breadcrumb.chart'|translate}}</i></a></li>
-              <!--    <li class="breadcrumb-item"><a (click)="generateProductReport()"
-                                                 style="background-color: white;cursor: pointer;padding:0px 5px">
-                    <i class="fa fa-print" aria-hidden="true"
-                       style="color:blue;font-size:x-large ">  {{'PROJECT.breadcrumb.print'|translate}}</i></a></li>-->
+              <li class="dropdown breadcrumb-item" style="cursor: pointer">
+                <a type="button"  (click)="openPrint=!openPrint" >
+                   <i class="fa fa-print" aria-hidden="true" style="color:blue;font-size:x-large ">  {{'PROJECT.breadcrumb.print'|translate}}</i></a>
+                <ul class="dropdown-menu " [ngClass]="{show:openPrint}" style="background-color: white;color:blue;width: 220px">
+                  <a (click)="generateProductReport('all')" style="background-color: white;cursor: pointer;padding:0px 5px">
+                    <i class="fa fa-print" aria-hidden="true" style="color:blue;font-size:x-large ">  {{'all vehicles'|translate}}</i></a>
+                  <a (click)="generateProductReport('available')" style="background-color: white;cursor: pointer;padding:0px 5px">
+                    <i class="fa fa-print" aria-hidden="true" style="color:blue;font-size:x-large ">  {{'available vehicles'|translate}}</i></a>
+                </ul>
+              </li>
             </ol>
           </nav>
 
@@ -330,6 +315,10 @@
      aria-labelledby="successLabel" aria-hidden="true">
   <add-vehicle-popup (show-popup)="showAddProductPopup=$event"
                      (new-vehicle)="addNewProduct($event)"></add-vehicle-popup>
+</div>
+<div class="modal fa fa" id="vehicleChartPopUp" tabindex="-1" role="dialog" *ngIf="showChartPopup"
+     aria-labelledby="successLabel" aria-hidden="true">
+  <vehicle-bar-chart (show-popup)="showChartPopup=$event" ></vehicle-bar-chart>
 </div>
 
 

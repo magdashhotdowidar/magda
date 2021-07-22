@@ -5,6 +5,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {CarDto, VehicleDto, VehicleResponseDto} from "../../infrastructure/models/vehicle.models";
 import {Path} from "../../../shared/enums/path.enum";
 import {VehicleService} from "../../infrastructure/services/vehicle.service";
+import {VehicleJasperReportService} from "../../infrastructure/services/vehicle-jasper-report.service";
 
 @Component({
   selector: 'car-management',
@@ -38,6 +39,7 @@ export class CarManagementComponent implements OnInit {
   moreOptions: boolean;
   matchAny: boolean;
   openPrivacy: boolean;
+  openPrint: boolean=false;
 
   sort(key) {
     this.key = key;
@@ -49,6 +51,7 @@ export class CarManagementComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               private toastr: ToastrService,
+              private report:VehicleJasperReportService
   ) {
   }
 
@@ -125,6 +128,11 @@ export class CarManagementComponent implements OnInit {
 
   updateProduct(name: string) {
     this.router.navigate(['../p_update', name], {relativeTo: this.route});
+  }
+  generateProductReport(typeOfData:string){
+    this.openPrint=false;
+    this.report.generateReport('pdf',typeOfData).subscribe(data=>this.toastr.success('Report Generated Successfully'),
+      (error :HttpErrorResponse)=>this.toastr.error('pdf file is opened close it '))
   }
 
 }

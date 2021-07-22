@@ -7,9 +7,9 @@
             <button type="button"  (click)="openSearch=!openSearch" class="model-header-button">
               SEARCH <i class="fa fa-search" aria-hidden="true" style="color: white"></i></button>
             <ul class="dropdown-menu " [ngClass]="{show:openSearch}" style="background-color: white;color:blue;width: 220px">
-              <button type="button" class="model-header-button-search" (click)="showSearchByType=!showSearchByType;showSearch=false"
+              <button type="button" class="model-header-button-search" (click)="showSearchByType=!showSearchByType;showSearch=false;openSearch=!openSearch"
                       id="searchByType">By Type<i class="fa fa-search" aria-hidden="true" ></i></button>
-              <button type="button" class="model-header-button-search" (click)="showSearch=!showSearch;showSearchByType=false"
+              <button type="button" class="model-header-button-search" (click)="showSearch=!showSearch;showSearchByType=false;openSearch=!openSearch"
                       id="search">By plateNum or Type<i class="fa fa-search" aria-hidden="true" ></i></button>
             </ul>
           </div>
@@ -47,8 +47,9 @@
                      type="search"  aria-label="Search">
               <ul class="dropdown-menu " [ngClass]="{show:dorpDownSearchInput}">
                 <li *ngFor="let v of vehiclesForSearch;let i=index" class="text-center" #_i>
-                  <a style="color:blue;" (click)="closeInputDropDown(v)">{{ v.plateNumber}}
+                  <a style="color:blue;cursor: pointer" (click)="closeInputDropDown(v)">{{ v.plateNumber}}
                     <img alt="" class="avatar" height="30" width="30" [src]="path+v.imageName"></a>
+                  <div class="dropdown-divider"></div>
                 </li>
               </ul>
             </div>
@@ -115,15 +116,21 @@
              </div>
               <button type="button" (click)="dropMe()" class="btn btn-link">
                 <i class="fa fa-angle-left" aria-hidden="true" ></i> Returning The Vehicle <i class="fa fa-eye" aria-hidden="true"></i></button>
-             <button class="dropdown dropdown-toggle btn btn-outline-primary" type="button" (click)="openPrivacy=!openPrivacy">
-               <span class="input-group-text" style="background-color: white;border-color: blue;margin: 4px"><i
-               class="fa fa-adjust" style="font-size: large;color:blue;border-color: blue">Rent</i></span>
+             <div class="dropdown">
+             <button class=" btn btn-outline-primary" type="button" (click)="openPrivacy=!openPrivacy">
+               <span class="input-group-text" style="background-color: white;border-color: blue;margin: 4px"><i class="fa fa-adjust" style="font-size: large;color:blue;border-color: blue">Rent</i></span></button>
                <ul class="dropdown-menu " [ngClass]="{show:openPrivacy}"
                    style="background-color: white;color:blue;width: 220px">
                  <div class="row" style="margin:0 3px"><button class="btn btn-link"(click)="rentMe()"><i class="fa fa-eye" style="color:red;font-size:x-large "> </i> Rent</button></div>
-                 <div class="row" style="margin:0 3px"><button class="btn btn-link" (click)="rentMeAndGiveLocation()"><i class="fa fa-eye" style="color:red;font-size:x-large "> </i> Rent Remotely</button></div>
+                 <div class="row" style="margin:0 3px"><button class="btn btn-link" (click)="showRentLocation=true"><i class="fa fa-eye" style="color:red;font-size:x-large "> </i> Rent Remotely</button></div>
+                 <div *ngIf="showRentLocation" class="row" style="margin:0 3px">
+                   <textarea class="form-control" [(ngModel)]="location" name="location" data-toggle="tooltip"
+                             data-placement="right" title="{{'set the location'}}"
+                             placeholder="{{'set the location'}}" ></textarea>
+                   <button [disabled]="setDisabled('location')" class="btn btn-link"(click)="rentMeAndGiveLocation()"><i class="fa fa-eye" style="color:red;font-size:large "></i> rent</button>
+                 </div>
                </ul>
-             </button>
+             </div>
           </div>
           <hr>
           <div class="row col-md-12 text-center" style="margin: 0 2px"> <img alt="" class="avatar" height="300" width="750" [src]="path+imageName"></div>

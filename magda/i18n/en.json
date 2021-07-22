@@ -31,9 +31,12 @@
       "traditional_mode": "Traditional Mode",
       "selling": "SELL",
       "add_product": "Add Product",
+      "add_vehicle": "Add Vehicle",
       "chart": "CHART",
       "products_chart": "Product View",
       "categories_chart": "Category View",
+      "vehicleDailyFee_chart": "View DailyFee rate",
+      "vehicleReservationCount_chart": "View ReservationCount",
       "print": "PRINT"
     },
     "product": {
@@ -118,7 +121,9 @@
       "horse": "horse power",
       "wheelDriveType": "wheel type",
       "pic": "vehicle picture",
-      "add": "ADD VEHICLE"
+      "add": "ADD VEHICLE",
+      "chart_dailyFee_message": "vehicle <=> dailyFee",
+      "chart_reservationCount_message": "vehicle <=> RESERVATION COUNT"
     }
   }
 }

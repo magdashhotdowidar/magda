@@ -5,6 +5,7 @@ import {URLConfigService} from "../../../shared/services/urlconfig.service";
 import {Modules} from "../../../shared/enums/modules.enum";
 import {ResponseWithDateModel, TruckDto, VehicleDto, VehicleResponseDto} from "../models/vehicle.models";
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -65,5 +66,23 @@ export class VehicleService {
     return this.http.get<VehicleResponseDto>(`${this.baseUrl}`, {responseType: "json"});
   }
 
+  getChartDataDailyFee():Observable<ChartData[]>{
+    return this.http.get<ChartData[]>(`${this.baseUrl}/ChartDataDailyFee`)
+  }
+  getChartDataReservationCount():Observable<ChartData[]>{
+    return this.http.get<ChartData[]>(`${this.baseUrl}/ChartDataReservationCount`)
+  }
+
 }
+/////////////////////////////////////////
+export class ChartData {
+  public name:string;
+  public count:number;
+
+  constructor(name: string, count: number) {
+    this.name = name;
+    this.count = count;
+  }
+}
+
 

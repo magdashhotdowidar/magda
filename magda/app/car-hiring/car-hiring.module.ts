@@ -26,6 +26,7 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {VehicleFilterPipe} from "./infrastructure/pipes/vehicle-filter.pipe";
 import {AuthorizeGuard} from "../auth/authorize.guard";
 import {VehicleTransactionComponent} from "./components/car-details/vehicle-transaction-popup/vehicle-transaction.component";
+import {AddVehicleChartPopupComponent} from "./components/car-management/add-vehicle-chart-popup/add-vehicle-chart-popup.component";
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -41,6 +42,7 @@ export function createTranslateLoader(http: HttpClient) {
     CarDetailsComponent,
     CarManagementComponent,
     AddVehiclePopupComponent,
+    AddVehicleChartPopupComponent,
     VehicleTransactionComponent,
     VehicleFilterPipe
   ],

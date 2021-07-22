@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @CrossOrigin
@@ -17,11 +16,17 @@ public class ProductReportController {
     @Autowired
     private ProductReportService service;
 
-    @GetMapping("report/{format}/{user}")
-    public String exportReport(@PathVariable String format,
-                               @PathVariable String user,
-                               HttpServletRequest request) throws IOException, JRException {
+    @GetMapping("product/report/{format}/{user}")
+    public String exportProductsReport(@PathVariable String format,
+                                       @PathVariable String user,
+                                       HttpServletRequest request) throws IOException, JRException {
 
-        return service.exprotReport(format, user,request.getHeader("theAdmin"));
+        return service.exportProductsReport(format, user, request.getHeader("theAdmin"));
+    }
+
+    @GetMapping("vehicle/report/{format}/{user}/{typeOfData}")
+    public String exportVehicleReport(@PathVariable String format, @PathVariable String user, @PathVariable String typeOfData) throws Exception {
+
+        return service.exportAllVehicleReport(format, user,typeOfData);
     }
 }

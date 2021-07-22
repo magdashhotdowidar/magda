@@ -71,6 +71,12 @@ reservation_type varchar(20),
 transaction_id int not null,
 constraint fk_Transaction_reservation foreign key(transaction_id) references vehicles_trans(trans_id)
   );
+    create table locations (
+      id  int PRIMARY KEY AUTO_INCREMENT,
+      location varchar_ignorecase(250),
+      reservation_id int not null,
+      constraint fk_reservation_location foreign key(reservation_id) references reservations(id)
+	  );
     create table cancellations(
 id int PRIMARY KEY AUTO_INCREMENT,
 plate_num varchar(20),
@@ -186,7 +192,7 @@ create table INVOICES(
       name varchar_ignorecase(50) not null,
       amount varchar_ignorecase(50) not null,
       recipe_id int not null,
-      constraint fk_INGREDIENTS_RECIPES foreign key(recipe_id references RECIPES(id));
+      constraint fk_INGREDIENTS_RECIPES foreign key(recipe_id) references RECIPES(id));
       
 
 select * from

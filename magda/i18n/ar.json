@@ -31,9 +31,12 @@
       "traditional_mode": "النظام التقليدي",
       "selling": "بيع",
       "add_product": "إضافة منتج",
+      "add_vehicle": "أضف مركبة",
       "chart": "التمثيل بيانياً",
       "products_chart": "عرض المنتج",
       "categories_chart": " عرض الفئات",
+      "vehicleDailyFee_chart": "عرض قيم الرسوم",
+      "vehicleReservationCount_chart": "عرض نسبة الحجوزات",
       "print": "طباعة"
     },
     "product": {
@@ -118,7 +121,9 @@
       "horse": "قوة الحصان",
       "wheelDriveType": "نوع الاطارات",
       "pic": "صورة المركبة",
-      "add":"إضافة مركبة"
+      "add":"إضافة مركبة",
+      "chart_dailyFee_message": "رسوم <=> المركبة",
+      "chart_reservationCount_message": "المركبة <=> عدد الججوزات"
     }
   }
 }

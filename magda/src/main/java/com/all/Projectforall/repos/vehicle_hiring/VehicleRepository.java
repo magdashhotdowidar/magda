@@ -4,7 +4,6 @@ import com.all.Projectforall.entitys.vehicle_hiring.Vehicle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,4 +19,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
     @Modifying
     @Query(value = "delete from Vehicle v where  v.plateNumber is null ")
     void deleteAllByPlateNumberIsNull();
+
+    @Query("select v.plateNumber,v.dailyFee from Vehicle v")
+    public List<Object[]>chartData();
 }

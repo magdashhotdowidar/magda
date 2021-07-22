@@ -1,6 +1,13 @@
 input.ng-invalid.ng-touched {
   border: none;
 }
+textarea{
+  font-size: large;
+  color: blue;
+  cursor: pointer;
+  margin: 0 2px;
+  border: 1px solid blue;
+}
 div.but{
   margin:0 2px;
   padding:0 0;
@@ -36,6 +43,7 @@ label.cancel>i{
   background-color: white;
   font-size: large;
   border: none;
+  cursor: pointer;
 }
 .search{
   background-color:white;
@@ -54,12 +62,6 @@ input {
 }
 hr{
   border: 1px solid blue;
-}
-
-textarea {
-  border: none;
-  color: blue;
-  font-size: large;
 }
 label{
   color:blue;
