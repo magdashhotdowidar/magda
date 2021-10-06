@@ -46,6 +46,32 @@ pic_name varchar(220),
 user_pic_name varchar(220),
 message_date varchar(220)
 )
+/////////////////////////////
+create table doctors(
+id int PRIMARY KEY AUTO_INCREMENT,
+first_name varchar(20),
+last_name varchar(30),
+speciality varchar(30)
+)
+create table patients(
+id int PRIMARY KEY AUTO_INCREMENT,
+first_name varchar(20),
+last_name varchar(30),
+phone varchar(30),
+doctor_id int not null,
+FOREIGN KEY (doctor_id)REFERENCES doctors(id)
+)
+create table appointments(
+id int PRIMARY KEY AUTO_INCREMENT,
+patient_id int,
+doctor_id int,
+appointment_time datetime,
+started TINYINT(1),
+ended TINYINT(1),
+reason varchar(200),
+FOREIGN KEY (patient_id)REFERENCES patients(id),
+FOREIGN KEY (doctor_id)REFERENCES doctors(id)
+)
 ///////////////////////////
 create table vehicles(
 id int PRIMARY KEY AUTO_INCREMENT,
@@ -75,7 +101,7 @@ constraint fk_Transaction_reservation foreign key(transaction_id) references veh
       id  int PRIMARY KEY AUTO_INCREMENT,
       location varchar_ignorecase(250),
       reservation_id int not null,
-      constraint fk_reservation_location foreign key(reservation_id) references reservations(id)
+       foreign key(reservation_id) references reservations(id)
 	  );
     create table cancellations(
 id int PRIMARY KEY AUTO_INCREMENT,
@@ -85,7 +111,7 @@ end_date varchar(20),
 employee varchar(220),
 customer varchar(220),
 transaction_id int not null,
-constraint fk_Transaction_cancellation foreign key(transaction_id) references vehicles_trans(trans_id)
+ foreign key(transaction_id) references vehicles_trans(trans_id)
   );
 create table cars(
 id int not null,
@@ -103,26 +129,26 @@ loading_cap int ,
     create table sports_cars(
 id int not null,
 horsepower_HP int ,
-constraint FKad6nenpygjxv4tntnnjaok3ls foreign key (id) references cars
+ foreign key (id) references cars
   );
   create table suv_cars(
 id int not null,
 wheel_drive_type varchar(30) ,
-  constraint FKlm445gf5ab8u9sp87qouldwsb foreign key(id) references cars(id)
+  foreign key(id) references cars(id)
   );
     create table sw_cars(
 id int not null,
 loading_cap int ,
-  constraint FKljc36gd5xlxlnlf1wowpw1kv6 foreign key(id) references cars(id)
+  foreign key(id) references cars(id)
   );
       create table small_truck(
 id int not null,
-  constraint FKd6wunasvasjrg4fhmigiwouo4 foreign key(id) references trucks(id)
+  foreign key(id) references trucks(id)
   );
   create table transport_truck(
 id int not null,
 goes_abroad boolean ,
-  constraint FKq23tkr6r5t8pgd9u2g252bxpu foreign key(id) references trucks(id)
+  foreign key(id) references trucks(id)
   );
 ///////////////////////
 create table taps(
@@ -215,7 +241,7 @@ personal_Image,background_Image,phone_Number,gender,email,birth_Date)
 ALTER TABLE vehicles   
 ADD (image_Name VARCHAR(225),vehicle_type VARCHAR(40))
 	  
-ALTER TABLE product
-ADD the_admin VARCHAR(225);
-update product set the_admin ='ahmed';
+ALTER TABLE appointments
+ADD appointment_date datetime;
+update appointments set appointment_date ='20-9-2021';
 
