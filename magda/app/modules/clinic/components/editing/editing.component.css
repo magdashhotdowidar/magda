@@ -1,0 +1,96 @@
+.card{
+  margin: 2px 0;
+  cursor: pointer;
+}
+.butt-imag{
+  width: 40px;
+  height: 40px;
+  border-left: 1px solid blue;
+}
+.butt-imag-details{
+  width: 90px;
+  height: 60px;
+}
+.butt-imag-details-background{
+  width: 800px;
+  height: 300px;
+}
+.card-header-tabs{
+  margin: 1px 3px;
+  color: blue;
+  border: none;
+  font-size: large;
+  font-style: italic;
+  font-family: Andalus;
+}
+label.my-title-config{
+  margin: 2px 2px;
+  padding: 4px 0;
+  color:deepskyblue;
+  font-size: x-large;
+  font-style: italic;
+  font-family:FontAwesome;
+}
+label.my-body-config{
+  margin: 0px 2px;
+  padding: 0 5px;
+  color:blue;
+  background-color: white;
+  font-size: large;
+  font-style: italic;
+  font-family: Andalus;
+}
+span{
+  margin: 0 2px;
+  padding: 0 2px;
+  color:magenta;
+  font-size: large;
+  font-style: italic;
+  font-family: Andalus;
+}
+span.my-input{
+  color:magenta;
+  margin: 0 3px;
+  padding: 0 3px;
+  font-size: large;
+  font-style: italic;
+  font-family: Andalus;
+}
+input{
+  cursor: pointer;
+  border: 1px solid blue;
+  color:blue;
+  background-color: white;
+  font-size: large;
+  font-style: italic;
+  font-family: Andalus;
+}
+textarea{
+  cursor: pointer;
+  min-width:600px;
+  border: 1px solid blue;
+  color:blue;
+  background-color: white;
+  font-size: large;
+  font-style: italic;
+  font-family: Andalus;
+}
+select,option {
+  margin: 0 5px;
+  direction: rtl;
+  border: none;
+  border-bottom: 1px solid blue;
+  font-size: x-large;
+  background-color: white;
+  color: blue;
+  cursor: pointer;
+  height: 35px
+}
+button{
+  font-size:large;
+  color: white;
+  border: none;
+  font-family: Andalus;
+  font-style: italic;
+}
+

@@ -1,0 +1,63 @@
+button{
+  cursor: pointer;
+
+}
+button.myTable{
+  cursor: pointer;
+  margin-left: 1px;
+}
+input.ng-invalid.ng-touched {
+  border: none;
+}
+
+input {
+  border: none;
+  color: blue;
+  font-size: large;
+}
+div.row.tab-content{
+  margin:0 5px;
+  cursor: pointer;
+  border: 1px solid blue;
+  width: fit-content;
+}
+div.tab-content>input{
+  width: 300px;
+}
+tr>td>input{
+  width: 125px;
+  color: blue;
+  border: none;
+}
+tr>td>input.min{
+  width: 80px;
+  color: blue;
+  border: none;
+}
+i.fa-search{
+  color: white;
+  background-color: blue;
+  align-content: center;
+  font-size: x-large;
+  padding: 5px 3px;
+}
+
+textarea {
+  border: none;
+  color: blue;
+  font-size: large;
+}
+label{
+  margin: 0 4px;
+  color:deeppink;
+  font-style: italic;
+  font-family: Arial;
+  font-size: x-large;
+}
+tr>th{
+  width:fit-content;
+  cursor: pointer;
+}
+tr>td{
+  width:fit-content;
+}

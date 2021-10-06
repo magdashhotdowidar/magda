@@ -1,0 +1,45 @@
+<div class="card" style="margin: 3px 50px;min-width: 400px">
+  <div class="card-header "><h6 class="text-center" style="color: blue;font-size: x-large">
+    <i><select class="col-md-5"
+               [(ngModel)]="person.objectType" ><option *ngFor="let o of objectTypes" [value]="o">{{ o }}</option>
+    </select></i>{{person.objectType=='doctor'?'   configure':'ask date for '}}</h6>
+
+  </div>
+  <div class="card-body" style="background-color: white;min-height:fit-content">
+
+    <div>
+      <form  #f="ngForm">
+        <div  class="row" style="margin-bottom: 3px"><label>{{'First Name'}}: </label>
+          <input  type="text" placeholder="{{'enter First Name'}}" class="col-md-6 form-control" ngModel [(ngModel)]="person.firstName" name="first" required>
+        </div>
+        <div class="row" style="margin-bottom: 3px"><label>{{'Last Name'}}: </label>
+          <input  type="text" placeholder="{{'enter Last Name'}}" class="col-md-6 form-control" ngModel [(ngModel)]="person.lastName" name="last" required>
+        </div>
+        <div *ngIf="person.objectType=='patient'" class="row" style="margin-bottom: 3px"><label>{{'Phone'}}: </label>
+          <input  type="text" placeholder="{{'enter Phone'}}" class="col-md-6 form-control" ngModel [(ngModel)]="person.phone" name="phone" required>
+        </div>
+        <div *ngIf="person.objectType=='patient'" class="row" style="margin-bottom: 3px"><label>{{'Doctor'}}: </label>
+          <div class=" row dropdown" style="width: fit-content">
+            <input (mouseenter)="openDoctorsDropDown=!openDoctorsDropDown" (keyup)="getDoctorByNames(search.value)"
+                   class="dropdown-toggle form-control mr-sm-2" data-toggle="dropdown" #search name="selectedDoctor" [(ngModel)]="person.doctor"
+                   type="search"  aria-label="Search">
+            <ul class="dropdown-menu " [ngClass]="{show:openDoctorsDropDown}">
+              <li *ngFor="let d of doctorsForSearch;let i=index" class="text-center" #_i>
+                <a style="color:blue;cursor: pointer" (click)="closeInputDropDown(d)">{{ d.firstName+' ' + d.lastName}}</a>
+                <div class="dropdown-divider"></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div *ngIf="person.objectType=='doctor'" class="row" style="margin-bottom: 3px"><label>{{'Speciality'}}: </label>
+          <input  type="text" placeholder="{{'enter Speciality'}}" class="col-md-6 form-control" ngModel [(ngModel)]="person.speciality" name="speciality" required>
+        </div>
+      </form>
+    </div>
+  </div>
+    <div class="card-footer">
+      <h6 class="text-center" *ngIf="f.valid" style="color: blue;font-size: x-large"(click)="onSubmit(f)" >add  {{person.objectType}}</h6>
+      <h6 class="text-center" *ngIf="!f.valid" style="color: blue;font-size: x-large" >
+        {{person.objectType=='doctor'?'HERE WE ARE IN '+userName+' CLINIC':'request an appointment online'}}</h6>
+    </div>
+</div>

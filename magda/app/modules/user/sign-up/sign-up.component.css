@@ -1,0 +1,12 @@
+.container{
+  background-color: white;
+}
+span.list-inline-item{
+  cursor: pointer;
+  border: 1px solid blue;
+  display: inline-block;
+  margin-bottom: 1px;
+}
+span>strong{
+color: blue;
+}

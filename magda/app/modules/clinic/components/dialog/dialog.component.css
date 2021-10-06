@@ -1,0 +1,74 @@
+input.ng-invalid.ng-touched {
+  border: none;
+}
+textarea{
+  font-size: large;
+  color: blue;
+  cursor: pointer;
+  margin: 0 2px;
+  border: 1px solid blue;
+}
+div.but{
+  margin:0 2px;
+  padding:0 0;
+}
+button{
+  color: blue;
+  margin-right: 2px;
+}
+button>i{
+  color: red;
+}
+label.cancel{
+  font-size: small;
+  color:blue;
+  margin-left: 2px;
+  padding-right: 2px;
+  border-right: 1px solid blue;
+  background-color: white;
+}
+label.cancel>i{
+  background-color: white;
+  color: lime;
+  font-size: small;
+}
+.model-header-button{
+  border: none;
+  cursor: pointer;
+  color: blue;
+  background-color: white;
+  font-size: x-large;
+}
+.model-header-button-search{
+  color: blue;
+  background-color: white;
+  font-size: large;
+  border: none;
+  cursor: pointer;
+}
+.search{
+  background-color:white;
+  border: 1px solid blue;
+  color: blue;
+  width: 100px;
+  margin: 0 20px;
+}
+
+input {
+  border: none;
+  color: blue;
+  font-size: large;
+  cursor: pointer;
+  border: 1px solid blue;
+}
+hr{
+  border: 1px solid blue;
+}
+label{
+  color:blue;
+  font-style: italic;
+  font-family: Arial;
+  font-size: x-large;
+}
+
+

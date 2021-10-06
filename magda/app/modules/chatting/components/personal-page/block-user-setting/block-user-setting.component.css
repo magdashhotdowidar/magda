@@ -1,0 +1,52 @@
+label {
+  background-color: black;
+  padding: 10px 10px;
+  color: lime;
+  border: 1px solid lime;
+  margin: 1px;
+  cursor: pointer;
+  font-size: small;
+}
+
+button {
+   background-color: black;
+   border: 1px solid lime;
+   color: lime;
+  cursor: pointer;
+ }
+button.search {
+  background-color: black;
+  border: 1px solid black;
+  font-family: Andalus;
+  font-style: italic;
+  color:blue;
+}
+
+.myinput {
+  margin-bottom: 3px;
+  margin-top: 3px;
+  color: blue;
+  max-width: 480px;
+}
+ul{
+  background-color: black;
+  z-index: 9;
+}
+li{
+  margin: 3px;
+}
+
+img {
+  border-radius: 50%;
+}
+
+input {
+  margin:3px 10px;
+  border: 5px solid lime;
+  color: blue;
+  max-width: 470px;
+}
+
+h1 {
+  color: lime;
+}

@@ -56,7 +56,7 @@ public class JwtAuthenticationController {
         final String userImage=user.getPersonalImage();
         final int count = user.getVisitsCount();
         System.out.println("authenticate token: " + token);
-        return ResponseEntity.ok(new JwtResponse(token, userName, role, userAdmin,userImage, count));
+        return ResponseEntity.ok(new JwtResponse(token, userName, role, userAdmin,userImage, count,new Authusermodel(user)));
     }
 
     private void authenticate(String username, String password) throws Exception {

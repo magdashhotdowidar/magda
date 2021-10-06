@@ -1,0 +1,98 @@
+<!-----------------------------------Items List part-------------------------------------------->
+<div class="row" style="margin: 2px 3px">
+    <div class="col-md-4 pre-scrollable" style="border: 4px solid lime;min-height: 780px">
+      <div class="list-group-item card-group">
+        <label class="card-title" style="margin: 0 2px;color:blue;font-size: x-large">
+          <span class="my-input">RESERVATION NO -> </span>{{appointments.length}}</label>
+      </div>
+        <table class="table table-striped table-bordered table-sm " cellspacing="0" width="100% " style="text-align: center;margin: 3px 0;border: none">
+          <tbody >
+          <tr style="color:blue;border-color: blue"
+              *ngFor="let a of appointments|orderBy:key:reverse| paginate: { itemsPerPage: itemsPerPage, currentPage: p };let i=index" >
+            <td class="card list-group-item" (click)="setAppoint(i,a)"  [ngStyle]="{'border-color':selectedItemIndex==i?'blue':'darkgrey'}">
+            <div class="card-header">
+              <div class="card-group">
+             <img [src]="clinicDevicePath" class="butt-imag embed-responsive">
+              <label class="card-title" style="margin: 0 2px;color: #f91c1e">{{a.registrationDate}}</label>
+             </div>
+              <hr>
+            <div class="card-group">
+              <label class="card-header-tabs">{{a.reason}}</label>
+            </div>
+            </div>
+            <div  class="card-footer"><label style="color:deeppink;font-family: Andalus;font-style: italic;font-size:large">{{a.patient}}</label></div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="row">
+          <div class="row">
+            <div class="col-md-9">
+              <label style="color: blue">{{'PROJECT.product.edit.items_per_page'|translate}}</label>
+            </div>
+            <div class="col-md-3">
+
+              <select
+                style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px;width: fit-content;;border-bottom-color: blue"
+                class="form-control form-control-sm text-center"
+                [(ngModel)]="itemsPerPage"
+                ngModel required>
+                <option style="color: blue; font-size: small" *ngFor="let item of items"
+                        [value]="item">{{ item }}</option>
+              </select>
+
+            </div>
+          </div>
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+  <!-----------------------------------Item Details part-------------------------------------------->
+  <div class="col-md-7" style="border: 4px solid lawngreen;min-height: 780px;margin: 0 3px;">
+<div class="card list-group-item">
+  <div class="card-group">
+    <img [src]="clinicDevicePath" class="butt-imag-details embed-responsive">
+    <label class="card-title text-center col-md-9 my-title-config" >{{appointment.doctor}}-CLINIC</label>
+    <img [src]="clinicComputerPath" class="butt-imag-details embed-responsive">
+  </div>
+  <hr>
+  <div class="card-group">
+    <label class="card-text text-center my-body-config col-md-6" ><span>Registration Date: </span>{{appointment.registrationDate}}</label>
+    <label class="card-text text-center my-body-config " ><span>Patient Name: </span> {{appointment.patient}} </label>
+  </div>
+  <hr>
+  <div class="card-group">
+    <label class="card-text text-center my-body-config col-md-6" >
+      <input type="date" class="text-center " name="appointmentDate" [(ngModel)]="date"/>
+      <span class="my-input">Appointment Date </span></label>
+
+    <label class="card-text text-center my-body-config " >
+      <input type="time" class="text-center "   name="appTime" [(ngModel)]="appointment.appointmentTime"/>
+      <span class="my-input">Appointment Time </span></label>
+  </div>
+  <hr>
+  <div class="card-group">
+    <label class="card-text text-center my-body-config col-md-6" >
+      <select [(ngModel)]="appointment.started" name="started" ngModel required><option *ngFor="let o of objectTypes" [value]="o">{{ o }}</option></select>
+      <span>Visit Started : </span> </label>
+    <label class="card-text text-center my-body-config " >
+      <select [(ngModel)]="appointment.ended" name="ended" ngModel required><option *ngFor="let o of objectTypes" [value]="o">{{ o }}</option></select>
+      <span>Visit Ended: </span> </label>
+  </div>
+  <hr>
+  <div class="card-group text-center">
+    <textarea rows="1">{{appointment.reason}}</textarea>
+    <label class="card-text  text-center my-body-config " > <span class="my-input">Reason </span></label>
+  </div>
+  <hr>
+  <div class="card-group text-center">
+   <button class="btn btn-success" (click)="registerAnAppointment()">EDIT</button>
+  </div>
+  <hr>
+  <div class="card-group"><img [src]="clinicDocPath" class="butt-imag-details-background embed-responsive card-img"></div>
+</div>
+  </div>
+  </div>
+
+
+
+

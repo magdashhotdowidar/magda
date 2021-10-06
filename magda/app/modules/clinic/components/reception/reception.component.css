@@ -1,0 +1,38 @@
+button{
+  font-size: xx-large;
+  color: blue;
+  background-color: blue;
+  width: 400px;
+  margin: 0 50px;
+  cursor: pointer;
+}
+div.set-shape{
+  border-left:1px solid blue;
+  border-right:1px solid blue;
+}
+.butt-imag{
+  width: 120px;
+  height: 350px;
+}
+input.ng-invalid.ng-touched {
+  border: none;
+}
+
+input {
+  border: none;
+  color: blue;
+  font-size: large;
+}
+
+textarea {
+  border: none;
+  color: blue;
+  font-size: large;
+}
+label{
+  margin: 0 4px;
+  color:deeppink;
+  font-style: italic;
+  font-family: Arial;
+  font-size: x-large;
+}

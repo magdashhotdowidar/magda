@@ -1,0 +1,7 @@
+<main [ngStyle]="{direction:direc?'rtl':'ltr'}">
+  <ngx-loading-bar color="red"></ngx-loading-bar>
+  <clinic-header (right_direction)="direc=$event"></clinic-header>
+
+    <router-outlet></router-outlet>
+
+</main>

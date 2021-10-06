@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <!-- Links -->
+  <ul class="navbar-nav col-md-10">
+    <li class="nav-item"><img alt="" class="avatar" height="30" width="30" [src]="ASaberWordAr" style="border-radius: 50%"></li>
+    <li class="nav-item"><a [routerLink]="mainPath" class="nav-link" style="color: darkorchid" routerLinkActive="active">MAIN PAGE</a></li>
+    <li class="nav-item"><a routerLink="dialog" class="nav-link"  routerLinkActive="active">Edit Dialog</a></li>
+    <li class="nav-item"><a routerLink="editing" class="nav-link"  routerLinkActive="active">Editing</a></li>
+     <li *ngFor="let o of managingOptions;let i=index" class="nav-item">
+       <a (click)="setOption(o,i)" class="nav-link" style="cursor: pointer;width: fit-content" routerLink="../clinic"
+          [ngStyle]="{color:selectedItemIndex==i?'lime':'limegreen'}">{{o}}</a></li>
+  </ul>
+  <ul class=" nav navbar-nav col-md-2">
+    <li class="nav-item">
+      <a> <select class="fa fa-eye" (change)="setLang()" [(ngModel)]="selectedLang"
+                  style="background-color:black;color:white;font-size: x-large">
+        <option *ngFor="let lang of translate.getLangs()" [value]="lang">{{lang}}<i class="fa fa-eye"
+                                                                                    style="color: red"></i></option>
+      </select> </a>
+    </li>
+
+    <li class="dropdown">
+      <a (click)="dropDownOpened=!dropDownOpened" style="cursor: pointer;margin: 20px 20px 0;color: whitesmoke"
+         class="dropdown-toggle"
+         appDropdown data-toggle="dropdown" role="button">
+        <img alt="" class="avatar" height="30" width="30" [src]="userImagePath+userImage" style="border-radius: 50%">
+        Hi -<i style="color: yellow">{{userName|uppercase}}</i><span class="caret"></span>
+
+      </a>
+      <ul class="dropdown-menu " [ngClass]="{show:dropDownOpened}">
+
+        <div *ngIf="role==roleAdmin" class="dropdown-divider"></div>
+        <a *ngIf="role==roleAdmin" STYLE="color: blue" class="nav-link" routerLink='/signup'
+           routerLinkActive='active'>Sign Up</a>
+        <div class="dropdown-divider"></div>
+        <li><a style="cursor: pointer;color:blue" (click)="Logout()">Logout</a></li>
+
+      </ul>
+    </li>
+
+  </ul>
+</nav>
+
+

@@ -1,0 +1,60 @@
+<div class="card" style="margin: 3px 50px;min-width: 400px">
+  <div class="card-header "><h6 class="text-center" style="color: blue;font-size: x-large">{{'Register an Appointment'}}</h6>
+
+  </div>
+  <div class="card-body" style="background-color: white;min-height:fit-content">
+
+    <div>
+      <form  #f="ngForm">
+        <div class="row" style="margin-bottom: 3px"><label>{{'Doctor'}}: </label>
+          <div class=" row dropdown" style="width: fit-content">
+            <input (mouseenter)="openDoctorsDropDown=!openDoctorsDropDown" (keyup)="getPersonByNames('doctor',search.value)"
+                   class="dropdown-toggle form-control mr-sm-2" data-toggle="dropdown" #search name="selectedDoctor" [(ngModel)]="appointment.doctor"
+                   type="search"  aria-label="Search">
+            <ul class="dropdown-menu " [ngClass]="{show:openDoctorsDropDown}">
+              <li *ngFor="let d of doctorsForSearch;let i=index" class="text-center" #_i>
+                <a style="color:blue;cursor: pointer" (click)="closeInputDropDown('doctor',d)">{{ d.firstName+' ' + d.lastName}}</a>
+                <div class="dropdown-divider"></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div  class="row" style="margin-bottom: 3px"><label>{{'patient'}}: </label>
+          <div class=" row dropdown" style="width: fit-content">
+            <input (mouseenter)="openPatientsDropDown=!openPatientsDropDown" (keyup)="getPersonByNames('patient',search2.value)"
+                   class="dropdown-toggle form-control mr-sm-2" data-toggle="dropdown" #search2 name="selectedPatient" [(ngModel)]="appointment.patient"
+                   type="search"  aria-label="Search">
+            <ul class="dropdown-menu " [ngClass]="{show:openPatientsDropDown}">
+              <li *ngFor="let p of patientsForSearch;let i=index" class="text-center" #_i>
+                <a style="color:blue;cursor: pointer" (click)="closeInputDropDown('patient',p)">{{ p.firstName+' ' + p.lastName}}</a>
+                <div class="dropdown-divider"></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row" style="margin-bottom: 3px"><label>{{'REASON'}}: </label>
+          <input   type="text" placeholder="{{'enter the reason why'}}" class="col-md-6 form-control" ngModel [(ngModel)]="appointment.reason" name="reason" required>
+        </div>
+        <div *authorizeView="[l.ROLE_DOCTOR,l.ROLE_ADMIN]" class="row" style="margin-bottom: 3px"><label>{{'STARTED'}}: </label>
+          <select class="col-md-6" [(ngModel)]="appointment.started" name="started" ngModel required><option *ngFor="let o of objectTypes" [value]="o">{{ o }}</option></select>
+        </div>
+        <div *authorizeView="[l.ROLE_DOCTOR,l.ROLE_ADMIN]" class="row" style="margin-bottom: 3px"><label>{{'ENDED'}}: </label>
+          <select class="col-md-6" [(ngModel)]="appointment.ended" name="ended" ngModel required><option *ngFor="let o of objectTypes" [value]="o">{{ o }}</option></select>
+        </div>
+        <div *authorizeView="[l.ROLE_DOCTOR,l.ROLE_ADMIN]"  class="row" style="margin-bottom: 3px"><label>{{'Appointment Date'}}: </label>
+          <input type="date" class="col-md-6 form-control text-center "  name="appointmentDate"
+                 [(ngModel)]="date"/>
+        </div>
+        <div *authorizeView="[l.ROLE_DOCTOR,l.ROLE_ADMIN]"  class="row" style="margin-bottom: 3px"><label>{{'Appointment Time'}}: </label>
+          <input type="time" class="col-md-6 form-control text-center "   name="appTime"
+                 [(ngModel)]="appointment.appointmentTime"/>
+        </div>
+
+      </form>
+    </div>
+  </div>
+  <div class="card-footer">
+    <h6 class="text-center" *ngIf="f.valid" style="color: blue;font-size: x-large"(click)="onSubmit(f)" >REGISTER</h6>
+    <h6 class="text-center" *ngIf="!f.valid" style="color: blue;font-size: x-large" >{{'God Recovering you'}}</h6>
+  </div>
+</div>

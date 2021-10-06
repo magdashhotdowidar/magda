@@ -1,0 +1,48 @@
+button {
+  font-size: x-large;
+  color: blue;
+  margin: 0 3px;
+  cursor: pointer;
+  width: 200px;
+}
+h6{
+  cursor: pointer;
+}
+i>select{
+  margin: 0 3px;
+}
+
+select,option {
+  direction: rtl;
+  border: none;
+  border-bottom: 1px solid blue;
+  font-size: x-large;
+  background-color: white;
+  color: blue;
+  cursor: pointer;
+  height: 35px
+}
+
+input.ng-invalid.ng-touched {
+  border: none;
+}
+
+input {
+  border: none;
+  color: blue;
+  font-size: large;
+}
+
+textarea {
+  border: none;
+  color: blue;
+  font-size: large;
+}
+
+label {
+  margin: 2px 4px;
+  color:deepskyblue;
+  font-style: italic;
+  font-family: Arial;
+  font-size:large;
+}

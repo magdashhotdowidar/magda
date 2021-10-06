@@ -10,14 +10,14 @@ import com.all.Projectforall.entitys.vehicle_hiring.vehicles.trucks.SmallTruck;
 import com.all.Projectforall.entitys.vehicle_hiring.vehicles.trucks.TransportTruck;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TestClass {
 
-    private static final SimpleDateFormat obj = new SimpleDateFormat("dd-MM-yyyy");
+    public static final SimpleDateFormat obj = new SimpleDateFormat("dd-MM-yyyy");
+    public static final SimpleDateFormat obj2 = new SimpleDateFormat("yyyy-MM-dd");//i created here two object to inform you that the arrange is making difference
 
     public static Map<String, Integer> calcDAte(String date, String date2) {
         String[] firstDateInArray = date.split("-");
@@ -56,7 +56,7 @@ public class TestClass {
         return response;
 
     }
-
+    //this is a factory design pattern take the class name as parameter and return the class object
     public static Vehicle getVehicle(String vehicle) {
         if (vehicle == null || vehicle.equals("")) return null;
         else if (vehicle.equalsIgnoreCase("car")) return new Car();

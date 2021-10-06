@@ -1,0 +1,123 @@
+<div class="card" style="margin: 3px 50px;min-width: 400px">
+  <div class="card-header"><h6 class="text-center" style="color: blue;font-size: x-large">Appointments Searching</h6></div>
+  <div class="card-body" style="background-color: white;min-height:fit-content">
+    <div class="row" style="margin: 5px 0px">
+      <div *ngIf="moreOptions">
+        <button type="button" (click)="getAllAppointmentsHistory()" STYLE="margin-right:3px" class="btn btn-success ">
+          <i class="fa fa-arrow-left" aria-hidden="true" style="color: red"></i> All Appointments History<i
+          class="fa fa-history" aria-hidden="true" style="color: red"></i>
+        </button>
+        <button type="button" (click)="getAllAppointmentsToday()" STYLE="margin-right:3px" class="btn btn-success ">
+          <i class="fa fa-arrow-left" aria-hidden="true" style="color: red"></i> All Appointments Today <i
+          class="fa fa-address-book" aria-hidden="true" style="color: red"></i>
+        </button>
+        <button type="button" (click)="showSPI=true;showSDI=false" STYLE="margin-right:3px" class="btn btn-success">
+          <i class="fa fa-edit" aria-hidden="true" style="color: red"></i>Appointments by patient <i
+          class="fa fa-align-justify" aria-hidden="true" style="color: red"></i>
+        </button>
+        <button type="button" (click)="showSDI=true;showSPI=false" STYLE="margin-right:3px" class="btn btn-success">
+          <i class="fa fa-edit" aria-hidden="true" style="color: red"></i>Appointments by date <i
+          class="fa fa-align-justify" aria-hidden="true" style="color: red"></i>
+        </button>
+
+      </div>
+      <button *ngIf="!moreOptions" type="button" (click)="moreOptions=true" STYLE="margin-right:3px"
+              class="btn btn-link">
+        <i class="fa fa-angle-left" aria-hidden="true" style="color: red"></i> MORE OPTIONS <i
+        class="fa fa-eye"
+        aria-hidden="true"
+        style="color: red"></i>
+      </button>
+    </div>
+
+    <div *ngIf="showSPI" class="row tab-content dropdown">
+          <input (mouseenter)="openPatientsDropDown=!openPatientsDropDown" (keyup)="getPersonByNames(search2.value)"
+                 class="dropdown-toggle form-control mr-sm-2" data-toggle="dropdown" #search2 name="selectedPatient" [(ngModel)]="searchByPatient"
+                 type="search"  aria-label="Search">
+          <ul class="dropdown-menu " [ngClass]="{show:openPatientsDropDown}">
+            <li *ngFor="let p of patientsForSearch;let i=index" class="text-center" #_i>
+              <a style="color:blue;cursor: pointer" (click)="closeInputDropDown('patient',p)">{{ p.firstName+' ' + p.lastName}}</a>
+              <div class="dropdown-divider"></div>
+            </li>
+          </ul>
+      <i class="fa fa-search" (click)="getAllAppointmentsByPatient()"></i>
+    </div>
+    <div *ngIf="showSDI" class="row tab-content" style="text-align: center">
+      <input type="date" class="search-query form-control text-center " [defaultValue]="date" style="border: 1px solid blue"
+             (keyup)="getAllAppointmentsByDate()" name="startDate" [(ngModel)]="date" />
+      <i class="fa fa-search" (click)="getAllAppointmentsByDate()"></i>
+    </div>
+    <table class="table table-striped table-bordered table-sm" cellspacing="0" width="100% "
+           style="text-align: center">
+      <thead>
+      <tr style="color: lime">
+        <th (click)="sort('patient')" class="th-sm">{{'patient'}}<span class="fa fa-sort" [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+        <th (click)="sort('appointmentDate')" class="th-sm">{{'Date'}}<span class="fa fa-sort" [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+        <th (click)="sort('reason')" class="th-sm">{{'Reason'}}<span class="fa fa-sort" [ngClass]="{'fa-sort-alpha-desc ':reverse,'fa-sort-alpha-asc ':!reverse}"></span></th>
+        <th (click)="sort('appointmentTime')" class="th-sm">{{'Time'}}<span class="fa fa-sort" [ngClass]="{'fa-sort-amount-desc ':reverse,' fa-sort-amount-asc ':!reverse}"></span></th>
+        <th (click)="sort('doctor')" class="th-sm">{{'Doctor'}}<span class="fa fa-sort" [ngClass]="{'fa-sort-numeric-desc ':reverse,'fa-sort-numeric-asc ':!reverse}"></span></th>
+        <th (click)="sort('started')" class="th-sm">{{'Started'}}<span class="fa fa-sort" [ngClass]="{'fa-sort-numeric-desc ':reverse,'fa-sort-numeric-asc ':!reverse}"></span></th>
+        <th (click)="sort('ended')" class="th-sm">{{'Ended'|translate}}<span class="fa fa-sort " [ngClass]="{'fa-sort-up ':reverse,'fa-sort-down ':!reverse}"></span></th>
+        <th class="th-sm" style="width: fit-content ">{{'Actions'}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr style="color:blue;border-color: blue">
+        <td><input type="text" class="search-query form-control " placeholder="search" name="searchPatient" style="color: blue" [(ngModel)]="searchByPatient"/></td>
+        <td><input type="text" class="search-query form-control " placeholder="{{'search'}}" name="searchName" style="color: blue" [(ngModel)]="searchByDate"/></td>
+        <td><input type="text" class="search-query form-control " placeholder="{{'search'}}" name="searchName" style="color: blue" [(ngModel)]="searchByReason"/></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><h6 style="color: red;font-style:italic;font-family:Algerian">{{appointments?.length}}-{{'PROJECT.product.edit.product_count'|translate}}</h6></td>
+      </tr>
+      <tr
+        *ngFor="let a of appointments|orderBy:key:reverse
+                  | paginate: { itemsPerPage: itemsPerPage, currentPage: p }
+                                                 |appointmentsFilter:searchByPatient:searchByDate:searchByReason"
+
+        style="color:blue ">
+        <td style="width:130px"><input type="text" readonly [(ngModel)]="a.patient" data-toggle="tooltip" data-placement="right" title="{{a.patient}}"/></td>
+        <td style="width:130px"><input type="text" [(ngModel)]="a.appointmentDate" data-toggle="tooltip" data-placement="right" title="{{a.appointmentDate}}"/></td>
+        <td style="width:130px"><input type="text" [(ngModel)]="a.reason" data-toggle="tooltip" data-placement="right" title="{{a.reason}}"/></td>
+        <td style="width:130px"><input type="text" [(ngModel)]="a.appointmentTime" class="min" data-toggle="tooltip" data-placement="right" title="{{a.appointmentTime}}"/></td>
+        <td style="width:130px"><input type="text" readonly [(ngModel)]="a.doctor" data-toggle="tooltip" data-placement="right" title="{{a.doctor}}"/></td>
+        <td style="width:130px"><input type="text" [(ngModel)]="a.started" class="min" data-toggle="tooltip" data-placement="right" title="{{a.started}}"/></td>
+        <td style="width:130px"><input type="text" [(ngModel)]="a.ended" class="min" data-toggle="tooltip" data-placement="right" title="{{a.ended}}"/></td>
+        <td style="width:180px">
+          <button (click)="updateAppointment(a)" class="btn btn-primary myTable"  data-toggle="tooltip" data-placement="right" title="{{'Edit'}}"><i
+            class="fa fa-edit"></i></button>
+          <button (click)=" appointmentAsIcon(a)" class="btn btn-success myTable"  data-toggle="tooltip" data-placement="right" title="{{'Icon'}}"><i
+            class="fa fa-eye"></i></button>
+          <button (click)="cancelAppointment(a)" class="btn btn-info myTable" data-toggle="tooltip" data-placement="right" title="{{'Delete'}}"><i
+            class="fa fa-recycle"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+      <tfoot></tfoot>
+    </table>
+    <div class="row">
+      <div class="row">
+        <div class="col-md-9">
+          <label style="color: blue">{{'PROJECT.product.edit.items_per_page'|translate}}</label>
+        </div>
+        <div class="col-md-3">
+
+          <select
+            style="font-size: small;background-color:white;color: blue;cursor: pointer;height: 25px;width: fit-content;;border-bottom-color: blue"
+            class="form-control form-control-sm text-center"
+            [(ngModel)]="itemsPerPage"
+            ngModel required>
+            <option style="color: blue; font-size: small" *ngFor="let item of items"
+                    [value]="item">{{ item }}</option>
+          </select>
+
+        </div>
+      </div>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+  </div>
+  <div class="card-footer"><h6 class="text-center" style="color: blue;font-size: x-large">{{'WEL COME TO ' +userName+' CLINIC'|uppercase}}</h6></div>
+</div>

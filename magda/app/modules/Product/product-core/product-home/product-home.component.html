@@ -1,0 +1,13 @@
+<main [ngStyle]="{direction:direc?'rtl':'ltr'}" >
+  <product-header (showing)="setimag($event)" (right_direction)="direc=$event"></product-header>
+  <br/>
+  <div *ngIf="showimg" style="background-color:white ">
+    <hr style="border-color: blue"/>
+    <app-image-slider></app-image-slider>
+  </div>
+  <div class="my-container-router" [@router]="myRouter.activatedRouteData['index']">
+    <router-outlet #myRouter="outlet"></router-outlet>
+  </div>
+</main>
+
+

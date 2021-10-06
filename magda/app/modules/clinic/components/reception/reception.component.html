@@ -1,0 +1,28 @@
+<div class="row" style="margin: 0;padding: 0">
+  <div class="col-md-1">
+    <img [src]="clinicDocPath" class="butt-imag embed-responsive" style="height: 400px;width: 200px">
+    <img [src]="clinicDevicePath" class="butt-imag embed-responsive" style="width: 130px">
+  </div>
+  <div class="col-md-9 set-shape">
+    <div class="row">
+      <img *ngIf="managingTyp!='searching for An Appointment'" [src]="clinicComputerPath" class="butt-imag embed-responsive" (click)="managing=!managing"
+           [ngStyle]="{width:managing?'600px':'1170px'}" style="height: 770px;padding: 3px 0">
+
+      <div *ngIf="managing" class="card">
+        <div class="card-header text-center"></div>
+        <add-doctor-patient *ngIf="managingTyp=='add Doctor Or Patient'"></add-doctor-patient>
+        <register-appointment *ngIf="managingTyp=='register An Appointment'"></register-appointment>
+        <search-appointment *ngIf="managingTyp=='searching for An Appointment'"></search-appointment>
+        <div class="card-footer text-center"></div>
+        <div class="flex-column d-flex col-md-12 p-0 mb-4">
+    <app-alert [alertInput]="alertInput"></app-alert>
+  </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="col-md-2">
+    <img [src]="clinicDocPath" class="butt-imag embed-responsive" style="height: 400px;width: 250px">
+    <img [src]="clinicDevicePath" class="butt-imag embed-responsive" style="width: 250px">
+  </div>
+</div>
