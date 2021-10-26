@@ -14,7 +14,7 @@ import {VehicleService} from "../../infrastructure/services/vehicle.service";
   styleUrls: ['./car-details.component.css']
 })
 export class CarDetailsComponent implements OnInit {
-
+//test comment
   plateNum: string;
   vehicle: any;
   user = localStorage.getItem(LocalStorage.userName);
